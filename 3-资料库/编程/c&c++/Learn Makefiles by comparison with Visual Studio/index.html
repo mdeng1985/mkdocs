@@ -1,471 +1,19 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <meta name="author" content="Mdeng li">
-      
-      
-        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/c%26c%2B%2B/Learn%20Makefiles%20by%20comparison%20with%20Visual%20Studio/">
-      
-      <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
-    
-    
-      
-        <title>Makefiles and Visual Studio - Mdeng Li's Blog</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.9299cb39.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ef6f36e2.min.css">
-        
-      
-    
-    
-    
-      
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
-      
-    
-    
-    
-    
-      
-        
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-  
-    
-    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#makefiles-and-visual-studio" class="md-skip">
-          跳转至
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            Mdeng Li's Blog
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              Makefiles and Visual Studio
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            正在初始化搜索引擎
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-      <div class="md-header__source">
-        
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-      </div>
-    
-  </nav>
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    Mdeng Li's Blog
-  </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/" class="md-nav__link">
-        首页
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
-      
-      <label class="md-nav__link" for="__nav_2">
-        兴趣
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          兴趣
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/getting-started/" class="md-nav__link">
-        Installation
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      <label class="md-nav__link" for="__nav_3">
-        工作
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="工作" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          工作
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
-        Changing the colors
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      <label class="md-nav__link" for="__nav_4">
-        办公
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="办公" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          办公
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
-        Abbreviations
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
-        mkdocs
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      <label class="md-nav__link" for="__nav_5">
-        Insiders
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          Insiders
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/insiders/" class="md-nav__link">
-        Sponsorship
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-    
-  
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                
-                <h1 id="makefiles-and-visual-studio">Makefiles and Visual Studio<a class="headerlink" href="#makefiles-and-visual-studio" title="Permanent link">&para;</a></h1>
-<h1 id="learn-makefiles-by-comparison-with-visual-studio">Learn Makefiles by comparison with Visual Studio<a class="headerlink" href="#learn-makefiles-by-comparison-with-visual-studio" title="Permanent link">&para;</a></h1>
-<h1 id="makefile">makefile<a class="headerlink" href="#makefile" title="Permanent link">&para;</a></h1>
-<p>原网址: <a href="https://cognitivewaves.wordpress.com/makefiles/">访问</a></p>
-<p>[toc]</p>
-<h1 id="preface">Preface<a class="headerlink" href="#preface" title="Permanent link">&para;</a></h1>
-<p>If you develop software only on Windows using Visual studio, it’s a luxury. Enjoy it while it lasts. Sooner than later, you will come across Makefiles, maybe exploring some software on Linux or the misfortune of having a build system that uses <code>make</code> with Cygwin on Windows.</p>
-<p>Now you figure out that Makefiles are text files and open it in an editor hoping to get some insight into its workings. But, what do you see? Lots of cryptic hard to understand syntax and expressions. So, where do you start? Internet searches for <code>make</code> and <code>Makefiles</code> provide a lot of information but under the assumption that you come from a non-IDE Unix/Linux development environment. Pampered Visual Studio developers are never the target audience.</p>
-<p>Here I will try to relate to the Visual Studio build system which will hopefully give an easier understanding of Makefiles. The goal is not to provide yet another tutorial on makefiles (because there are plenty available on the internet) but to instill the concept by comparison.</p>
-<h1 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h1>
-<p>Visual Studio provides features that are taken for granted until you have to read/create a classic <code>Makefile</code>. For example, Visual Studio auto-magically does the following.</p>
-<ul>
-<li>Compiles all the sources in the project file</li>
-<li>Create an output directory and puts all the intermediate object files in it</li>
-<li>Manages dependencies between the source and object files</li>
-<li>Manages dependencies between the object files and binaries</li>
-<li>Links the object files and external dependent libraries to create binaries</li>
-</ul>
-<p>All of the above have to be explicitly specified in a <code>Makefile</code>. The <code>make</code> utility in some ways is the equivalent of Visual Studio <code>devenv.exe</code> (without the fancy GUI).</p>
-<h1 id="under-the-hood-of-visual-studio">Under the hood of Visual Studio<a class="headerlink" href="#under-the-hood-of-visual-studio" title="Permanent link">&para;</a></h1>
-<p>Visual Studio is essentially a GUI over the compilation and link process. It utilizes an underlying command line compiler <code>cl.exe</code> and linker <code>link.exe</code>. Additionally, it provides a source code editor, debugger and other development tools.</p>
-<div class="highlight"><pre><span></span><code>c:\tmp&gt; cl.exe
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/c%26c%2B%2B/Learn%20Makefiles%20by%20comparison%20with%20Visual%20Studio/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>Makefiles and Visual Studio - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#makefiles-and-visual-studio class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Makefiles and Visual Studio </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=makefiles-and-visual-studio>Makefiles and Visual Studio<a class=headerlink href=#makefiles-and-visual-studio title="Permanent link">&para;</a></h1> <h1 id=learn-makefiles-by-comparison-with-visual-studio>Learn Makefiles by comparison with Visual Studio<a class=headerlink href=#learn-makefiles-by-comparison-with-visual-studio title="Permanent link">&para;</a></h1> <h1 id=makefile>makefile<a class=headerlink href=#makefile title="Permanent link">&para;</a></h1> <p>原网址: <a href=https://cognitivewaves.wordpress.com/makefiles/ >访问</a></p> <p>[toc]</p> <h1 id=preface>Preface<a class=headerlink href=#preface title="Permanent link">&para;</a></h1> <p>If you develop software only on Windows using Visual studio, it’s a luxury. Enjoy it while it lasts. Sooner than later, you will come across Makefiles, maybe exploring some software on Linux or the misfortune of having a build system that uses <code>make</code> with Cygwin on Windows.</p> <p>Now you figure out that Makefiles are text files and open it in an editor hoping to get some insight into its workings. But, what do you see? Lots of cryptic hard to understand syntax and expressions. So, where do you start? Internet searches for <code>make</code> and <code>Makefiles</code> provide a lot of information but under the assumption that you come from a non-IDE Unix/Linux development environment. Pampered Visual Studio developers are never the target audience.</p> <p>Here I will try to relate to the Visual Studio build system which will hopefully give an easier understanding of Makefiles. The goal is not to provide yet another tutorial on makefiles (because there are plenty available on the internet) but to instill the concept by comparison.</p> <h1 id=introduction>Introduction<a class=headerlink href=#introduction title="Permanent link">&para;</a></h1> <p>Visual Studio provides features that are taken for granted until you have to read/create a classic <code>Makefile</code>. For example, Visual Studio auto-magically does the following.</p> <ul> <li>Compiles all the sources in the project file</li> <li>Create an output directory and puts all the intermediate object files in it</li> <li>Manages dependencies between the source and object files</li> <li>Manages dependencies between the object files and binaries</li> <li>Links the object files and external dependent libraries to create binaries</li> </ul> <p>All of the above have to be explicitly specified in a <code>Makefile</code>. The <code>make</code> utility in some ways is the equivalent of Visual Studio <code>devenv.exe</code> (without the fancy GUI).</p> <h1 id=under-the-hood-of-visual-studio>Under the hood of Visual Studio<a class=headerlink href=#under-the-hood-of-visual-studio title="Permanent link">&para;</a></h1> <p>Visual Studio is essentially a GUI over the compilation and link process. It utilizes an underlying command line compiler <code>cl.exe</code> and linker <code>link.exe</code>. Additionally, it provides a source code editor, debugger and other development tools.</p> <div class=highlight><pre><span></span><code>c:\tmp&gt; cl.exe
 Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 16.00.30319.01 for 80x86
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
 usage: cl [ option... ] filename... [ /link linkoption... ]
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>c:\tmp&gt; link.exe
+</code></pre></div> <div class=highlight><pre><span></span><code>c:\tmp&gt; link.exe
 Microsoft (R) Incremental Linker Version 10.00.30319.01
 Copyright (C) Microsoft Corporation.  All rights reserved.
 
  usage: LINK [options] [files] [@commandfile]
-</code></pre></div>
-<p>A simple win32 console application project in Visual Studio is shown below. You have a <code>solution</code> file which contains a <code>project</code> file.  </p>
-<p>![[1611483642-3bbc2aec35945ae419e3225ea3aae321.png]]
-Invoking a build on the solution in Visual Studio calls something like the following under the hood. Yes, it looks ugly! But that is the the project properties translated to compiler/linker flags and options.</p>
-<div class="highlight"><pre><span></span><code>C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo&quot;Debug\\&quot; /Fd&quot;Debug\vc100.pdb&quot; /Gd /TP /analyze- /errorReport:prompt Test.cpp
+</code></pre></div> <p>A simple win32 console application project in Visual Studio is shown below. You have a <code>solution</code> file which contains a <code>project</code> file. </p> <p>![[1611483642-3bbc2aec35945ae419e3225ea3aae321.png]] Invoking a build on the solution in Visual Studio calls something like the following under the hood. Yes, it looks ugly! But that is the the project properties translated to compiler/linker flags and options.</p> <div class=highlight><pre><span></span><code>C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo&quot;Debug\\&quot; /Fd&quot;Debug\vc100.pdb&quot; /Gd /TP /analyze- /errorReport:prompt Test.cpp
 
 C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:&quot;c:\tmp\Test\Debug\Test.exe&quot; /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:&quot;Debug\Test.exe.intermediate.manifest&quot; /MANIFESTUAC:&quot;level=&#39;asInvoker&#39; uiAccess=&#39;false&#39;&quot; /DEBUG /PDB:&quot;c:\tmp\Test\Debug\Test.pdb&quot; /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:&quot;c:\tmp\Test\Debug\Test.lib&quot; /MACHINE:X86 Debug\Test.exe.embed.manifest.res Debug\Test.obj
-</code></pre></div>
-<h1 id="gnulinux-equivalent">GNU/Linux Equivalent<a class="headerlink" href="#gnulinux-equivalent" title="Permanent link">&para;</a></h1>
-<p>It is very similar in GNU/Linux. The equivalent of a compiler and linker is <code>gcc</code>, the GNU project C and C++ compiler. It does the preprocessing, compilation, assembly and linking.</p>
-<div class="highlight"><pre><span></span><code>$ gcc --help
+</code></pre></div> <h1 id=gnulinux-equivalent>GNU/Linux Equivalent<a class=headerlink href=#gnulinux-equivalent title="Permanent link">&para;</a></h1> <p>It is very similar in GNU/Linux. The equivalent of a compiler and linker is <code>gcc</code>, the GNU project C and C++ compiler. It does the preprocessing, compilation, assembly and linking.</p> <div class=highlight><pre><span></span><code>$ gcc --help
 Usage: gcc [options] file...
-</code></pre></div>
-<p>Shown below is a very simple <code>Makefile</code> which can be accessed from GitHub <a href="https://github.com/cognitivewaves/Simple-Makefile">https://github.com/cognitivewaves/Simple-Makefile</a>.</p>
-<div class="highlight"><pre><span></span><code># Specify compiler
+</code></pre></div> <p>Shown below is a very simple <code>Makefile</code> which can be accessed from GitHub <a href=https://github.com/cognitivewaves/Simple-Makefile>https://github.com/cognitivewaves/Simple-Makefile</a>.</p> <div class=highlight><pre><span></span><code># Specify compiler
 CC=gcc
  
 # Specify linker
@@ -486,21 +34,10 @@ main.o : main.cpp
 .PHONY : clean
 clean :
     rm main.o app 
-</code></pre></div>
-<p>Invoking the <code>make</code> command to build will output the following.</p>
-<div class="highlight"><pre><span></span><code>~/src/Simple-Makefile $ make
+</code></pre></div> <p>Invoking the <code>make</code> command to build will output the following.</p> <div class=highlight><pre><span></span><code>~/src/Simple-Makefile $ make
 gcc -c main.cpp -o main.o
 gcc -o app main.o -lstdc++
-</code></pre></div>
-<h1 id="visual-studio-to-make-utility-mapping">Visual Studio to Make Utility mapping<a class="headerlink" href="#visual-studio-to-make-utility-mapping" title="Permanent link">&para;</a></h1>
-<p>Below is a table relating Visual Studio aspects to Make utility. At a high level, the <code>Project</code> file is equivalent to a <code>Makefile</code>.</p>
-<table style="border:1px;"><tbody><tr><td></td><th>Visual Studio</th><th>make Utility</th></tr><tr><td>Command</td><td><code>devenv.exe</code></td><td><code>make</code></td></tr><tr><td>Source structure</td><td>Solution (<code>.sln</code>) has project files (typically in sub-directories)</td><td>Starting at the root, each <code>Makefile</code> can indicate where other <code>Makefile</code>s (typically in sub-directories) exist</td></tr><tr><td>Library build dependency</td><td>Solution (<code>.sln</code>) has projects and build order</td><td><code>Makefile</code></td></tr><tr><td>Source files list</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td>Source to Object dependency</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td>Compile and Link options</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td></td><td></td></tr><tr><td>Compiler</td><td><code>cl.exe</code></td><td><code>gcc, g++, c++</code> (or any other compiler, even <code>cl.exe</code>)</td></tr><tr><td>Linker</td><td><code>link.exe</code></td><td><code>gcc, ld</code> (or any other linker, even <code>link.exe</code>)</td></tr></tbody></table>
-
-<h1 id="example">Example<a class="headerlink" href="#example" title="Permanent link">&para;</a></h1>
-<p>Download the example sources from GitHub at <a href="https://github.com/cognitivewaves/Makefile-Example">https://github.com/cognitivewaves/Makefile-Example</a>.<br />
-Note that very basic <code>Makefile</code> constructs are used because the focus is on the concept and not the capabilities of make itself.</p>
-<h3 id="source-structure">Source Structure<a class="headerlink" href="#source-structure" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code>Makefile-Example
+</code></pre></div> <h1 id=visual-studio-to-make-utility-mapping>Visual Studio to Make Utility mapping<a class=headerlink href=#visual-studio-to-make-utility-mapping title="Permanent link">&para;</a></h1> <p>Below is a table relating Visual Studio aspects to Make utility. At a high level, the <code>Project</code> file is equivalent to a <code>Makefile</code>.</p> <table style=border:1px;><tbody><tr><td></td><th>Visual Studio</th><th>make Utility</th></tr><tr><td>Command</td><td><code>devenv.exe</code></td><td><code>make</code></td></tr><tr><td>Source structure</td><td>Solution (<code>.sln</code>) has project files (typically in sub-directories)</td><td>Starting at the root, each <code>Makefile</code> can indicate where other <code>Makefile</code>s (typically in sub-directories) exist</td></tr><tr><td>Library build dependency</td><td>Solution (<code>.sln</code>) has projects and build order</td><td><code>Makefile</code></td></tr><tr><td>Source files list</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td>Source to Object dependency</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td>Compile and Link options</td><td>Project (<code>.vcproj</code>)</td><td><code>Makefile</code></td></tr><tr><td></td><td></td></tr><tr><td>Compiler</td><td><code>cl.exe</code></td><td><code>gcc, g++, c++</code> (or any other compiler, even <code>cl.exe</code>)</td></tr><tr><td>Linker</td><td><code>link.exe</code></td><td><code>gcc, ld</code> (or any other linker, even <code>link.exe</code>)</td></tr></tbody></table> <h1 id=example>Example<a class=headerlink href=#example title="Permanent link">&para;</a></h1> <p>Download the example sources from GitHub at <a href=https://github.com/cognitivewaves/Makefile-Example>https://github.com/cognitivewaves/Makefile-Example</a>.<br> Note that very basic <code>Makefile</code> constructs are used because the focus is on the concept and not the capabilities of make itself.</p> <h3 id=source-structure>Source Structure<a class=headerlink href=#source-structure title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>Makefile-Example
    |-- app
    |   |-- Makefile
    |   |-- main.cxx
@@ -513,31 +50,9 @@ Note that very basic <code>Makefile</code> constructs are used because the focus
    |   |   |-- SimpleFunctions.h
    |   |-- Makefile
    |-- Makefile
-</code></pre></div>
-<h3 id="build">Build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h3>
-<table>
-<thead>
-<tr>
-<th>Visual Studio</th>
-<th>make Utility</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Building in Visual Studio is via a menu item in the IDE or invoking <code>devenv.exe</code> on the <code>.sln</code> file at the command prompt. This will automatically create the necessary directories and build only the files modified after the last build.</td>
-<td>Initiating a build with makefiles is to invoke the <code>make</code> command at the shell prompt. Creating output directories has to be explicitly done either in the <code>Makefile</code> or externally.</td>
-</tr>
-</tbody>
-</table>
-<p>In this example, to keep the makefiles simple, the directories are created at the shell prompt.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ mkdir -p app/bin app/obj math/bin math/obj
-</code></pre></div>
-<p>The <code>make</code> utility syntax is shown below. See <code>make</code> manual pages for details.</p>
-<div class="highlight"><pre><span></span><code>make [ -f makefile ] [ options ] ... [ targets ]
-</code></pre></div>
-<p>Execute the command <code>make</code> and specify the “root” <code>Makefile</code>. However, it is more common to change to directory where the “root” <code>Makefile</code> exists and call <code>make</code>. This will read the file named <code>Makefile</code> in the current directory and call the target <code>all</code> by default.<br />
-Notice how <code>make</code> enters sub-directories to build. This is because of nested <code>Makefiles</code> which is explained later in the Makefiles Details section.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ make
+</code></pre></div> <h3 id=build>Build<a class=headerlink href=#build title="Permanent link">&para;</a></h3> <table> <thead> <tr> <th>Visual Studio</th> <th>make Utility</th> </tr> </thead> <tbody> <tr> <td>Building in Visual Studio is via a menu item in the IDE or invoking <code>devenv.exe</code> on the <code>.sln</code> file at the command prompt. This will automatically create the necessary directories and build only the files modified after the last build.</td> <td>Initiating a build with makefiles is to invoke the <code>make</code> command at the shell prompt. Creating output directories has to be explicitly done either in the <code>Makefile</code> or externally.</td> </tr> </tbody> </table> <p>In this example, to keep the makefiles simple, the directories are created at the shell prompt.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ mkdir -p app/bin app/obj math/bin math/obj
+</code></pre></div> <p>The <code>make</code> utility syntax is shown below. See <code>make</code> manual pages for details.</p> <div class=highlight><pre><span></span><code>make [ -f makefile ] [ options ] ... [ targets ]
+</code></pre></div> <p>Execute the command <code>make</code> and specify the “root” <code>Makefile</code>. However, it is more common to change to directory where the “root” <code>Makefile</code> exists and call <code>make</code>. This will read the file named <code>Makefile</code> in the current directory and call the target <code>all</code> by default.<br> Notice how <code>make</code> enters sub-directories to build. This is because of nested <code>Makefiles</code> which is explained later in the Makefiles Details section.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ make
 make -C math
 make[1]: Entering directory `/home/user/src/Makefile-Example/math&#39;
 g++ -fPIC -I. -c -o obj/AdvancedFunctions.o advanced/AdvancedFunctions.cxx
@@ -549,44 +64,16 @@ make[1]: Entering directory `/home/user/src/Makefile-Example/app&#39;
 g++ -I../math -c -o obj/main.o main.cxx
 g++ obj/main.o -L../math/bin -o bin/app.exe -lmath
 make[1]: Leaving directory `/home/user/src/Makefile-Example/app&#39;
-</code></pre></div>
-<h3 id="run">Run<a class="headerlink" href="#run" title="Permanent link">&para;</a></h3>
-<p>Once the code is built, run the executable. This is nothing specific to makefiles but has been elaborated in case you are not familiar with Linux as you will notice that by default is will fail to run with an error message.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ app/bin/app.exe 4
+</code></pre></div> <h3 id=run>Run<a class=headerlink href=#run title="Permanent link">&para;</a></h3> <p>Once the code is built, run the executable. This is nothing specific to makefiles but has been elaborated in case you are not familiar with Linux as you will notice that by default is will fail to run with an error message.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ app/bin/app.exe 4
 app/bin/app.exe: error while loading shared libraries: libmath.so: cannot open shared object file: No such file or directory
-</code></pre></div>
-<p>This is because the executable <code>app.exe</code> requires the shared object <code>libmath.so</code> which is in a different directory and is not in the system path. Set <code>LD_LIBRARY_PATH</code> to specify the path to it.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ export LD_LIBRARY_PATH=~/src/Makefile-Example/math/bin/
+</code></pre></div> <p>This is because the executable <code>app.exe</code> requires the shared object <code>libmath.so</code> which is in a different directory and is not in the system path. Set <code>LD_LIBRARY_PATH</code> to specify the path to it.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ export LD_LIBRARY_PATH=~/src/Makefile-Example/math/bin/
 
 ~/src/Makefile-Example $ app/bin/app.exe 4
 The sum of 4 and 4 is 8
 The square root of 4 is 2 
-</code></pre></div>
-<h2 id="makefile-details">Makefile Details<a class="headerlink" href="#makefile-details" title="Permanent link">&para;</a></h2>
-<p>The basis of a <code>Makefile</code> has a very simple structure.</p>
-<div class="highlight"><pre><span></span><code>target: dependencies
+</code></pre></div> <h2 id=makefile-details>Makefile Details<a class=headerlink href=#makefile-details title="Permanent link">&para;</a></h2> <p>The basis of a <code>Makefile</code> has a very simple structure.</p> <div class=highlight><pre><span></span><code>target: dependencies
 [tab] system commands
-</code></pre></div>
-<p>The <code>[tab]</code> separator is very important! Spaces instead of a <code>[tab]</code> is not the same. You will see rather obscure error messages as shown below.<br />
-<code>Makefile:12: *** missing separator. Stop.</code>  </p>
-<h3 id="targets">Targets<a class="headerlink" href="#targets" title="Permanent link">&para;</a></h3>
-<p>Here <code>target</code> is a physical file on disk. When the <code>target</code> is more of a label, then it has to be tagged as <code>.PHONY</code> to indicate that the target is not an actual file.</p>
-<table>
-<thead>
-<tr>
-<th>Visual Studio</th>
-<th>make Utility</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Visual Studio by default provides options to clean and rebuild a project or solution.</td>
-<td>Clean and rebuild have to be explicitly written in a makefile as <code>targets</code> which can then be invoked.</td>
-</tr>
-</tbody>
-</table>
-<p>A typical case would be to <code>clean</code> before rebuilding.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ make clean
+</code></pre></div> <p>The <code>[tab]</code> separator is very important! Spaces instead of a <code>[tab]</code> is not the same. You will see rather obscure error messages as shown below.<br> <code>Makefile:12: *** missing separator. Stop.</code> </p> <h3 id=targets>Targets<a class=headerlink href=#targets title="Permanent link">&para;</a></h3> <p>Here <code>target</code> is a physical file on disk. When the <code>target</code> is more of a label, then it has to be tagged as <code>.PHONY</code> to indicate that the target is not an actual file.</p> <table> <thead> <tr> <th>Visual Studio</th> <th>make Utility</th> </tr> </thead> <tbody> <tr> <td>Visual Studio by default provides options to clean and rebuild a project or solution.</td> <td>Clean and rebuild have to be explicitly written in a makefile as <code>targets</code> which can then be invoked.</td> </tr> </tbody> </table> <p>A typical case would be to <code>clean</code> before rebuilding.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ make clean
 make -C math clean
 make[1]: Entering directory `/home/api/src/Makefile-Example/math&#39;
 rm -fv bin/* obj/*
@@ -600,35 +87,14 @@ rm -fv bin/* obj/*
 removed `bin/app.exe&#39;
 removed `obj/main.o&#39;
 make[1]: Leaving directory `/home/api/src/Makefile-Example/app&#39;
-</code></pre></div>
-<h3 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">&para;</a></h3>
-<p><code>Dependencies</code> can be files on disk or other targets (including phony targets).</p>
-<table>
-<thead>
-<tr>
-<th>Visual Studio</th>
-<th>make Utility</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Visual Studio by default supports implicit dependencies (source to object files) within a project. Library(project) dependencies have to specified in the solution file</td>
-<td>Every dependency has to be explicitly defined in <code>makefiles</code></td>
-</tr>
-</tbody>
-</table>
-<p>For example, the target <code>all</code>, depends on <code>app.exe</code> which in turn depends on <code>libmath.so</code>. If you remove <code>app.exe</code>, make is capable of recognizing that <code>libmath.so</code> need not be built again.</p>
-<div class="highlight"><pre><span></span><code>~/src/Makefile-Example $ rm -v app/bin/*
+</code></pre></div> <h3 id=dependencies>Dependencies<a class=headerlink href=#dependencies title="Permanent link">&para;</a></h3> <p><code>Dependencies</code> can be files on disk or other targets (including phony targets).</p> <table> <thead> <tr> <th>Visual Studio</th> <th>make Utility</th> </tr> </thead> <tbody> <tr> <td>Visual Studio by default supports implicit dependencies (source to object files) within a project. Library(project) dependencies have to specified in the solution file</td> <td>Every dependency has to be explicitly defined in <code>makefiles</code></td> </tr> </tbody> </table> <p>For example, the target <code>all</code>, depends on <code>app.exe</code> which in turn depends on <code>libmath.so</code>. If you remove <code>app.exe</code>, make is capable of recognizing that <code>libmath.so</code> need not be built again.</p> <div class=highlight><pre><span></span><code>~/src/Makefile-Example $ rm -v app/bin/*
 removed `app/bin/app.exe&#39;
 ~/src/Makefile-Example $ make
 make -C app
 make[1]: Entering directory `/home/api/src/Makefile-Example/app&#39;
 g++ obj/main.o -L../math/bin -o bin/app.exe -lmath
 make[1]: Leaving directory `/home/api/src/Makefile-Example/app&#39;
-</code></pre></div>
-<h3 id="contents">Contents<a class="headerlink" href="#contents" title="Permanent link">&para;</a></h3>
-<p>File: <code>Makefile</code></p>
-<div class="highlight"><pre><span></span><code># all is the default target
+</code></pre></div> <h3 id=contents>Contents<a class=headerlink href=#contents title="Permanent link">&para;</a></h3> <p>File: <code>Makefile</code></p> <div class=highlight><pre><span></span><code># all is the default target
 .PHONY : all 
 all : app/bin/app.exe
  
@@ -645,9 +111,7 @@ math/bin/libmath.so :
 clean :
     $(MAKE) -C math clean
     $(MAKE) -C app  clean
-</code></pre></div>
-<p>File: <code>math/Makefile</code></p>
-<div class="highlight"><pre><span></span><code># The shared object libmath.so depends on the object files
+</code></pre></div> <p>File: <code>math/Makefile</code></p> <div class=highlight><pre><span></span><code># The shared object libmath.so depends on the object files
 # The command is to link and create the .so if the dependencies are up to date
 # Note the .so is put in a sub-directory &#39;bin&#39; by specifying &#39;g++ -o&#39; option
 bin/libmath.so : obj/AdvancedFunctions.o obj/SimpleFunctions.o
@@ -667,9 +131,7 @@ obj/SimpleFunctions.o : simple/SimpleFunctions.cxx
 .PHONY : clean
 clean : 
     rm -fv bin/* obj/
-</code></pre></div>
-<p>File: <code>app/Makefile</code></p>
-<div class="highlight"><pre><span></span><code># The executable depends on the main.o object file
+</code></pre></div> <p>File: <code>app/Makefile</code></p> <div class=highlight><pre><span></span><code># The executable depends on the main.o object file
 # Generate the exe if the object file dependencies are up to date
 # The exe is put in a sub-directory &#39;bin&#39; by specifying &#39;g++ -o&#39; option
 bin/app.exe : obj/main.o
@@ -685,60 +147,4 @@ obj/main.o : main.cxx
 .PHONY : clean
 clean : 
     rm -fv bin/* obj/
-</code></pre></div>
-<h1 id="nmake">NMake<a class="headerlink" href="#nmake" title="Permanent link">&para;</a></h1>
-<p><a href="https://msdn.microsoft.com/en-us/library/dd9y37ha.aspx">NMake</a> is the native Windows alternative to the *nix make utility. The syntax is very similar to *nix makefiles. However, this does not mean that *nix makefiles can be executed seamlessly on Windows. See <a href="https://cognitivewaves.wordpress.com/makefiles-windows/">Makefiles in Windows</a> for a discussion.</p>
-<h1 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h1>
-<p>Makefiles are very powerful and gives a lot of control and flexibility compared to Visual Studio, but the content is not easily understandable. As an alternative, CMake has adopted similar concepts but the script is much easier and more readable. See <a href="https://cognitivewaves.wordpress.com/makefiles-windows/">CMake and Visual Studio</a>.</p>
-<h1 id="external-links">External Links<a class="headerlink" href="#external-links" title="Permanent link">&para;</a></h1>
-<p><a href="http://opensourceforu.efytimes.com/2012/06/gnu-make-in-detail-for-beginners/">Makefile in detail for beginners</a></p>
-<hr />
-                
-              
-              
-                
-
-
-              
-            </article>
-          </div>
-        </div>
-        
-      </main>
-      
-        
-<footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; mdeng li
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
-      
-    </div>
-  </div>
-</footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
-    
-    
-      <script src="../../../../assets/javascripts/bundle.7353b375.min.js"></script>
-      
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-      
-    
-  </body>
-</html>
+</code></pre></div> <h1 id=nmake>NMake<a class=headerlink href=#nmake title="Permanent link">&para;</a></h1> <p><a href=https://msdn.microsoft.com/en-us/library/dd9y37ha.aspx>NMake</a> is the native Windows alternative to the *nix make utility. The syntax is very similar to *nix makefiles. However, this does not mean that *nix makefiles can be executed seamlessly on Windows. See <a href=https://cognitivewaves.wordpress.com/makefiles-windows/ >Makefiles in Windows</a> for a discussion.</p> <h1 id=conclusion>Conclusion<a class=headerlink href=#conclusion title="Permanent link">&para;</a></h1> <p>Makefiles are very powerful and gives a lot of control and flexibility compared to Visual Studio, but the content is not easily understandable. As an alternative, CMake has adopted similar concepts but the script is much easier and more readable. See <a href=https://cognitivewaves.wordpress.com/makefiles-windows/ >CMake and Visual Studio</a>.</p> <h1 id=external-links>External Links<a class=headerlink href=#external-links title="Permanent link">&para;</a></h1> <p><a href=http://opensourceforu.efytimes.com/2012/06/gnu-make-in-detail-for-beginners/ >Makefile in detail for beginners</a></p> <hr> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>

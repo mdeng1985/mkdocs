@@ -1,1033 +1,350 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <meta name="author" content="Mdeng li">
-      
-      
-        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/0-INBOX/42%E7%9A%84makefile%E5%AD%A6%E4%B9%A0/">
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
-    
-    
-      
-        <title>42的makefile学习及cmake改写 - Mdeng Li's Blog</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../assets/stylesheets/main.9299cb39.min.css">
-      
-        
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
-        
-      
-    
-    
-    
-      
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
-      
-    
-    
-    
-    
-      
-        
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-  
-    
-    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#42makefilecmake" class="md-skip">
-          跳转至
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            Mdeng Li's Blog
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              42的makefile学习及cmake改写
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            正在初始化搜索引擎
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-      <div class="md-header__source">
-        
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-      </div>
-    
-  </nav>
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    Mdeng Li's Blog
-  </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/" class="md-nav__link">
-        首页
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
-      
-      <label class="md-nav__link" for="__nav_2">
-        兴趣
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          兴趣
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/getting-started/" class="md-nav__link">
-        Installation
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      <label class="md-nav__link" for="__nav_3">
-        工作
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="工作" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          工作
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
-        Changing the colors
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      <label class="md-nav__link" for="__nav_4">
-        办公
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="办公" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          办公
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
-        Abbreviations
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
-        mkdocs
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      <label class="md-nav__link" for="__nav_5">
-        Insiders
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          Insiders
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../mkdocs_src/insiders/" class="md-nav__link">
-        Sponsorship
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-    
-  
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                
-                <h1 id="42makefilecmake">42的makefile学习及cmake改写<a class="headerlink" href="#42makefilecmake" title="Permanent link">&para;</a></h1>
-<h1 id="makefile-cmake">makefile #cmake<a class="headerlink" href="#makefile-cmake" title="Permanent link">&para;</a></h1>
-<h2 id="flags">*FLAGS<a class="headerlink" href="#flags" title="Permanent link">&para;</a></h2>
-<h3 id="cflags">CFLAGS<a class="headerlink" href="#cflags" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nv">CFLAGS</span> <span class="o">=</span> -Wall -Wshadow -Wno-deprecated -g <span class="k">$(</span>ANSIFLAGS<span class="k">)</span> <span class="k">$(</span>GLINC<span class="k">)</span> <span class="k">$(</span>CINC<span class="k">)</span> -I <span class="k">$(</span>INC<span class="k">)</span> -I <span class="k">$(</span>KITINC<span class="k">)</span> -I <span class="k">$(</span>KITSRC<span class="k">)</span> <span class="k">$(</span>GMSECINC<span class="k">)</span> -O0 <span class="k">$(</span>ARCHFLAG<span class="k">)</span> <span class="k">$(</span>GUIFLAG<span class="k">)</span> <span class="k">$(</span>SHADERFLAG<span class="k">)</span> <span class="k">$(</span>CFDFLAG<span class="k">)</span> <span class="k">$(</span>FFTBFLAG<span class="k">)</span> <span class="k">$(</span>GSFCFLAG<span class="k">)</span> <span class="k">$(</span>GMSECFLAG<span class="k">)</span> <span class="k">$(</span>STANDALONEFLAG<span class="k">)</span> <span class="k">$(</span>NOS3FSWFLAG<span class="k">)</span> <span class="k">$(</span>GLFWFLAG<span class="k">)</span>
-</code></pre></div>
-<p>其中：</p>
-<ul>
-<li>ANSIFLAGS有两种情况：</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="err">*</span><span class="c">#ANSIFLAGS = -Wstrict-prototypes -pedantic -ansi -Werror*</span>
-
-<span class="nv">ANSIFLAGS</span> <span class="o">=</span>
-</code></pre></div>
-<ul>
-<li></li>
-<li>
-<p><code>CINC =</code></p>
-</li>
-<li>
-<p><code>INC = $(PROJDIR)Include/</code></p>
-</li>
-<li>
-<p><code>KITINC = $(KITDIR)Include/</code>其中：<code>KITDIR = $(PROJDIR)Kit/</code></p>
-</li>
-<li>
-<p><code>KITSRC = $(KITDIR)Source/</code></p>
-</li>
-<li>
-<p>GMSECINC的值取决于GMSECFLAG，如果GMSECFLAG为空，则GMSECINC也为空。如果<code>*GMSECFLAG = -D _ENABLE_GMSEC_*</code>，则<code>GMSECINC = -I $(GMSECDIR)include/</code></p>
-</li>
-<li>
-<p>如果GUIFLAG为空，这时候不需要显示界面，则：</p>
-</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nv">GUIOBJ</span> <span class="o">=</span>
-<span class="nv">GLINC</span> <span class="o">=</span>
-<span class="nv">LIBS</span> <span class="o">=</span> -ldl -lm
-<span class="nv">LFLAGS</span> <span class="o">=</span>
-<span class="nv">ARCHFLAG</span> <span class="o">=</span>
-</code></pre></div>
-<p>否则：</p>
-<div class="highlight"><pre><span></span><code><span class="nv">GUIOBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>42GlutGui.o <span class="k">$(</span>OBJ<span class="k">)</span>glkit.o
-<span class="c">#GLINC = -I /usr/include/</span>
-<span class="nv">GLINC</span> <span class="o">=</span> -I <span class="k">$(</span>KITDIR<span class="k">)</span>/include/GL/
-<span class="nv">LIBS</span> <span class="o">=</span> -lglut -lGLU -lGL -ldl -lm
-<span class="nv">LFLAGS</span> <span class="o">=</span> -L <span class="k">$(</span>KITDIR<span class="k">)</span>/GL/lib/
-<span class="nv">ARCHFLAG</span> <span class="o">=</span>
-</code></pre></div>
-<ul>
-<li><code>SHADERFLAG = -D _USE_SHADERS_</code> 因此gcc在CFLAGS调用的时候为<code>gcc -D _USE_SHADERS_</code></li>
-</ul>
-<p>含义就是gcc定义了宏<code>_USE_SHADERS_</code>，该宏的默认值为1. see[[gcc学习#gcc -D选项]] 。推断程序里用到了<code>_USE_SHADERS_</code>这个宏</p>
-<ul>
-<li>
-<p><code>makefile
-  CFDFLAG =
-  #CFDFLAG = -D _ENABLE_CFD_SLOSH_</code></p>
-</li>
-<li>
-<p><code>makefile
-  FFTBFLAG =
-  #FFTBFLAG = -D _ENABLE_FFTB_CODE_</code></p>
-</li>
-<li>
-<p>```makefile
-  <em>#GSFCFLAG =</em></p>
-</li>
-</ul>
-<p>GSFCFLAG = -D <em>USE_GSFC_WATERMARK</em>
-  ```</p>
-<ul>
-<li>
-<p><code>makefile
-  GMSECFLAG =</code></p>
-</li>
-<li>
-<p>```makefile
-  STANDALONEFLAG =</p>
-</li>
-</ul>
-<p><em>#STANDALONEFLAG = -D <em>AC_STANDALONE</em></em>
-  ```</p>
-<ul>
-<li>
-<p><code>makefile
-  NOS3FSWFLAG =
-  #NOS3FSWFLAG = -D _ENABLE_NOS3_FSW_</code></p>
-</li>
-<li>
-<p><code>makefile
-  #GLFWFLAG = 
-  GLFWFLAG = -D _USE_GLFW_</code></p>
-</li>
-</ul>
-<h3 id="lflags">LFLAGS<a class="headerlink" href="#lflags" title="Permanent link">&para;</a></h3>
-<p>取决于GUIFLAG，如果<code>GUIFLAG = -D _USE_GUI</code>_, 则<code>LFLAGS = -L $(KITDIR)/GL/lib/</code></p>
-<p>否则为空。</p>
-<h2 id="42">生成42可执行文件<a class="headerlink" href="#42" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nf">42 </span><span class="o">:</span> <span class="k">$(</span><span class="nv">42OBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">GUIOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">SIMIPCOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">FFTBOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">SLOSHOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">KITOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">ACOBJ</span><span class="k">)</span> <span class="k">$(</span><span class="nv">GMSECOBJ</span><span class="k">)</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>LFLAGS<span class="k">)</span> <span class="k">$(</span>GMSECBIN<span class="k">)</span> -o <span class="k">$(</span>EXENAME<span class="k">)</span> <span class="k">$(</span>42OBJ<span class="k">)</span> <span class="k">$(</span>GUIOBJ<span class="k">)</span> <span class="k">$(</span>FFTBOBJ<span class="k">)</span> <span class="k">$(</span>SLOSHOBJ<span class="k">)</span> <span class="k">$(</span>KITOBJ<span class="k">)</span> <span class="k">$(</span>ACOBJ<span class="k">)</span> <span class="k">$(</span>GMSECOBJ<span class="k">)</span> <span class="k">$(</span>SIMIPCOBJ<span class="k">)</span> <span class="k">$(</span>LIBS<span class="k">)</span> <span class="k">$(</span>GMSECLIB<span class="k">)</span>
-</code></pre></div>
-<ul>
-<li>
-<p>42OBJ变量由一系列.o文件组成，见下文</p>
-</li>
-<li>
-<p>GUIOBJ取决于GUIFLAG, 没有界面则为空</p>
-</li>
-<li>
-<p>SIMIPCOBJ取决于GMSECFLAG，如果为空的话，则：</p>
-</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nv">SIMIPCOBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>SimWriteToFile.o <span class="k">$(</span>OBJ<span class="k">)</span>SimWriteToSocket.o <span class="se">\</span>
-      <span class="k">$(</span>OBJ<span class="k">)</span>SimReadFromFile.o <span class="k">$(</span>OBJ<span class="k">)</span>SimReadFromSocket.o
-</code></pre></div>
-<p>由4个.o文件组成</p>
-<ul>
-<li>
-<p>FFTBOBJ取决于FFTBFLAG，后者为空的话，则前者也为空。默认为空。暂时不管</p>
-</li>
-<li>
-<p>SLOSHOBJ取决于CFDFLAG，默认为空</p>
-</li>
-<li>
-<p>KITOBJ</p>
-</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="nv">KITOBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>dcmkit.o <span class="k">$(</span>OBJ<span class="k">)</span>envkit.o <span class="k">$(</span>OBJ<span class="k">)</span>fswkit.o <span class="k">$(</span>OBJ<span class="k">)</span>geomkit.o <span class="se">\</span>
-<span class="k">$(</span>OBJ<span class="k">)</span>iokit.o <span class="k">$(</span>OBJ<span class="k">)</span>mathkit.o <span class="k">$(</span>OBJ<span class="k">)</span>nrlmsise00kit.o <span class="k">$(</span>OBJ<span class="k">)</span>msis86kit.o <span class="se">\</span>
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">orbkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">radbeltkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">sigkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">sphkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">timekit.o</span>
-</code></pre></div>
-<ul>
-<li>
-<p>ACOBJ取决于STANDALONEFLAG，STANDALONEFLAG为空的话（默认），则<code>ACOBJ = $(OBJ)AcApp.o</code>，否则ACOBJ为空。</p>
-</li>
-<li>
-<p>GMSECOBJ取决于GMSECFLAG，默认为空</p>
-</li>
-<li>
-<p>GMSECBIN取决于GMSECFLAG，默认为空</p>
-</li>
-<li>
-<p><code>EXENAME = 42</code></p>
-</li>
-<li>
-<p>GMSECLIB取决于GMSECFLAG，默认为空</p>
-</li>
-</ul>
-<h2 id="42obj">42OBJ<a class="headerlink" href="#42obj" title="Permanent link">&para;</a></h2>
-<h3 id="42obj_1">42OBJ变量的组成<a class="headerlink" href="#42obj_1" title="Permanent link">&para;</a></h3>
-<p>42OBJ由如下.o文件组成：</p>
-<p>​       42OBJ --组成&rarr; 42main.o 
-​        42OBJ --组成&rarr; 42exec.o 
-​        42OBJ --组成&rarr; 42actuators.o
-​        42OBJ --组成&rarr; 42cmd.o
-​        42OBJ --组成&rarr; 42dynamics.o
-​        42OBJ --组成&rarr; 42environs.o
-​        42OBJ --组成&rarr; 42ephem.o
-​        42OBJ --组成&rarr; 42fsw.o
-​        42OBJ --组成&rarr; 42init.o
-​       42OBJ --组成&rarr; 42ipc.o
-​       42OBJ --组成&rarr; 42perturb.o
-​       42OBJ --组成&rarr; 42report.o
-​       42OBJ --组成&rarr; 42sensors.o
-​       42OBJ --组成&rarr; 42nos3.o</p>
-<div class="highlight"><pre><span></span><code><span class="nv">42OBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>42main.o <span class="k">$(</span>OBJ<span class="k">)</span>42exec.o <span class="k">$(</span>OBJ<span class="k">)</span>42actuators.o <span class="k">$(</span>OBJ<span class="k">)</span>42cmd.o <span class="se">\</span>
-
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42dynamics.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42environs.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42ephem.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42fsw.o</span> <span class="err">\</span>
-
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42init.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42ipc.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42perturb.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42report.o</span> <span class="err">\</span>
-
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42sensors.o</span> <span class="err">\</span>
-
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">42nos3.o</span>  
-</code></pre></div>
-<h3 id="42objch">42OBJ所依赖的c和h文件<a class="headerlink" href="#42objch" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><span class="nf">$(OBJ)42main.o          </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">main</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42main.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42main.o
-
-<span class="nf">$(OBJ)42exec.o          </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">exec</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42exec.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42exec.o
-
-<span class="nf">$(OBJ)42actuators.o </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">actuators</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">Ac</span>.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42actuators.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42actuators.o
-
-<span class="nf">$(OBJ)42cmd.o </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">cmd</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">Ac</span>.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42cmd.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42cmd.o
-
-<span class="nf">$(OBJ)42dynamics.o     </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">dynamics</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42dynamics.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42dynamics.o
-
-<span class="nf">$(OBJ)42environs.o  </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">environs</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42environs.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42environs.o
-
-<span class="nf">$(OBJ)42ephem.o     </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">ephem</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42ephem.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42ephem.o
-
-<span class="nf">$(OBJ)42fsw.o       </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">fsw</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">Ac</span>.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42fsw.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42fsw.o
-
-<span class="nf">$(OBJ)42glfwgui.o   </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">glfwgui</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42<span class="n">glfwgui</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42glfwgui.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42glfwgui.o
-
-<span class="nf">$(OBJ)42GlutGui.o        </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">GlutGui</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42<span class="n">GlutGui</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42GlutGui.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42GlutGui.o
-
-<span class="nf">$(OBJ)42init.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">init</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42init.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42init.o
-
-<span class="nf">$(OBJ)42ipc.o       </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">ipc</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42ipc.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42ipc.o
-
-<span class="nf">$(OBJ)42perturb.o   </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">perturb</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42perturb.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42perturb.o
-
-<span class="nf">$(OBJ)42report.o    </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">report</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42report.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42report.o
-
-<span class="nf">$(OBJ)42sensors.o   </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">sensors</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">Ac</span>.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42sensors.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42sensors.o
-
-<span class="nf">$(OBJ)42nos3.o         </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span>42<span class="n">nos</span>3.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>42nos3.c -o <span class="k">$(</span>OBJ<span class="k">)</span>42nos3.o
-</code></pre></div>
-<ul>
-<li><code>CC = gcc</code></li>
-<li><code>$(CFLAGS)</code>里给出了include目录和一些宏定义</li>
-</ul>
-<p>关系图</p>
-<div class="highlight"><pre><span></span><code><span class="n">graph</span> <span class="n">LR</span>
-    <span class="n">subgraph</span> <span class="mi">1</span>
-    <span class="mi">42</span><span class="n">main</span><span class="p">.</span><span class="n">c</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">main</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">end</span>
-    <span class="n">subgraph</span> <span class="mi">2</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">exec</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">exec</span><span class="p">.</span><span class="n">c</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">exec</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">end</span>
-    <span class="n">subgraph</span> <span class="mi">3</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">actuators</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">Ac</span><span class="p">.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">actuators</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">AcTypes</span><span class="p">.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">actuators</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">actuators</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">actuators</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">end</span>
-    <span class="n">subgraph</span> <span class="mi">3</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">cmd</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">Ac</span><span class="p">.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">cmd</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">AcTypes</span><span class="p">.</span><span class="n">h</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">cmd</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">cmd</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">cmd</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">end</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">dynamics</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mi">42</span><span class="n">environs</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span><span class="mi">42</span><span class="n">ephem</span><span class="p">.</span><span class="n">o</span> 
-    <span class="mf">42.</span><span class="n">h</span> <span class="o">--&gt;</span><span class="mi">42</span><span class="n">init</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">ipc</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">perturb</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">report</span><span class="p">.</span><span class="n">o</span>
-    <span class="mf">42.</span><span class="n">h</span><span class="o">--&gt;</span><span class="mi">42</span><span class="n">sensors</span><span class="p">.</span><span class="n">o</span>
-
-    <span class="n">Ac</span><span class="p">.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mf">42f</span><span class="n">sw</span><span class="p">.</span><span class="n">o</span>
-    <span class="n">Ac</span><span class="p">.</span><span class="n">h</span><span class="o">--&gt;</span><span class="mi">42</span><span class="n">sensors</span><span class="p">.</span><span class="n">o</span>
-
-    <span class="n">AcTypes</span><span class="p">.</span><span class="n">h</span> <span class="o">--&gt;</span> <span class="mf">42f</span><span class="n">sw</span><span class="p">.</span><span class="n">o</span> 
-    <span class="n">AcTypes</span><span class="p">.</span><span class="n">h</span><span class="o">--&gt;</span><span class="mi">42</span><span class="n">sensors</span><span class="p">.</span><span class="n">o</span> 
-    <span class="mi">42</span><span class="n">dynamics</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">dynamics</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">environs</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">environs</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">ephem</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">ephem</span><span class="p">.</span><span class="n">o</span> 
-    <span class="mf">42f</span><span class="n">sw</span><span class="p">.</span><span class="n">c</span>  <span class="o">--&gt;</span>  <span class="mf">42f</span><span class="n">sw</span><span class="p">.</span><span class="n">o</span> 
-    <span class="mi">42</span><span class="n">init</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">init</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">ipc</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">ipc</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">perturb</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">perturb</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">report</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">report</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">sensors</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">sensors</span><span class="p">.</span><span class="n">o</span>
-    <span class="mi">42</span><span class="n">nos3</span><span class="p">.</span><span class="n">c</span><span class="o">--&gt;</span> <span class="mi">42</span><span class="n">nos3</span><span class="p">.</span><span class="n">o</span>
-</code></pre></div>
-<h2 id="simo">Sim***.o文件<a class="headerlink" href="#simo" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nf">$(OBJ)SimWriteToFile.o  </span><span class="o">:</span> <span class="k">$(</span><span class="nv">IPCSRC</span><span class="k">)</span><span class="n">SimWriteToFile</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>IPCSRC<span class="k">)</span>SimWriteToFile.c -o <span class="k">$(</span>OBJ<span class="k">)</span>SimWriteToFile.o
-<span class="nf">$(OBJ)SimWriteToSocket.o  </span><span class="o">:</span> <span class="k">$(</span><span class="nv">IPCSRC</span><span class="k">)</span><span class="n">SimWriteToSocket</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>IPCSRC<span class="k">)</span>SimWriteToSocket.c -o <span class="k">$(</span>OBJ<span class="k">)</span>SimWriteToSocket.o
-<span class="nf">$(OBJ)SimReadFromFile.o  </span><span class="o">:</span> <span class="k">$(</span><span class="nv">IPCSRC</span><span class="k">)</span><span class="n">SimReadFromFile</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>IPCSRC<span class="k">)</span>SimReadFromFile.c -o <span class="k">$(</span>OBJ<span class="k">)</span>SimReadFromFile.o
-<span class="nf">$(OBJ)SimReadFromSocket.o  </span><span class="o">:</span> <span class="k">$(</span><span class="nv">IPCSRC</span><span class="k">)</span><span class="n">SimReadFromSocket</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span>42.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>IPCSRC<span class="k">)</span>SimReadFromSocket.c -o <span class="k">$(</span>OBJ<span class="k">)</span>SimReadFromSocket.o
-</code></pre></div>
-<h2 id="kitobj">KITOBJ<a class="headerlink" href="#kitobj" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nv">KITOBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>dcmkit.o <span class="k">$(</span>OBJ<span class="k">)</span>envkit.o <span class="k">$(</span>OBJ<span class="k">)</span>fswkit.o <span class="k">$(</span>OBJ<span class="k">)</span>geomkit.o <span class="se">\</span>
-<span class="k">$(</span>OBJ<span class="k">)</span>iokit.o <span class="k">$(</span>OBJ<span class="k">)</span>mathkit.o <span class="k">$(</span>OBJ<span class="k">)</span>nrlmsise00kit.o <span class="k">$(</span>OBJ<span class="k">)</span>msis86kit.o <span class="se">\</span>
-<span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">orbkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">radbeltkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">sigkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">sphkit.o</span> <span class="k">$(</span><span class="nv">OBJ</span><span class="k">)</span><span class="err">timekit.o</span>
-
-<span class="nf">$(OBJ)dcmkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">dcmkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>dcmkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>dcmkit.o
-
-<span class="nf">$(OBJ)envkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">envkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>envkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>envkit.o
-
-<span class="nf">$(OBJ)fswkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">fswkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>fswkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>fswkit.o
-
-<span class="nf">$(OBJ)glkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">glkit</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">KITINC</span><span class="k">)</span><span class="n">glkit</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>glkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>glkit.o
-
-<span class="nf">$(OBJ)geomkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">geomkit</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">KITINC</span><span class="k">)</span><span class="n">geomkit</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>geomkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>geomkit.o
-
-<span class="nf">$(OBJ)gmseckit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">gmseckit</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">KITINC</span><span class="k">)</span><span class="n">gmseckit</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>gmseckit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>gmseckit.o
-
-<span class="nf">$(OBJ)iokit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">iokit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>iokit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>iokit.o
-
-<span class="nf">$(OBJ)mathkit.o     </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">mathkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>mathkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>mathkit.o
-
-<span class="nf">$(OBJ)nrlmsise00kit.o   </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">nrlmsise</span>00<span class="n">kit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>nrlmsise00kit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>nrlmsise00kit.o
-
-<span class="nf">$(OBJ)msis86kit.o   </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">msis</span>86<span class="n">kit</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">KITINC</span><span class="k">)</span><span class="n">msis</span>86<span class="n">kit</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>msis86kit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>msis86kit.o
-
-<span class="nf">$(OBJ)orbkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">orbkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>orbkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>orbkit.o
-
-<span class="nf">$(OBJ)radbeltkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">radbeltkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>radbeltkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>radbeltkit.o
-
-<span class="nf">$(OBJ)sigkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">sigkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>sigkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>sigkit.o
-
-<span class="nf">$(OBJ)sphkit.o      </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">sphkit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>sphkit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>sphkit.o
-
-<span class="nf">$(OBJ)timekit.o     </span><span class="o">:</span> <span class="k">$(</span><span class="nv">KITSRC</span><span class="k">)</span><span class="n">timekit</span>.<span class="n">c</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>KITSRC<span class="k">)</span>timekit.c -o <span class="k">$(</span>OBJ<span class="k">)</span>timekit.o
-</code></pre></div>
-<h2 id="acobj">ACOBJ<a class="headerlink" href="#acobj" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nf">$(OBJ)AcApp.o          </span><span class="o">:</span> <span class="k">$(</span><span class="nv">SRC</span><span class="k">)</span><span class="n">AcApp</span>.<span class="n">c</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">Ac</span>.<span class="n">h</span> <span class="k">$(</span><span class="nv">INC</span><span class="k">)</span><span class="n">AcTypes</span>.<span class="n">h</span>
-    <span class="k">$(</span>CC<span class="k">)</span> <span class="k">$(</span>CFLAGS<span class="k">)</span> -c <span class="k">$(</span>SRC<span class="k">)</span>AcApp.c -o <span class="k">$(</span>OBJ<span class="k">)</span>AcApp.o
-</code></pre></div>
-<h2 id="libs">LIBS<a class="headerlink" href="#libs" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="cp">ifneq ($(strip $(GUIFLAG)),)</span>
-      <span class="nv">GUIOBJ</span> <span class="o">=</span> <span class="k">$(</span>OBJ<span class="k">)</span>42GlutGui.o <span class="k">$(</span>OBJ<span class="k">)</span>glkit.o
-<span class="c">      #GLINC = -I /usr/include/</span>
-      <span class="nv">GLINC</span> <span class="o">=</span> -I <span class="k">$(</span>KITDIR<span class="k">)</span>/include/GL/
-      <span class="nv">LIBS</span> <span class="o">=</span> -lglut -lGLU -lGL -ldl -lm
-      <span class="nv">LFLAGS</span> <span class="o">=</span> -L <span class="k">$(</span>KITDIR<span class="k">)</span>/GL/lib/
-      <span class="nv">ARCHFLAG</span> <span class="o">=</span>
-<span class="cp">   else</span>
-      <span class="nv">GUIOBJ</span> <span class="o">=</span>
-      <span class="nv">GLINC</span> <span class="o">=</span>
-      <span class="nv">LIBS</span> <span class="o">=</span> -ldl -lm
-      <span class="nv">LFLAGS</span> <span class="o">=</span>
-      <span class="nv">ARCHFLAG</span> <span class="o">=</span>
-<span class="cp">   endif</span>
-<span class="cp">   ifneq ($(strip $(NOS3FSWFLAG)),)</span>
-      <span class="nv">LIBS</span> <span class="o">+=</span> -lpthread
-<span class="cp">   endif</span>
-</code></pre></div>
-<h1 id="cmakeliststxt">CMAKELists.txt改写<a class="headerlink" href="#cmakeliststxt" title="Permanent link">&para;</a></h1>
-<h2 id="_1">源代码<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.5.1</span><span class="p">)</span>
-<span class="nb">project</span><span class="p">(</span><span class="s">42maniexe</span><span class="p">)</span>
-<span class="nb">SET</span><span class="p">(</span><span class="s">CMAKE_BUILD_TYPE</span> <span class="s2">&quot;Debug&quot;</span><span class="p">)</span>
-<span class="nb">SET</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_DEBUG</span> <span class="s2">&quot;$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb&quot;</span><span class="p">)</span>
-<span class="c"># SET(CMAKE_CXX_FLAGS_DEBUG &quot;$ENV{CXXFLAGS} -Wall   -ggdb3 -O0   -gcodeview -std=c99&quot;)</span>
-<span class="nb">SET</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_RELEASE</span> <span class="s2">&quot;$ENV{CXXFLAGS} -O3 -Wall&quot;</span><span class="p">)</span>
-
-<span class="c"># include_directories(&quot;/usr/include/eigen3&quot;)</span>
-
-<span class="c"># 添加Pangolin依赖</span>
-<span class="c"># find_package(Pangolin REQUIRED)</span>
-<span class="c"># include_directories( ${Pangolin_INCLUDE_DIRS} )</span>
-
-<span class="c"># Basic directories</span>
-<span class="c"># HOMEDIR = ./</span>
-<span class="c"># PROJDIR = ./</span>
-<span class="c"># KITDIR = $(PROJDIR)Kit/</span>
-<span class="c"># OBJ = $(PROJDIR)Object/</span>
-<span class="c"># INC = $(PROJDIR)Include/</span>
-<span class="c"># SRC = $(PROJDIR)Source/</span>
-<span class="c"># KITINC = $(KITDIR)Include/</span>
-<span class="c"># KITSRC = $(KITDIR)Source/</span>
-<span class="c"># INOUT = $(PROJDIR)InOut/</span>
-<span class="c"># GSFCSRC = $(PROJDIR)/GSFC/Source/</span>
-<span class="c"># IPCSRC = $(SRC)IPC/</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">GMSECFLAG</span> <span class="s">NULL</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">GUIFLAG</span> <span class="s">NULL</span><span class="p">)</span>
-<span class="c"># message(${GMSECFLAG})</span>
-
-
-
-
-<span class="nb">set</span><span class="p">(</span><span class="s">KITDIR</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Kit</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">OBJ</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Object</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">INC</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Include</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">SRC</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Source</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">KITINC</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Kit/Include</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">KITSRC</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/Kit/Source</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">INOUT</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/InOut</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">GSFCSRC</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="s">/GSFC/Source</span><span class="p">)</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">IPCSRC</span> <span class="o">${</span><span class="nv">SRC</span><span class="o">}</span><span class="s">/IPC</span><span class="p">)</span>
-
-
-<span class="nb">include_directories</span><span class="p">(</span> <span class="o">${</span><span class="nv">INC</span><span class="o">}</span> <span class="p">)</span>
-<span class="nb">include_directories</span><span class="p">(</span> <span class="s2">&quot;${KITINC}/&quot;</span> <span class="p">)</span>
-<span class="nb">include_directories</span><span class="p">(</span> <span class="o">${</span><span class="nv">KITSRC</span><span class="o">}</span> <span class="p">)</span>
-<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;KITINC=${KITINC}&quot;</span><span class="p">)</span>
-
-<span class="nb">add_definitions</span><span class="p">(</span><span class="s">-D_USE_SHADERS_</span> <span class="s">-D_USE_GSFC_WATERMARK_</span> <span class="s">-D_USE_GLFW_</span><span class="p">)</span>
-
-<span class="c">## 添加源文件</span>
-<span class="nb">file</span><span class="p">(</span><span class="s">GLOB</span> <span class="s">SOURCES42</span> <span class="s2">&quot;${SRC}/*.c&quot;</span> 
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/*.c&quot;</span> 
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Kit/Source/*.c&quot;</span>
-    <span class="p">)</span><span class="c">#     &quot;${PROJECT_SOURCE_DIR}/World/Downing Models/*.cpp&quot;</span>
-<span class="nb">message</span><span class="p">(</span><span class="s2">&quot;SOURCES42=${SOURCES42}&quot;</span><span class="p">)</span>
-<span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">SOURCES42</span> 
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/AppReadFromCmd.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimReadFromCmd.c&quot;</span>
-    <span class="s2">&quot;${KITSRC}/texkit.c&quot;</span>
-    <span class="s2">&quot;${KITSRC}/msis86kit.c&quot;</span>
-    <span class="p">)</span> <span class="c">#忽略掉的文件</span>
-
-<span class="c">## 避免出现多个main函数的情况，因此需要手动去除这些文件</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">MULTIPLEMAIN</span> <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Development/HeapSort.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Development/SelectMedian.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Development/ServerClient/FifoServer.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Utilities/AddAlphaToPpm.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Utilities/BuildStarCat.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Utilities/PpmToGlyph.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Utilities/Tle2Kep.c&quot;</span>
-    <span class="p">)</span>
-<span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">SOURCES42</span> <span class="o">${</span><span class="nv">MULTIPLEMAIN</span><span class="o">}</span><span class="p">)</span> <span class="c">#忽略掉的文件 42main不用这些文件，否则会出现同个函数有重复定义的情况</span>
-
-
-
-<span class="c"># 忽略掉ACIPCOBJ </span>
-<span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">GMSECFLAG</span><span class="o">}</span> <span class="s">STREQUAL</span> <span class="s2">&quot;NULL&quot;</span><span class="p">)</span><span class="c"># GMSECFLAG为空</span>
-    <span class="nb">set</span><span class="p">(</span><span class="s">ACIPCOBJ</span> <span class="s2">&quot;${IPCSRC}/AppReadFromFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppWriteToSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppReadFromSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppWriteToFile.c&quot;</span>
-<span class="p">)</span>
-<span class="nb">else</span><span class="p">()</span>
-<span class="nb">set</span><span class="p">(</span><span class="s">ACIPCOBJ</span> <span class="s2">&quot;${IPCSRC}/AppReadFromFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppWriteToGmsec.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppReadFromGmsec.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppWriteToSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppReadFromSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/AppWriteToFile.c&quot;</span>
-<span class="p">)</span>
-<span class="nb">endif</span><span class="p">()</span>
-<span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">SOURCES42</span> <span class="o">${</span><span class="nv">ACIPCOBJ</span><span class="o">}</span><span class="p">)</span> 
-
-<span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">GMSECFLAG</span><span class="o">}</span> <span class="s">STREQUAL</span> <span class="s2">&quot;NULL&quot;</span><span class="p">)</span><span class="c"># GMSECFLAG为空</span>
-    <span class="nb">set</span><span class="p">(</span><span class="s">SIMIPCOBJ</span> <span class="s2">&quot;${IPCSRC}/SimWriteToFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimWriteToSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimReadFromFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimReadFromSocket.c&quot;</span>
-    <span class="p">)</span>
- <span class="nb">else</span><span class="p">()</span>
-    <span class="nb">set</span><span class="p">(</span><span class="s">SIMIPCOBJ</span> <span class="s2">&quot;${IPCSRC}/SimWriteToFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimWriteToGmsec.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimWriteToSocket.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimReadFromFile.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimReadFromGmsec.c&quot;</span>
-    <span class="s2">&quot;${IPCSRC}/SimReadFromSocket.c&quot;</span>
-    <span class="p">)</span>
-<span class="nb">endif</span><span class="p">()</span> <span class="c"># list(REMOVE_ITEM SOURCES42 ${SIMIPCOBJ}) #忽略掉的文件 42main不用这些文件，否则会出现同个函数有重复定义的情况 AcApp需要忽略的</span>
-
-
-<span class="c"># 如果GUIFLAG为空，则忽略掉一些源文件</span>
-<span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">GUIFLAG</span><span class="o">}</span> <span class="s">STREQUAL</span> <span class="s2">&quot;NULL&quot;</span><span class="p">)</span><span class="c"># GMSECFLAG为空</span>
-    <span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">SOURCES42</span> <span class="s2">&quot;${KITSRC}/glkit.c&quot;</span> 
-    <span class="s2">&quot;${SRC}/42GlutGui.c&quot;</span>
-    <span class="s2">&quot;${SRC}/42glfwgui.c&quot;</span>
-    <span class="p">)</span> <span class="c">#忽略掉的文件 42main不用这些文件，否则会</span>
-<span class="nb">else</span><span class="p">()</span>
-<span class="nb">endif</span><span class="p">()</span>
-
-<span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">GMSECFLAG</span><span class="o">}</span> <span class="s">STREQUAL</span> <span class="s2">&quot;NULL&quot;</span><span class="p">)</span><span class="c"># GMSECFLAG为空</span>
-    <span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">SOURCES42</span> 
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimReadFromGmsec.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimWriteToGmsec.c&quot;</span>
-    <span class="s2">&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimWriteToGmsec.c&quot;</span>
-    <span class="s2">&quot;${KITSRC}/gmseckit.c&quot;</span>
-    <span class="p">)</span> <span class="c">#忽略掉的文件</span>
-    <span class="nb">message</span><span class="p">(</span><span class="s2">&quot;GMSECFLAG=${GMSECFLAG}&quot;</span><span class="p">)</span>
-<span class="nb">else</span><span class="p">()</span>              <span class="c"># GMSECFLAG不为空， search ifneq ($(strip $(GMSECFLAG)),) in makefile</span>
-<span class="nb">endif</span><span class="p">()</span>   
-<span class="c"># Create a sources variable with a link to all cpp files to compile</span>
-<span class="c"># set(SOURCES42</span>
-<span class="c">#    &quot;${PROJECT_SOURCE_DIR}/Source/42init.c&quot;</span>
-<span class="c">#    ${PROJECT_SOURCE_DIR}/Source/IPC/*.c</span>
-<span class="c">#    ${PROJECT_SOURCE_DIR}/Kit/Source/*.c</span>
-<span class="c">#)</span>
-
-<span class="nb">SET</span><span class="p">(</span><span class="s">EXECUTABLE_OUTPUT_PATH</span> <span class="o">${</span><span class="nv">PROJECT_SOURCE_DIR</span><span class="o">}</span><span class="p">)</span> 
-<span class="c"># LINK_LIBRARIES(-lpthread -lm -ldl)</span>
-
-<span class="c">#add_library(rtklib SHARED  ${SOURCES42})</span>
-<span class="nb">add_executable</span><span class="p">(</span><span class="s">42mainexe</span>  <span class="o">${</span><span class="nv">SOURCES42</span><span class="o">}</span><span class="p">)</span>
-<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">42mainexe</span> <span class="s">-lpthread</span> <span class="s">-lm</span> <span class="s">-ldl</span><span class="p">)</span>
-
-
-<span class="c">#add_executable( visualizeGeometry plotTrajectory.cpp)</span>
-<span class="c">#target_link_libraries( visualizeGeometry ${Pangolin_LIBRARIES} ) </span>
-
-
-
-<span class="c"># 待确认</span>
-<span class="c"># LFLAGS = -L $(KITDIR)/GL/lib/</span>
-</code></pre></div>
-<h2 id="_2">主要思路和步骤<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>makefile</th>
-<th>cmakeLists</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>设置变量</td>
-<td>KITDIR = $(PROJDIR)Kit/</td>
-<td>set(KITDIR ${PROJECT_SOURCE_DIR}/Kit)</td>
-</tr>
-<tr>
-<td>设置包含路径</td>
-<td>先将-I $(INC)赋值给CFLAGS；然后在生成.o文件的时候调用CFLAGS</td>
-<td>include_directories( ${INC} )</td>
-</tr>
-<tr>
-<td>添加宏定义</td>
-<td><code>SHADERFLAG = -D_USE_SHADERS_</code>然后gcc ${SHADERFLAG}的时候相当于 gcc编译的时候定义了宏_USE_SHADERS_<code>(格式gcc D宏名) | add_definitions(-D_USE_SHADERS_ )这里</code><em>USE_SHADERS</em>`为宏</td>
-<td></td>
-</tr>
-<tr>
-<td>添加库</td>
-<td><code>LIBS = -ldl -lm</code>,然后gcc的时候调用这些库</td>
-<td>target_link_libraries(42mainexe  -lm -ldl)</td>
-</tr>
-<tr>
-<td>添加源文件</td>
-<td></td>
-<td>file(GLOB SOURCES42 "${SRC}/*.c" ）</td>
-</tr>
-<tr>
-<td>去掉不必要的文件</td>
-<td></td>
-<td>list(REMOVE_ITEM SOURCES42 "${PROJECT_SOURCE_DIR}/Source/IPC/AppReadFromCmd.c"）</td>
-</tr>
-</tbody>
-</table>
-<p>改写的时候几点注意事项：</p>
-<ol>
-<li><code>set(SRC ${PROJECT_SOURCE_DIR}/Source)</code>后面使用SRC目录下的文件的时候，需要加<code>/</code></li>
-<li>程序里有多个main程序，需要仅保留一个。后面考虑可以添加多个执行文件</li>
-<li>有些文件取决于特定变量<code>GMSECFLAG</code>的值，因此需要根据<code>GMSECFLAG</code>的值去除一些不编译的文件；其他的还有GUIFLAG、</li>
-</ol>
-<h1 id="vs2019">vs2019下远程编译<a class="headerlink" href="#vs2019" title="Permanent link">&para;</a></h1>
-<p>操作步骤见[[2-vs2019的远程linux下cmake开发]]</p>
-                
-              
-              
-                
-
-
-              
-            </article>
-          </div>
-        </div>
-        
-      </main>
-      
-        
-<footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; mdeng li
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
-      
-    </div>
-  </div>
-</footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
-    
-    
-      <script src="../../assets/javascripts/bundle.7353b375.min.js"></script>
-      
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-      
-    
-  </body>
-</html>
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/0-INBOX/42%E7%9A%84makefile%E5%AD%A6%E4%B9%A0/ rel=canonical><link rel=icon href=../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>42的makefile学习及cmake改写 - Mdeng Li's Blog</title><link rel=stylesheet href=../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#42makefilecmake class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 42的makefile学习及cmake改写 </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=42makefilecmake>42的makefile学习及cmake改写<a class=headerlink href=#42makefilecmake title="Permanent link">&para;</a></h1> <h1 id=makefile-cmake>makefile #cmake<a class=headerlink href=#makefile-cmake title="Permanent link">&para;</a></h1> <h2 id=flags>*FLAGS<a class=headerlink href=#flags title="Permanent link">&para;</a></h2> <h3 id=cflags>CFLAGS<a class=headerlink href=#cflags title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=nv>CFLAGS</span> <span class=o>=</span> -Wall -Wshadow -Wno-deprecated -g <span class=k>$(</span>ANSIFLAGS<span class=k>)</span> <span class=k>$(</span>GLINC<span class=k>)</span> <span class=k>$(</span>CINC<span class=k>)</span> -I <span class=k>$(</span>INC<span class=k>)</span> -I <span class=k>$(</span>KITINC<span class=k>)</span> -I <span class=k>$(</span>KITSRC<span class=k>)</span> <span class=k>$(</span>GMSECINC<span class=k>)</span> -O0 <span class=k>$(</span>ARCHFLAG<span class=k>)</span> <span class=k>$(</span>GUIFLAG<span class=k>)</span> <span class=k>$(</span>SHADERFLAG<span class=k>)</span> <span class=k>$(</span>CFDFLAG<span class=k>)</span> <span class=k>$(</span>FFTBFLAG<span class=k>)</span> <span class=k>$(</span>GSFCFLAG<span class=k>)</span> <span class=k>$(</span>GMSECFLAG<span class=k>)</span> <span class=k>$(</span>STANDALONEFLAG<span class=k>)</span> <span class=k>$(</span>NOS3FSWFLAG<span class=k>)</span> <span class=k>$(</span>GLFWFLAG<span class=k>)</span>
+</code></pre></div> <p>其中：</p> <ul> <li>ANSIFLAGS有两种情况：</li> </ul> <div class=highlight><pre><span></span><code><span class=err>*</span><span class=c>#ANSIFLAGS = -Wstrict-prototypes -pedantic -ansi -Werror*</span>
+
+<span class=nv>ANSIFLAGS</span> <span class=o>=</span>
+</code></pre></div> <ul> <li></li> <li> <p><code>CINC =</code></p> </li> <li> <p><code>INC = $(PROJDIR)Include/</code></p> </li> <li> <p><code>KITINC = $(KITDIR)Include/</code>其中：<code>KITDIR = $(PROJDIR)Kit/</code></p> </li> <li> <p><code>KITSRC = $(KITDIR)Source/</code></p> </li> <li> <p>GMSECINC的值取决于GMSECFLAG，如果GMSECFLAG为空，则GMSECINC也为空。如果<code>*GMSECFLAG = -D _ENABLE_GMSEC_*</code>，则<code>GMSECINC = -I $(GMSECDIR)include/</code></p> </li> <li> <p>如果GUIFLAG为空，这时候不需要显示界面，则：</p> </li> </ul> <div class=highlight><pre><span></span><code><span class=nv>GUIOBJ</span> <span class=o>=</span>
+<span class=nv>GLINC</span> <span class=o>=</span>
+<span class=nv>LIBS</span> <span class=o>=</span> -ldl -lm
+<span class=nv>LFLAGS</span> <span class=o>=</span>
+<span class=nv>ARCHFLAG</span> <span class=o>=</span>
+</code></pre></div> <p>否则：</p> <div class=highlight><pre><span></span><code><span class=nv>GUIOBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>42GlutGui.o <span class=k>$(</span>OBJ<span class=k>)</span>glkit.o
+<span class=c>#GLINC = -I /usr/include/</span>
+<span class=nv>GLINC</span> <span class=o>=</span> -I <span class=k>$(</span>KITDIR<span class=k>)</span>/include/GL/
+<span class=nv>LIBS</span> <span class=o>=</span> -lglut -lGLU -lGL -ldl -lm
+<span class=nv>LFLAGS</span> <span class=o>=</span> -L <span class=k>$(</span>KITDIR<span class=k>)</span>/GL/lib/
+<span class=nv>ARCHFLAG</span> <span class=o>=</span>
+</code></pre></div> <ul> <li><code>SHADERFLAG = -D _USE_SHADERS_</code> 因此gcc在CFLAGS调用的时候为<code>gcc -D _USE_SHADERS_</code></li> </ul> <p>含义就是gcc定义了宏<code>_USE_SHADERS_</code>，该宏的默认值为1. see[[gcc学习#gcc -D选项]] 。推断程序里用到了<code>_USE_SHADERS_</code>这个宏</p> <ul> <li> <p><code>makefile CFDFLAG = #CFDFLAG = -D _ENABLE_CFD_SLOSH_</code></p> </li> <li> <p><code>makefile FFTBFLAG = #FFTBFLAG = -D _ENABLE_FFTB_CODE_</code></p> </li> <li> <p>```makefile <em>#GSFCFLAG =</em></p> </li> </ul> <p>GSFCFLAG = -D <em>USE_GSFC_WATERMARK</em> ```</p> <ul> <li> <p><code>makefile GMSECFLAG =</code></p> </li> <li> <p>```makefile STANDALONEFLAG =</p> </li> </ul> <p><em>#STANDALONEFLAG = -D <em>AC_STANDALONE</em></em> ```</p> <ul> <li> <p><code>makefile NOS3FSWFLAG = #NOS3FSWFLAG = -D _ENABLE_NOS3_FSW_</code></p> </li> <li> <p><code>makefile #GLFWFLAG = GLFWFLAG = -D _USE_GLFW_</code></p> </li> </ul> <h3 id=lflags>LFLAGS<a class=headerlink href=#lflags title="Permanent link">&para;</a></h3> <p>取决于GUIFLAG，如果<code>GUIFLAG = -D _USE_GUI</code>_, 则<code>LFLAGS = -L $(KITDIR)/GL/lib/</code></p> <p>否则为空。</p> <h2 id=42>生成42可执行文件<a class=headerlink href=#42 title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nf>42 </span><span class=o>:</span> <span class=k>$(</span><span class=nv>42OBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>GUIOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>SIMIPCOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>FFTBOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>SLOSHOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>KITOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>ACOBJ</span><span class=k>)</span> <span class=k>$(</span><span class=nv>GMSECOBJ</span><span class=k>)</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>LFLAGS<span class=k>)</span> <span class=k>$(</span>GMSECBIN<span class=k>)</span> -o <span class=k>$(</span>EXENAME<span class=k>)</span> <span class=k>$(</span>42OBJ<span class=k>)</span> <span class=k>$(</span>GUIOBJ<span class=k>)</span> <span class=k>$(</span>FFTBOBJ<span class=k>)</span> <span class=k>$(</span>SLOSHOBJ<span class=k>)</span> <span class=k>$(</span>KITOBJ<span class=k>)</span> <span class=k>$(</span>ACOBJ<span class=k>)</span> <span class=k>$(</span>GMSECOBJ<span class=k>)</span> <span class=k>$(</span>SIMIPCOBJ<span class=k>)</span> <span class=k>$(</span>LIBS<span class=k>)</span> <span class=k>$(</span>GMSECLIB<span class=k>)</span>
+</code></pre></div> <ul> <li> <p>42OBJ变量由一系列.o文件组成，见下文</p> </li> <li> <p>GUIOBJ取决于GUIFLAG, 没有界面则为空</p> </li> <li> <p>SIMIPCOBJ取决于GMSECFLAG，如果为空的话，则：</p> </li> </ul> <div class=highlight><pre><span></span><code><span class=nv>SIMIPCOBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>SimWriteToFile.o <span class=k>$(</span>OBJ<span class=k>)</span>SimWriteToSocket.o <span class=se>\</span>
+      <span class=k>$(</span>OBJ<span class=k>)</span>SimReadFromFile.o <span class=k>$(</span>OBJ<span class=k>)</span>SimReadFromSocket.o
+</code></pre></div> <p>由4个.o文件组成</p> <ul> <li> <p>FFTBOBJ取决于FFTBFLAG，后者为空的话，则前者也为空。默认为空。暂时不管</p> </li> <li> <p>SLOSHOBJ取决于CFDFLAG，默认为空</p> </li> <li> <p>KITOBJ</p> </li> </ul> <div class=highlight><pre><span></span><code><span class=nv>KITOBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>dcmkit.o <span class=k>$(</span>OBJ<span class=k>)</span>envkit.o <span class=k>$(</span>OBJ<span class=k>)</span>fswkit.o <span class=k>$(</span>OBJ<span class=k>)</span>geomkit.o <span class=se>\</span>
+<span class=k>$(</span>OBJ<span class=k>)</span>iokit.o <span class=k>$(</span>OBJ<span class=k>)</span>mathkit.o <span class=k>$(</span>OBJ<span class=k>)</span>nrlmsise00kit.o <span class=k>$(</span>OBJ<span class=k>)</span>msis86kit.o <span class=se>\</span>
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>orbkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>radbeltkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>sigkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>sphkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>timekit.o</span>
+</code></pre></div> <ul> <li> <p>ACOBJ取决于STANDALONEFLAG，STANDALONEFLAG为空的话（默认），则<code>ACOBJ = $(OBJ)AcApp.o</code>，否则ACOBJ为空。</p> </li> <li> <p>GMSECOBJ取决于GMSECFLAG，默认为空</p> </li> <li> <p>GMSECBIN取决于GMSECFLAG，默认为空</p> </li> <li> <p><code>EXENAME = 42</code></p> </li> <li> <p>GMSECLIB取决于GMSECFLAG，默认为空</p> </li> </ul> <h2 id=42obj>42OBJ<a class=headerlink href=#42obj title="Permanent link">&para;</a></h2> <h3 id=42obj_1>42OBJ变量的组成<a class=headerlink href=#42obj_1 title="Permanent link">&para;</a></h3> <p>42OBJ由如下.o文件组成：</p> <p>​ 42OBJ --组成&rarr; 42main.o ​ 42OBJ --组成&rarr; 42exec.o ​ 42OBJ --组成&rarr; 42actuators.o ​ 42OBJ --组成&rarr; 42cmd.o ​ 42OBJ --组成&rarr; 42dynamics.o ​ 42OBJ --组成&rarr; 42environs.o ​ 42OBJ --组成&rarr; 42ephem.o ​ 42OBJ --组成&rarr; 42fsw.o ​ 42OBJ --组成&rarr; 42init.o ​ 42OBJ --组成&rarr; 42ipc.o ​ 42OBJ --组成&rarr; 42perturb.o ​ 42OBJ --组成&rarr; 42report.o ​ 42OBJ --组成&rarr; 42sensors.o ​ 42OBJ --组成&rarr; 42nos3.o</p> <div class=highlight><pre><span></span><code><span class=nv>42OBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>42main.o <span class=k>$(</span>OBJ<span class=k>)</span>42exec.o <span class=k>$(</span>OBJ<span class=k>)</span>42actuators.o <span class=k>$(</span>OBJ<span class=k>)</span>42cmd.o <span class=se>\</span>
+
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42dynamics.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42environs.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42ephem.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42fsw.o</span> <span class=err>\</span>
+
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42init.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42ipc.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42perturb.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42report.o</span> <span class=err>\</span>
+
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42sensors.o</span> <span class=err>\</span>
+
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>42nos3.o</span>  
+</code></pre></div> <h3 id=42objch>42OBJ所依赖的c和h文件<a class=headerlink href=#42objch title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=nf>$(OBJ)42main.o          </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>main</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42main.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42main.o
+
+<span class=nf>$(OBJ)42exec.o          </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>exec</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42exec.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42exec.o
+
+<span class=nf>$(OBJ)42actuators.o </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>actuators</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>Ac</span>.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42actuators.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42actuators.o
+
+<span class=nf>$(OBJ)42cmd.o </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>cmd</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>Ac</span>.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42cmd.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42cmd.o
+
+<span class=nf>$(OBJ)42dynamics.o     </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>dynamics</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42dynamics.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42dynamics.o
+
+<span class=nf>$(OBJ)42environs.o  </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>environs</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42environs.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42environs.o
+
+<span class=nf>$(OBJ)42ephem.o     </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>ephem</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42ephem.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42ephem.o
+
+<span class=nf>$(OBJ)42fsw.o       </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>fsw</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>Ac</span>.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42fsw.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42fsw.o
+
+<span class=nf>$(OBJ)42glfwgui.o   </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>glfwgui</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42<span class=n>glfwgui</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42glfwgui.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42glfwgui.o
+
+<span class=nf>$(OBJ)42GlutGui.o        </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>GlutGui</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42<span class=n>GlutGui</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42GlutGui.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42GlutGui.o
+
+<span class=nf>$(OBJ)42init.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>init</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42init.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42init.o
+
+<span class=nf>$(OBJ)42ipc.o       </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>ipc</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42ipc.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42ipc.o
+
+<span class=nf>$(OBJ)42perturb.o   </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>perturb</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42perturb.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42perturb.o
+
+<span class=nf>$(OBJ)42report.o    </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>report</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42report.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42report.o
+
+<span class=nf>$(OBJ)42sensors.o   </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>sensors</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>Ac</span>.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42sensors.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42sensors.o
+
+<span class=nf>$(OBJ)42nos3.o         </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span>42<span class=n>nos</span>3.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>42nos3.c -o <span class=k>$(</span>OBJ<span class=k>)</span>42nos3.o
+</code></pre></div> <ul> <li><code>CC = gcc</code></li> <li><code>$(CFLAGS)</code>里给出了include目录和一些宏定义</li> </ul> <p>关系图</p> <div class=highlight><pre><span></span><code><span class=n>graph</span> <span class=n>LR</span>
+    <span class=n>subgraph</span> <span class=mi>1</span>
+    <span class=mi>42</span><span class=n>main</span><span class=p>.</span><span class=n>c</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>main</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>end</span>
+    <span class=n>subgraph</span> <span class=mi>2</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>exec</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>exec</span><span class=p>.</span><span class=n>c</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>exec</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>end</span>
+    <span class=n>subgraph</span> <span class=mi>3</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>actuators</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>Ac</span><span class=p>.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>actuators</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>AcTypes</span><span class=p>.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>actuators</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>actuators</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>actuators</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>end</span>
+    <span class=n>subgraph</span> <span class=mi>3</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>cmd</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>Ac</span><span class=p>.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>cmd</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>AcTypes</span><span class=p>.</span><span class=n>h</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>cmd</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>cmd</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>cmd</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>end</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>dynamics</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mi>42</span><span class=n>environs</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span><span class=mi>42</span><span class=n>ephem</span><span class=p>.</span><span class=n>o</span> 
+    <span class=mf>42.</span><span class=n>h</span> <span class=o>--&gt;</span><span class=mi>42</span><span class=n>init</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>ipc</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>perturb</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>report</span><span class=p>.</span><span class=n>o</span>
+    <span class=mf>42.</span><span class=n>h</span><span class=o>--&gt;</span><span class=mi>42</span><span class=n>sensors</span><span class=p>.</span><span class=n>o</span>
+
+    <span class=n>Ac</span><span class=p>.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mf>42f</span><span class=n>sw</span><span class=p>.</span><span class=n>o</span>
+    <span class=n>Ac</span><span class=p>.</span><span class=n>h</span><span class=o>--&gt;</span><span class=mi>42</span><span class=n>sensors</span><span class=p>.</span><span class=n>o</span>
+
+    <span class=n>AcTypes</span><span class=p>.</span><span class=n>h</span> <span class=o>--&gt;</span> <span class=mf>42f</span><span class=n>sw</span><span class=p>.</span><span class=n>o</span> 
+    <span class=n>AcTypes</span><span class=p>.</span><span class=n>h</span><span class=o>--&gt;</span><span class=mi>42</span><span class=n>sensors</span><span class=p>.</span><span class=n>o</span> 
+    <span class=mi>42</span><span class=n>dynamics</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>dynamics</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>environs</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>environs</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>ephem</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>ephem</span><span class=p>.</span><span class=n>o</span> 
+    <span class=mf>42f</span><span class=n>sw</span><span class=p>.</span><span class=n>c</span>  <span class=o>--&gt;</span>  <span class=mf>42f</span><span class=n>sw</span><span class=p>.</span><span class=n>o</span> 
+    <span class=mi>42</span><span class=n>init</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>init</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>ipc</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>ipc</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>perturb</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>perturb</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>report</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>report</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>sensors</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>sensors</span><span class=p>.</span><span class=n>o</span>
+    <span class=mi>42</span><span class=n>nos3</span><span class=p>.</span><span class=n>c</span><span class=o>--&gt;</span> <span class=mi>42</span><span class=n>nos3</span><span class=p>.</span><span class=n>o</span>
+</code></pre></div> <h2 id=simo>Sim***.o文件<a class=headerlink href=#simo title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nf>$(OBJ)SimWriteToFile.o  </span><span class=o>:</span> <span class=k>$(</span><span class=nv>IPCSRC</span><span class=k>)</span><span class=n>SimWriteToFile</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>IPCSRC<span class=k>)</span>SimWriteToFile.c -o <span class=k>$(</span>OBJ<span class=k>)</span>SimWriteToFile.o
+<span class=nf>$(OBJ)SimWriteToSocket.o  </span><span class=o>:</span> <span class=k>$(</span><span class=nv>IPCSRC</span><span class=k>)</span><span class=n>SimWriteToSocket</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>IPCSRC<span class=k>)</span>SimWriteToSocket.c -o <span class=k>$(</span>OBJ<span class=k>)</span>SimWriteToSocket.o
+<span class=nf>$(OBJ)SimReadFromFile.o  </span><span class=o>:</span> <span class=k>$(</span><span class=nv>IPCSRC</span><span class=k>)</span><span class=n>SimReadFromFile</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>IPCSRC<span class=k>)</span>SimReadFromFile.c -o <span class=k>$(</span>OBJ<span class=k>)</span>SimReadFromFile.o
+<span class=nf>$(OBJ)SimReadFromSocket.o  </span><span class=o>:</span> <span class=k>$(</span><span class=nv>IPCSRC</span><span class=k>)</span><span class=n>SimReadFromSocket</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span>42.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>IPCSRC<span class=k>)</span>SimReadFromSocket.c -o <span class=k>$(</span>OBJ<span class=k>)</span>SimReadFromSocket.o
+</code></pre></div> <h2 id=kitobj>KITOBJ<a class=headerlink href=#kitobj title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nv>KITOBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>dcmkit.o <span class=k>$(</span>OBJ<span class=k>)</span>envkit.o <span class=k>$(</span>OBJ<span class=k>)</span>fswkit.o <span class=k>$(</span>OBJ<span class=k>)</span>geomkit.o <span class=se>\</span>
+<span class=k>$(</span>OBJ<span class=k>)</span>iokit.o <span class=k>$(</span>OBJ<span class=k>)</span>mathkit.o <span class=k>$(</span>OBJ<span class=k>)</span>nrlmsise00kit.o <span class=k>$(</span>OBJ<span class=k>)</span>msis86kit.o <span class=se>\</span>
+<span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>orbkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>radbeltkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>sigkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>sphkit.o</span> <span class=k>$(</span><span class=nv>OBJ</span><span class=k>)</span><span class=err>timekit.o</span>
+
+<span class=nf>$(OBJ)dcmkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>dcmkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>dcmkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>dcmkit.o
+
+<span class=nf>$(OBJ)envkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>envkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>envkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>envkit.o
+
+<span class=nf>$(OBJ)fswkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>fswkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>fswkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>fswkit.o
+
+<span class=nf>$(OBJ)glkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>glkit</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>KITINC</span><span class=k>)</span><span class=n>glkit</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>glkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>glkit.o
+
+<span class=nf>$(OBJ)geomkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>geomkit</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>KITINC</span><span class=k>)</span><span class=n>geomkit</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>geomkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>geomkit.o
+
+<span class=nf>$(OBJ)gmseckit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>gmseckit</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>KITINC</span><span class=k>)</span><span class=n>gmseckit</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>gmseckit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>gmseckit.o
+
+<span class=nf>$(OBJ)iokit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>iokit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>iokit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>iokit.o
+
+<span class=nf>$(OBJ)mathkit.o     </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>mathkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>mathkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>mathkit.o
+
+<span class=nf>$(OBJ)nrlmsise00kit.o   </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>nrlmsise</span>00<span class=n>kit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>nrlmsise00kit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>nrlmsise00kit.o
+
+<span class=nf>$(OBJ)msis86kit.o   </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>msis</span>86<span class=n>kit</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>KITINC</span><span class=k>)</span><span class=n>msis</span>86<span class=n>kit</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>msis86kit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>msis86kit.o
+
+<span class=nf>$(OBJ)orbkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>orbkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>orbkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>orbkit.o
+
+<span class=nf>$(OBJ)radbeltkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>radbeltkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>radbeltkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>radbeltkit.o
+
+<span class=nf>$(OBJ)sigkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>sigkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>sigkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>sigkit.o
+
+<span class=nf>$(OBJ)sphkit.o      </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>sphkit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>sphkit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>sphkit.o
+
+<span class=nf>$(OBJ)timekit.o     </span><span class=o>:</span> <span class=k>$(</span><span class=nv>KITSRC</span><span class=k>)</span><span class=n>timekit</span>.<span class=n>c</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>KITSRC<span class=k>)</span>timekit.c -o <span class=k>$(</span>OBJ<span class=k>)</span>timekit.o
+</code></pre></div> <h2 id=acobj>ACOBJ<a class=headerlink href=#acobj title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nf>$(OBJ)AcApp.o          </span><span class=o>:</span> <span class=k>$(</span><span class=nv>SRC</span><span class=k>)</span><span class=n>AcApp</span>.<span class=n>c</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>Ac</span>.<span class=n>h</span> <span class=k>$(</span><span class=nv>INC</span><span class=k>)</span><span class=n>AcTypes</span>.<span class=n>h</span>
+    <span class=k>$(</span>CC<span class=k>)</span> <span class=k>$(</span>CFLAGS<span class=k>)</span> -c <span class=k>$(</span>SRC<span class=k>)</span>AcApp.c -o <span class=k>$(</span>OBJ<span class=k>)</span>AcApp.o
+</code></pre></div> <h2 id=libs>LIBS<a class=headerlink href=#libs title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=cp>ifneq ($(strip $(GUIFLAG)),)</span>
+      <span class=nv>GUIOBJ</span> <span class=o>=</span> <span class=k>$(</span>OBJ<span class=k>)</span>42GlutGui.o <span class=k>$(</span>OBJ<span class=k>)</span>glkit.o
+<span class=c>      #GLINC = -I /usr/include/</span>
+      <span class=nv>GLINC</span> <span class=o>=</span> -I <span class=k>$(</span>KITDIR<span class=k>)</span>/include/GL/
+      <span class=nv>LIBS</span> <span class=o>=</span> -lglut -lGLU -lGL -ldl -lm
+      <span class=nv>LFLAGS</span> <span class=o>=</span> -L <span class=k>$(</span>KITDIR<span class=k>)</span>/GL/lib/
+      <span class=nv>ARCHFLAG</span> <span class=o>=</span>
+<span class=cp>   else</span>
+      <span class=nv>GUIOBJ</span> <span class=o>=</span>
+      <span class=nv>GLINC</span> <span class=o>=</span>
+      <span class=nv>LIBS</span> <span class=o>=</span> -ldl -lm
+      <span class=nv>LFLAGS</span> <span class=o>=</span>
+      <span class=nv>ARCHFLAG</span> <span class=o>=</span>
+<span class=cp>   endif</span>
+<span class=cp>   ifneq ($(strip $(NOS3FSWFLAG)),)</span>
+      <span class=nv>LIBS</span> <span class=o>+=</span> -lpthread
+<span class=cp>   endif</span>
+</code></pre></div> <h1 id=cmakeliststxt>CMAKELists.txt改写<a class=headerlink href=#cmakeliststxt title="Permanent link">&para;</a></h1> <h2 id=_1>源代码<a class=headerlink href=#_1 title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nb>cmake_minimum_required</span><span class=p>(</span><span class=s>VERSION</span> <span class=s>3.5.1</span><span class=p>)</span>
+<span class=nb>project</span><span class=p>(</span><span class=s>42maniexe</span><span class=p>)</span>
+<span class=nb>SET</span><span class=p>(</span><span class=s>CMAKE_BUILD_TYPE</span> <span class=s2>&quot;Debug&quot;</span><span class=p>)</span>
+<span class=nb>SET</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_DEBUG</span> <span class=s2>&quot;$ENV{CXXFLAGS} -O0 -Wall -g2 -ggdb&quot;</span><span class=p>)</span>
+<span class=c># SET(CMAKE_CXX_FLAGS_DEBUG &quot;$ENV{CXXFLAGS} -Wall   -ggdb3 -O0   -gcodeview -std=c99&quot;)</span>
+<span class=nb>SET</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_RELEASE</span> <span class=s2>&quot;$ENV{CXXFLAGS} -O3 -Wall&quot;</span><span class=p>)</span>
+
+<span class=c># include_directories(&quot;/usr/include/eigen3&quot;)</span>
+
+<span class=c># 添加Pangolin依赖</span>
+<span class=c># find_package(Pangolin REQUIRED)</span>
+<span class=c># include_directories( ${Pangolin_INCLUDE_DIRS} )</span>
+
+<span class=c># Basic directories</span>
+<span class=c># HOMEDIR = ./</span>
+<span class=c># PROJDIR = ./</span>
+<span class=c># KITDIR = $(PROJDIR)Kit/</span>
+<span class=c># OBJ = $(PROJDIR)Object/</span>
+<span class=c># INC = $(PROJDIR)Include/</span>
+<span class=c># SRC = $(PROJDIR)Source/</span>
+<span class=c># KITINC = $(KITDIR)Include/</span>
+<span class=c># KITSRC = $(KITDIR)Source/</span>
+<span class=c># INOUT = $(PROJDIR)InOut/</span>
+<span class=c># GSFCSRC = $(PROJDIR)/GSFC/Source/</span>
+<span class=c># IPCSRC = $(SRC)IPC/</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>GMSECFLAG</span> <span class=s>NULL</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>GUIFLAG</span> <span class=s>NULL</span><span class=p>)</span>
+<span class=c># message(${GMSECFLAG})</span>
+
+
+
+
+<span class=nb>set</span><span class=p>(</span><span class=s>KITDIR</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Kit</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>OBJ</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Object</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>INC</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Include</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>SRC</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Source</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>KITINC</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Kit/Include</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>KITSRC</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/Kit/Source</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>INOUT</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/InOut</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>GSFCSRC</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=s>/GSFC/Source</span><span class=p>)</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>IPCSRC</span> <span class=o>${</span><span class=nv>SRC</span><span class=o>}</span><span class=s>/IPC</span><span class=p>)</span>
+
+
+<span class=nb>include_directories</span><span class=p>(</span> <span class=o>${</span><span class=nv>INC</span><span class=o>}</span> <span class=p>)</span>
+<span class=nb>include_directories</span><span class=p>(</span> <span class=s2>&quot;${KITINC}/&quot;</span> <span class=p>)</span>
+<span class=nb>include_directories</span><span class=p>(</span> <span class=o>${</span><span class=nv>KITSRC</span><span class=o>}</span> <span class=p>)</span>
+<span class=nb>message</span><span class=p>(</span><span class=s2>&quot;KITINC=${KITINC}&quot;</span><span class=p>)</span>
+
+<span class=nb>add_definitions</span><span class=p>(</span><span class=s>-D_USE_SHADERS_</span> <span class=s>-D_USE_GSFC_WATERMARK_</span> <span class=s>-D_USE_GLFW_</span><span class=p>)</span>
+
+<span class=c>## 添加源文件</span>
+<span class=nb>file</span><span class=p>(</span><span class=s>GLOB</span> <span class=s>SOURCES42</span> <span class=s2>&quot;${SRC}/*.c&quot;</span> 
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/*.c&quot;</span> 
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Kit/Source/*.c&quot;</span>
+    <span class=p>)</span><span class=c>#     &quot;${PROJECT_SOURCE_DIR}/World/Downing Models/*.cpp&quot;</span>
+<span class=nb>message</span><span class=p>(</span><span class=s2>&quot;SOURCES42=${SOURCES42}&quot;</span><span class=p>)</span>
+<span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>SOURCES42</span> 
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/AppReadFromCmd.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimReadFromCmd.c&quot;</span>
+    <span class=s2>&quot;${KITSRC}/texkit.c&quot;</span>
+    <span class=s2>&quot;${KITSRC}/msis86kit.c&quot;</span>
+    <span class=p>)</span> <span class=c>#忽略掉的文件</span>
+
+<span class=c>## 避免出现多个main函数的情况，因此需要手动去除这些文件</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>MULTIPLEMAIN</span> <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Development/HeapSort.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Development/SelectMedian.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Development/ServerClient/FifoServer.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Utilities/AddAlphaToPpm.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Utilities/BuildStarCat.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Utilities/PpmToGlyph.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Utilities/Tle2Kep.c&quot;</span>
+    <span class=p>)</span>
+<span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>SOURCES42</span> <span class=o>${</span><span class=nv>MULTIPLEMAIN</span><span class=o>}</span><span class=p>)</span> <span class=c>#忽略掉的文件 42main不用这些文件，否则会出现同个函数有重复定义的情况</span>
+
+
+
+<span class=c># 忽略掉ACIPCOBJ </span>
+<span class=nb>if</span><span class=p>(</span><span class=o>${</span><span class=nv>GMSECFLAG</span><span class=o>}</span> <span class=s>STREQUAL</span> <span class=s2>&quot;NULL&quot;</span><span class=p>)</span><span class=c># GMSECFLAG为空</span>
+    <span class=nb>set</span><span class=p>(</span><span class=s>ACIPCOBJ</span> <span class=s2>&quot;${IPCSRC}/AppReadFromFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppWriteToSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppReadFromSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppWriteToFile.c&quot;</span>
+<span class=p>)</span>
+<span class=nb>else</span><span class=p>()</span>
+<span class=nb>set</span><span class=p>(</span><span class=s>ACIPCOBJ</span> <span class=s2>&quot;${IPCSRC}/AppReadFromFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppWriteToGmsec.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppReadFromGmsec.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppWriteToSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppReadFromSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/AppWriteToFile.c&quot;</span>
+<span class=p>)</span>
+<span class=nb>endif</span><span class=p>()</span>
+<span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>SOURCES42</span> <span class=o>${</span><span class=nv>ACIPCOBJ</span><span class=o>}</span><span class=p>)</span> 
+
+<span class=nb>if</span><span class=p>(</span><span class=o>${</span><span class=nv>GMSECFLAG</span><span class=o>}</span> <span class=s>STREQUAL</span> <span class=s2>&quot;NULL&quot;</span><span class=p>)</span><span class=c># GMSECFLAG为空</span>
+    <span class=nb>set</span><span class=p>(</span><span class=s>SIMIPCOBJ</span> <span class=s2>&quot;${IPCSRC}/SimWriteToFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimWriteToSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimReadFromFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimReadFromSocket.c&quot;</span>
+    <span class=p>)</span>
+ <span class=nb>else</span><span class=p>()</span>
+    <span class=nb>set</span><span class=p>(</span><span class=s>SIMIPCOBJ</span> <span class=s2>&quot;${IPCSRC}/SimWriteToFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimWriteToGmsec.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimWriteToSocket.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimReadFromFile.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimReadFromGmsec.c&quot;</span>
+    <span class=s2>&quot;${IPCSRC}/SimReadFromSocket.c&quot;</span>
+    <span class=p>)</span>
+<span class=nb>endif</span><span class=p>()</span> <span class=c># list(REMOVE_ITEM SOURCES42 ${SIMIPCOBJ}) #忽略掉的文件 42main不用这些文件，否则会出现同个函数有重复定义的情况 AcApp需要忽略的</span>
+
+
+<span class=c># 如果GUIFLAG为空，则忽略掉一些源文件</span>
+<span class=nb>if</span><span class=p>(</span><span class=o>${</span><span class=nv>GUIFLAG</span><span class=o>}</span> <span class=s>STREQUAL</span> <span class=s2>&quot;NULL&quot;</span><span class=p>)</span><span class=c># GMSECFLAG为空</span>
+    <span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>SOURCES42</span> <span class=s2>&quot;${KITSRC}/glkit.c&quot;</span> 
+    <span class=s2>&quot;${SRC}/42GlutGui.c&quot;</span>
+    <span class=s2>&quot;${SRC}/42glfwgui.c&quot;</span>
+    <span class=p>)</span> <span class=c>#忽略掉的文件 42main不用这些文件，否则会</span>
+<span class=nb>else</span><span class=p>()</span>
+<span class=nb>endif</span><span class=p>()</span>
+
+<span class=nb>if</span><span class=p>(</span><span class=o>${</span><span class=nv>GMSECFLAG</span><span class=o>}</span> <span class=s>STREQUAL</span> <span class=s2>&quot;NULL&quot;</span><span class=p>)</span><span class=c># GMSECFLAG为空</span>
+    <span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>SOURCES42</span> 
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimReadFromGmsec.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimWriteToGmsec.c&quot;</span>
+    <span class=s2>&quot;${PROJECT_SOURCE_DIR}/Source/IPC/SimWriteToGmsec.c&quot;</span>
+    <span class=s2>&quot;${KITSRC}/gmseckit.c&quot;</span>
+    <span class=p>)</span> <span class=c>#忽略掉的文件</span>
+    <span class=nb>message</span><span class=p>(</span><span class=s2>&quot;GMSECFLAG=${GMSECFLAG}&quot;</span><span class=p>)</span>
+<span class=nb>else</span><span class=p>()</span>              <span class=c># GMSECFLAG不为空， search ifneq ($(strip $(GMSECFLAG)),) in makefile</span>
+<span class=nb>endif</span><span class=p>()</span>   
+<span class=c># Create a sources variable with a link to all cpp files to compile</span>
+<span class=c># set(SOURCES42</span>
+<span class=c>#    &quot;${PROJECT_SOURCE_DIR}/Source/42init.c&quot;</span>
+<span class=c>#    ${PROJECT_SOURCE_DIR}/Source/IPC/*.c</span>
+<span class=c>#    ${PROJECT_SOURCE_DIR}/Kit/Source/*.c</span>
+<span class=c>#)</span>
+
+<span class=nb>SET</span><span class=p>(</span><span class=s>EXECUTABLE_OUTPUT_PATH</span> <span class=o>${</span><span class=nv>PROJECT_SOURCE_DIR</span><span class=o>}</span><span class=p>)</span> 
+<span class=c># LINK_LIBRARIES(-lpthread -lm -ldl)</span>
+
+<span class=c>#add_library(rtklib SHARED  ${SOURCES42})</span>
+<span class=nb>add_executable</span><span class=p>(</span><span class=s>42mainexe</span>  <span class=o>${</span><span class=nv>SOURCES42</span><span class=o>}</span><span class=p>)</span>
+<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>42mainexe</span> <span class=s>-lpthread</span> <span class=s>-lm</span> <span class=s>-ldl</span><span class=p>)</span>
+
+
+<span class=c>#add_executable( visualizeGeometry plotTrajectory.cpp)</span>
+<span class=c>#target_link_libraries( visualizeGeometry ${Pangolin_LIBRARIES} ) </span>
+
+
+
+<span class=c># 待确认</span>
+<span class=c># LFLAGS = -L $(KITDIR)/GL/lib/</span>
+</code></pre></div> <h2 id=_2>主要思路和步骤<a class=headerlink href=#_2 title="Permanent link">&para;</a></h2> <table> <thead> <tr> <th></th> <th>makefile</th> <th>cmakeLists</th> </tr> </thead> <tbody> <tr> <td>设置变量</td> <td>KITDIR = $(PROJDIR)Kit/</td> <td>set(KITDIR ${PROJECT_SOURCE_DIR}/Kit)</td> </tr> <tr> <td>设置包含路径</td> <td>先将-I $(INC)赋值给CFLAGS；然后在生成.o文件的时候调用CFLAGS</td> <td>include_directories( ${INC} )</td> </tr> <tr> <td>添加宏定义</td> <td><code>SHADERFLAG = -D_USE_SHADERS_</code>然后gcc ${SHADERFLAG}的时候相当于 gcc编译的时候定义了宏_USE_SHADERS_<code>(格式gcc D宏名) | add_definitions(-D_USE_SHADERS_ )这里</code><em>USE_SHADERS</em>`为宏</td> <td></td> </tr> <tr> <td>添加库</td> <td><code>LIBS = -ldl -lm</code>,然后gcc的时候调用这些库</td> <td>target_link_libraries(42mainexe -lm -ldl)</td> </tr> <tr> <td>添加源文件</td> <td></td> <td>file(GLOB SOURCES42 "${SRC}/*.c" ）</td> </tr> <tr> <td>去掉不必要的文件</td> <td></td> <td>list(REMOVE_ITEM SOURCES42 "${PROJECT_SOURCE_DIR}/Source/IPC/AppReadFromCmd.c"）</td> </tr> </tbody> </table> <p>改写的时候几点注意事项：</p> <ol> <li><code>set(SRC ${PROJECT_SOURCE_DIR}/Source)</code>后面使用SRC目录下的文件的时候，需要加<code>/</code></li> <li>程序里有多个main程序，需要仅保留一个。后面考虑可以添加多个执行文件</li> <li>有些文件取决于特定变量<code>GMSECFLAG</code>的值，因此需要根据<code>GMSECFLAG</code>的值去除一些不编译的文件；其他的还有GUIFLAG、</li> </ol> <h1 id=vs2019>vs2019下远程编译<a class=headerlink href=#vs2019 title="Permanent link">&para;</a></h1> <p>操作步骤见[[2-vs2019的远程linux下cmake开发]]</p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>

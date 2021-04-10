@@ -1,892 +1,8 @@
-
-<!doctype html>
-<html lang="zh" class="no-js">
-  <head>
-    
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width,initial-scale=1">
-      
-      
-      
-        <meta name="author" content="Mdeng li">
-      
-      
-        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/c%26c%2B%2B/GCC%20and%20Make/">
-      
-      <link rel="icon" href="../../../../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
-    
-    
-      
-        <title>GCC and Make - Mdeng Li's Blog</title>
-      
-    
-    
-      <link rel="stylesheet" href="../../../../assets/stylesheets/main.9299cb39.min.css">
-      
-        
-        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ef6f36e2.min.css">
-        
-      
-    
-    
-    
-      
-        
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
-        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
-      
-    
-    
-    
-    
-      
-        
-<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
-<script async src="https://www.google-analytics.com/analytics.js"></script>
-      
-    
-    
-  </head>
-  
-  
-    
-    
-    
-    
-    
-    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
-  
-    
-    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
-    
-    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
-    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
-    <label class="md-overlay" for="__drawer"></label>
-    <div data-md-component="skip">
-      
-        
-        <a href="#gcc-and-make" class="md-skip">
-          跳转至
-        </a>
-      
-    </div>
-    <div data-md-component="announce">
-      
-    </div>
-    
-      <header class="md-header" data-md-component="header">
-  <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    <label class="md-header__button md-icon" for="__drawer">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
-    </label>
-    <div class="md-header__title" data-md-component="header-title">
-      <div class="md-header__ellipsis">
-        <div class="md-header__topic">
-          <span class="md-ellipsis">
-            Mdeng Li's Blog
-          </span>
-        </div>
-        <div class="md-header__topic" data-md-component="header-topic">
-          <span class="md-ellipsis">
-            
-              GCC and Make
-            
-          </span>
-        </div>
-      </div>
-    </div>
-    
-    
-    
-      <label class="md-header__button md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-      </label>
-      
-<div class="md-search" data-md-component="search" role="dialog">
-  <label class="md-search__overlay" for="__search"></label>
-  <div class="md-search__inner" role="search">
-    <form class="md-search__form" name="search">
-      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
-      <label class="md-search__icon md-icon" for="__search">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
-      </label>
-      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
-      </button>
-    </form>
-    <div class="md-search__output">
-      <div class="md-search__scrollwrap" data-md-scrollfix>
-        <div class="md-search-result" data-md-component="search-result">
-          <div class="md-search-result__meta">
-            正在初始化搜索引擎
-          </div>
-          <ol class="md-search-result__list"></ol>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-    
-    
-      <div class="md-header__source">
-        
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-      </div>
-    
-  </nav>
-</header>
-    
-    <div class="md-container" data-md-component="container">
-      
-      
-        
-      
-      <main class="md-main" data-md-component="main">
-        <div class="md-main__inner md-grid">
-          
-            
-              
-              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-
-
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
-  <label class="md-nav__title" for="__drawer">
-    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
-      
-  
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
-
-    </a>
-    Mdeng Li's Blog
-  </label>
-  
-    <div class="md-nav__source">
-      
-<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
-  <div class="md-source__icon md-icon">
-    
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
-  </div>
-  <div class="md-source__repository">
-    mkdocs
-  </div>
-</a>
-    </div>
-  
-  <ul class="md-nav__list" data-md-scrollfix>
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/" class="md-nav__link">
-        首页
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
-      
-      <label class="md-nav__link" for="__nav_2">
-        兴趣
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          兴趣
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/getting-started/" class="md-nav__link">
-        Installation
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
-      
-      <label class="md-nav__link" for="__nav_3">
-        工作
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="工作" data-md-level="1">
-        <label class="md-nav__title" for="__nav_3">
-          <span class="md-nav__icon md-icon"></span>
-          工作
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
-        Changing the colors
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
-      
-      <label class="md-nav__link" for="__nav_4">
-        办公
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="办公" data-md-level="1">
-        <label class="md-nav__title" for="__nav_4">
-          <span class="md-nav__icon md-icon"></span>
-          办公
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
-        Abbreviations
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
-        mkdocs
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
-      
-      <label class="md-nav__link" for="__nav_5">
-        Insiders
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
-        <label class="md-nav__title" for="__nav_5">
-          <span class="md-nav__icon md-icon"></span>
-          Insiders
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../../../mkdocs_src/insiders/" class="md-nav__link">
-        Sponsorship
-      </a>
-    </li>
-  
-
-          
-        </ul>
-      </nav>
-    </li>
-  
-
-    
-  </ul>
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-            
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="目录">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      目录
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#compiling-linking-and-building" class="md-nav__link">
-    Compiling, Linking and Building
-  </a>
-  
-    <nav class="md-nav" aria-label="Compiling, Linking and Building">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#1-gcc-gnu-compiler-collection" class="md-nav__link">
-    1.  GCC (GNU Compiler Collection)
-  </a>
-  
-    <nav class="md-nav" aria-label="1.  GCC (GNU Compiler Collection)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#11-a-brief-history-and-introduction-to-gcc" class="md-nav__link">
-    1.1  A Brief History and Introduction to GCC
-  </a>
-  
-    <nav class="md-nav" aria-label="1.1  A Brief History and Introduction to GCC">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#gcc-versions" class="md-nav__link">
-    GCC Versions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#c-standard-support" class="md-nav__link">
-    C++ Standard Support
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#12-installing-gcc-on-unixes" class="md-nav__link">
-    1.2  Installing GCC on Unixes
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#13-installing-gcc-on-mac-os-x" class="md-nav__link">
-    1.3  Installing GCC on Mac OS X
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#14-installing-gcc-on-windows" class="md-nav__link">
-    1.4  Installing GCC on Windows
-  </a>
-  
-    <nav class="md-nav" aria-label="1.4  Installing GCC on Windows">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#various-gccs-under-cygwin" class="md-nav__link">
-    Various GCCs under Cygwin
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mingw-w64-target-3264-bit-native-windows" class="md-nav__link">
-    MinGW-W64 Target 32/64-bit Native Windows
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#other-gccs-in-cygwin" class="md-nav__link">
-    Other GCCs in Cygwin
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#15-post-installation" class="md-nav__link">
-    1.5  Post Installation
-  </a>
-  
-    <nav class="md-nav" aria-label="1.5  Post Installation">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#versions" class="md-nav__link">
-    Versions
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#help" class="md-nav__link">
-    Help
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#man-pages" class="md-nav__link">
-    Man Pages
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#16-getting-started" class="md-nav__link">
-    1.6  Getting Started
-  </a>
-  
-    <nav class="md-nav" aria-label="1.6  Getting Started">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#compilelink-a-simple-c-program-helloc" class="md-nav__link">
-    Compile/Link a Simple C Program - hello.c
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compilelink-a-simple-c-program-hellocpp" class="md-nav__link">
-    Compile/Link a Simple C++ Program - hello.cpp
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#more-gcc-compiler-options" class="md-nav__link">
-    More GCC Compiler Options
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compile-and-link-separately" class="md-nav__link">
-    Compile and Link Separately
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compile-and-link-multiple-source-files" class="md-nav__link">
-    Compile and Link Multiple Source Files
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#compile-into-a-shared-library" class="md-nav__link">
-    Compile into a Shared Library
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#17-gcc-compilation-process" class="md-nav__link">
-    1.7  GCC Compilation Process
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so" class="md-nav__link">
-    1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)
-  </a>
-  
-    <nav class="md-nav" aria-label="1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#static-library-vs-shared-library" class="md-nav__link">
-    Static Library vs. Shared Library
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#searching-for-header-files-and-libraries-i-l-and-l" class="md-nav__link">
-    Searching for Header Files and Libraries (-I, -L and -l)
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#default-include-paths-library-paths-and-libraries" class="md-nav__link">
-    Default Include-paths, Library-paths and Libraries
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#19-gcc-environment-variables" class="md-nav__link">
-    1.9  GCC Environment Variables
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#110-utilities-for-examining-the-compiled-files" class="md-nav__link">
-    1.10  Utilities for Examining the Compiled Files
-  </a>
-  
-    <nav class="md-nav" aria-label="1.10  Utilities for Examining the Compiled Files">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#file-utility-determine-file-type" class="md-nav__link">
-    "file" Utility - Determine File Type
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#nm-utility-list-symbol-table-of-object-files" class="md-nav__link">
-    "nm" Utility - List Symbol Table of Object Files
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#ldd-utility-list-dynamic-link-libraries" class="md-nav__link">
-    "ldd" Utility - List Dynamic-Link Libraries
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#2-gnu-make" class="md-nav__link">
-    2.  GNU Make
-  </a>
-  
-    <nav class="md-nav" aria-label="2.  GNU Make">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#21-makefile" class="md-nav__link">
-    2.1  一个简单的makefile例子
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#22-more-on-makefile" class="md-nav__link">
-    2.2  More on Makefile
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#23-makefile" class="md-nav__link">
-    2.3   Makefile示例
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#24-brief-summary" class="md-nav__link">
-    2.4  Brief Summary
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
-          
-          <div class="md-content" data-md-component="content">
-            <article class="md-content__inner md-typeset">
-              
-                
-                
-                <h1 id="gcc-and-make">GCC and Make<a class="headerlink" href="#gcc-and-make" title="Permanent link">&para;</a></h1>
-<div class="toc">
-<ul>
-<li><a href="#gcc-and-make">GCC and Make</a><ul>
-<li><a href="#compiling-linking-and-building">Compiling, Linking and Building</a><ul>
-<li><a href="#1-gcc-gnu-compiler-collection">1.  GCC (GNU Compiler Collection)</a><ul>
-<li><a href="#11-a-brief-history-and-introduction-to-gcc">1.1  A Brief History and Introduction to GCC</a><ul>
-<li><a href="#gcc-versions">GCC Versions</a></li>
-<li><a href="#c-standard-support">C++ Standard Support</a></li>
-</ul>
-</li>
-<li><a href="#12-installing-gcc-on-unixes">1.2  Installing GCC on Unixes</a></li>
-<li><a href="#13-installing-gcc-on-mac-os-x">1.3  Installing GCC on Mac OS X</a></li>
-<li><a href="#14-installing-gcc-on-windows">1.4  Installing GCC on Windows</a><ul>
-<li><a href="#various-gccs-under-cygwin">Various GCCs under Cygwin</a></li>
-<li><a href="#mingw-w64-target-3264-bit-native-windows">MinGW-W64 Target 32/64-bit Native Windows</a></li>
-<li><a href="#other-gccs-in-cygwin">Other GCCs in Cygwin</a></li>
-</ul>
-</li>
-<li><a href="#15-post-installation">1.5  Post Installation</a><ul>
-<li><a href="#versions">Versions</a></li>
-<li><a href="#help">Help</a></li>
-<li><a href="#man-pages">Man Pages</a></li>
-</ul>
-</li>
-<li><a href="#16-getting-started">1.6  Getting Started</a><ul>
-<li><a href="#compilelink-a-simple-c-program-helloc">Compile/Link a Simple C Program - hello.c</a></li>
-<li><a href="#compilelink-a-simple-c-program-hellocpp">Compile/Link a Simple C++ Program - hello.cpp</a></li>
-<li><a href="#more-gcc-compiler-options">More GCC Compiler Options</a></li>
-<li><a href="#compile-and-link-separately">Compile and Link Separately</a></li>
-<li><a href="#compile-and-link-multiple-source-files">Compile and Link Multiple Source Files</a></li>
-<li><a href="#compile-into-a-shared-library">Compile into a Shared Library</a></li>
-</ul>
-</li>
-<li><a href="#17-gcc-compilation-process">1.7  GCC Compilation Process</a></li>
-<li><a href="#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so">1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)</a><ul>
-<li><a href="#static-library-vs-shared-library">Static Library vs. Shared Library</a></li>
-<li><a href="#searching-for-header-files-and-libraries-i-l-and-l">Searching for Header Files and Libraries (-I, -L and -l)</a></li>
-<li><a href="#default-include-paths-library-paths-and-libraries">Default Include-paths, Library-paths and Libraries</a></li>
-</ul>
-</li>
-<li><a href="#19-gcc-environment-variables">1.9  GCC Environment Variables</a></li>
-<li><a href="#110-utilities-for-examining-the-compiled-files">1.10  Utilities for Examining the Compiled Files</a><ul>
-<li><a href="#file-utility-determine-file-type">"file" Utility - Determine File Type</a></li>
-<li><a href="#nm-utility-list-symbol-table-of-object-files">"nm" Utility - List Symbol Table of Object Files</a></li>
-<li><a href="#ldd-utility-list-dynamic-link-libraries">"ldd" Utility - List Dynamic-Link Libraries</a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#2-gnu-make">2.  GNU Make</a><ul>
-<li><a href="#21-makefile">2.1  一个简单的makefile例子</a></li>
-<li><a href="#22-more-on-makefile">2.2  More on Makefile</a></li>
-<li><a href="#23-makefile">2.3   Makefile示例</a></li>
-<li><a href="#24-brief-summary">2.4  Brief Summary</a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</div>
-<p>原网址: <a href="https://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html#zz-1.6">访问</a></p>
-<h2 id="compiling-linking-and-building">Compiling, Linking and Building<a class="headerlink" href="#compiling-linking-and-building" title="Permanent link">&para;</a></h2>
-<p>C/C++ Applications</p>
-<h3 id="1-gcc-gnu-compiler-collection">1.  GCC (GNU Compiler Collection)<a class="headerlink" href="#1-gcc-gnu-compiler-collection" title="Permanent link">&para;</a></h3>
-<h4 id="11-a-brief-history-and-introduction-to-gcc">1.1  A Brief History and Introduction to GCC<a class="headerlink" href="#11-a-brief-history-and-introduction-to-gcc" title="Permanent link">&para;</a></h4>
-<p>The original <em>GNU C Compiler</em> (GCC) is developed by Richard Stallman, the founder of the <em>GNU Project</em>. Richard Stallman founded the GNU project in 1984 to create a complete Unix-like operating system as free software, to promote freedom and cooperation among computer users and programmers.</p>
-<p>GCC, formerly for "<em>GNU C Compiler</em>", has grown over times to support many languages such as C (<code>gcc</code>), C++ (<code>g++</code>), Objective-C, Objective-C++, Java (<code>gcj</code>), Fortran (<code>gfortran</code>), Ada (<code>gnat</code>), Go (<code>gccgo</code>), OpenMP, Cilk Plus, and OpenAcc. It is now referred to as "<em>GNU Compiler Collection</em>". The mother site for GCC is <a href="http://gcc.gnu.org/">http://gcc.gnu.org/</a>. The current version is GCC 7.3, released on 2018-01-25.</p>
-<p>GCC is a key component of so-called "<em>GNU Toolchain</em>", for developing applications and writing operating systems. The GNU Toolchain includes:</p>
-<ol>
-<li>GNU Compiler Collection (GCC): a compiler suite that supports many languages, such as C/C++ and Objective-C/C++.</li>
-<li>GNU Make: an automation tool for compiling and building applications.</li>
-<li>GNU Binutils: a suite of binary utility tools, including linker and assembler.</li>
-<li>GNU Debugger (GDB).</li>
-<li>GNU Autotools: A build system including Autoconf, Autoheader, Automake and Libtool.</li>
-<li>GNU Bison: a parser generator (similar to lex and yacc).</li>
-</ol>
-<p>GCC is <em>portable</em> and run in many operating platforms. GCC (and GNU Toolchain) is currently available on all Unixes. They are also ported to Windows (by Cygwin, MinGW and MinGW-W64). GCC is also a <em>cross-compiler</em>, for producing executables on different platform.</p>
-<h5 id="gcc-versions">GCC Versions<a class="headerlink" href="#gcc-versions" title="Permanent link">&para;</a></h5>
-<p>The various GCC versions are:</p>
-<ul>
-<li>GCC version 1 (1987): Initial version that support C.</li>
-<li>GCC version 2 (1992): supports C++.</li>
-<li>GCC version 3 (2001): incorporating ECGS (Experimental GNU Compiler System), with improve optimization.</li>
-<li>GCC version 4 (2005):</li>
-<li>GCC version 5 (2015):</li>
-<li>GCC Version 6 (2016):</li>
-<li>GCC Version 7 (2017):</li>
-</ul>
-<h5 id="c-standard-support">C++ Standard Support<a class="headerlink" href="#c-standard-support" title="Permanent link">&para;</a></h5>
-<p>There are various C++ standards:</p>
-<ul>
-<li>C++98</li>
-<li>C++11 (aka C++0x)</li>
-<li>C++14 (aka C++1y)</li>
-<li>C++17 (aka C++1z)</li>
-<li>C++2a (next planned standard in 2020)</li>
-</ul>
-<p>The default mode is C++98 for GCC versions prior to 6.1, and C++14 for GCC 6.1 and above. You can use command-line flag <code>-std</code> to explicitly specify the C++ standard. For example,</p>
-<ul>
-<li><code>-std=c++98</code>, or <code>-std=gnu++98</code> (C++98 with GNU extensions)</li>
-<li><code>-std=c++11</code>, or <code>-std=gnu++11</code> (C++11 with GNU extensions)</li>
-<li><code>-std=c++14</code>, or <code>-std=gnu++14</code> (C++14 with GNU extensions), default mode for GCC 6.1 and above.</li>
-<li><code>-std=c++17</code>, or <code>-std=gnu++17</code> (C++17 with GNU extensions), experimental.</li>
-<li><code>-std=c++2a</code>, or <code>-std=gnu++2a</code> (C++2a with GNU extensions), experimental.</li>
-</ul>
-<h4 id="12-installing-gcc-on-unixes">1.2  Installing GCC on Unixes<a class="headerlink" href="#12-installing-gcc-on-unixes" title="Permanent link">&para;</a></h4>
-<p>GNU Toolchain, including GCC, is included in all Unixes. It is the standard compiler for most Unix-like operating systems.</p>
-<h4 id="13-installing-gcc-on-mac-os-x">1.3  Installing GCC on Mac OS X<a class="headerlink" href="#13-installing-gcc-on-mac-os-x" title="Permanent link">&para;</a></h4>
-<p>Open a Terminal, and enter "<code>gcc --version</code>". If <code>gcc</code> is not installed, the system will prompt you to install <code>gcc</code>.</p>
-<div class="highlight"><pre><span></span><code>$ gcc --version
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/c%26c%2B%2B/GCC%20and%20Make/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>GCC and Make - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#gcc-and-make class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> GCC and Make </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#compiling-linking-and-building class=md-nav__link> Compiling, Linking and Building </a> <nav class=md-nav aria-label="Compiling, Linking and Building"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#1-gcc-gnu-compiler-collection class=md-nav__link> 1.  GCC (GNU Compiler Collection) </a> <nav class=md-nav aria-label="1.  GCC (GNU Compiler Collection)"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#11-a-brief-history-and-introduction-to-gcc class=md-nav__link> 1.1  A Brief History and Introduction to GCC </a> <nav class=md-nav aria-label="1.1  A Brief History and Introduction to GCC"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#gcc-versions class=md-nav__link> GCC Versions </a> </li> <li class=md-nav__item> <a href=#c-standard-support class=md-nav__link> C++ Standard Support </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#12-installing-gcc-on-unixes class=md-nav__link> 1.2  Installing GCC on Unixes </a> </li> <li class=md-nav__item> <a href=#13-installing-gcc-on-mac-os-x class=md-nav__link> 1.3  Installing GCC on Mac OS X </a> </li> <li class=md-nav__item> <a href=#14-installing-gcc-on-windows class=md-nav__link> 1.4  Installing GCC on Windows </a> <nav class=md-nav aria-label="1.4  Installing GCC on Windows"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#various-gccs-under-cygwin class=md-nav__link> Various GCCs under Cygwin </a> </li> <li class=md-nav__item> <a href=#mingw-w64-target-3264-bit-native-windows class=md-nav__link> MinGW-W64 Target 32/64-bit Native Windows </a> </li> <li class=md-nav__item> <a href=#other-gccs-in-cygwin class=md-nav__link> Other GCCs in Cygwin </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#15-post-installation class=md-nav__link> 1.5  Post Installation </a> <nav class=md-nav aria-label="1.5  Post Installation"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#versions class=md-nav__link> Versions </a> </li> <li class=md-nav__item> <a href=#help class=md-nav__link> Help </a> </li> <li class=md-nav__item> <a href=#man-pages class=md-nav__link> Man Pages </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#16-getting-started class=md-nav__link> 1.6  Getting Started </a> <nav class=md-nav aria-label="1.6  Getting Started"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#compilelink-a-simple-c-program-helloc class=md-nav__link> Compile/Link a Simple C Program - hello.c </a> </li> <li class=md-nav__item> <a href=#compilelink-a-simple-c-program-hellocpp class=md-nav__link> Compile/Link a Simple C++ Program - hello.cpp </a> </li> <li class=md-nav__item> <a href=#more-gcc-compiler-options class=md-nav__link> More GCC Compiler Options </a> </li> <li class=md-nav__item> <a href=#compile-and-link-separately class=md-nav__link> Compile and Link Separately </a> </li> <li class=md-nav__item> <a href=#compile-and-link-multiple-source-files class=md-nav__link> Compile and Link Multiple Source Files </a> </li> <li class=md-nav__item> <a href=#compile-into-a-shared-library class=md-nav__link> Compile into a Shared Library </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#17-gcc-compilation-process class=md-nav__link> 1.7  GCC Compilation Process </a> </li> <li class=md-nav__item> <a href=#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so class=md-nav__link> 1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so) </a> <nav class=md-nav aria-label="1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#static-library-vs-shared-library class=md-nav__link> Static Library vs. Shared Library </a> </li> <li class=md-nav__item> <a href=#searching-for-header-files-and-libraries-i-l-and-l class=md-nav__link> Searching for Header Files and Libraries (-I, -L and -l) </a> </li> <li class=md-nav__item> <a href=#default-include-paths-library-paths-and-libraries class=md-nav__link> Default Include-paths, Library-paths and Libraries </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#19-gcc-environment-variables class=md-nav__link> 1.9  GCC Environment Variables </a> </li> <li class=md-nav__item> <a href=#110-utilities-for-examining-the-compiled-files class=md-nav__link> 1.10  Utilities for Examining the Compiled Files </a> <nav class=md-nav aria-label="1.10  Utilities for Examining the Compiled Files"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#file-utility-determine-file-type class=md-nav__link> "file" Utility - Determine File Type </a> </li> <li class=md-nav__item> <a href=#nm-utility-list-symbol-table-of-object-files class=md-nav__link> "nm" Utility - List Symbol Table of Object Files </a> </li> <li class=md-nav__item> <a href=#ldd-utility-list-dynamic-link-libraries class=md-nav__link> "ldd" Utility - List Dynamic-Link Libraries </a> </li> </ul> </nav> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#2-gnu-make class=md-nav__link> 2.  GNU Make </a> <nav class=md-nav aria-label="2.  GNU Make"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#21-makefile class=md-nav__link> 2.1  一个简单的makefile例子 </a> </li> <li class=md-nav__item> <a href=#22-more-on-makefile class=md-nav__link> 2.2  More on Makefile </a> </li> <li class=md-nav__item> <a href=#23-makefile class=md-nav__link> 2.3   Makefile示例 </a> </li> <li class=md-nav__item> <a href=#24-brief-summary class=md-nav__link> 2.4  Brief Summary </a> </li> </ul> </nav> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=gcc-and-make>GCC and Make<a class=headerlink href=#gcc-and-make title="Permanent link">&para;</a></h1> <div class=toc> <ul> <li><a href=#gcc-and-make>GCC and Make</a><ul> <li><a href=#compiling-linking-and-building>Compiling, Linking and Building</a><ul> <li><a href=#1-gcc-gnu-compiler-collection>1.  GCC (GNU Compiler Collection)</a><ul> <li><a href=#11-a-brief-history-and-introduction-to-gcc>1.1  A Brief History and Introduction to GCC</a><ul> <li><a href=#gcc-versions>GCC Versions</a></li> <li><a href=#c-standard-support>C++ Standard Support</a></li> </ul> </li> <li><a href=#12-installing-gcc-on-unixes>1.2  Installing GCC on Unixes</a></li> <li><a href=#13-installing-gcc-on-mac-os-x>1.3  Installing GCC on Mac OS X</a></li> <li><a href=#14-installing-gcc-on-windows>1.4  Installing GCC on Windows</a><ul> <li><a href=#various-gccs-under-cygwin>Various GCCs under Cygwin</a></li> <li><a href=#mingw-w64-target-3264-bit-native-windows>MinGW-W64 Target 32/64-bit Native Windows</a></li> <li><a href=#other-gccs-in-cygwin>Other GCCs in Cygwin</a></li> </ul> </li> <li><a href=#15-post-installation>1.5  Post Installation</a><ul> <li><a href=#versions>Versions</a></li> <li><a href=#help>Help</a></li> <li><a href=#man-pages>Man Pages</a></li> </ul> </li> <li><a href=#16-getting-started>1.6  Getting Started</a><ul> <li><a href=#compilelink-a-simple-c-program-helloc>Compile/Link a Simple C Program - hello.c</a></li> <li><a href=#compilelink-a-simple-c-program-hellocpp>Compile/Link a Simple C++ Program - hello.cpp</a></li> <li><a href=#more-gcc-compiler-options>More GCC Compiler Options</a></li> <li><a href=#compile-and-link-separately>Compile and Link Separately</a></li> <li><a href=#compile-and-link-multiple-source-files>Compile and Link Multiple Source Files</a></li> <li><a href=#compile-into-a-shared-library>Compile into a Shared Library</a></li> </ul> </li> <li><a href=#17-gcc-compilation-process>1.7  GCC Compilation Process</a></li> <li><a href=#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so>1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)</a><ul> <li><a href=#static-library-vs-shared-library>Static Library vs. Shared Library</a></li> <li><a href=#searching-for-header-files-and-libraries-i-l-and-l>Searching for Header Files and Libraries (-I, -L and -l)</a></li> <li><a href=#default-include-paths-library-paths-and-libraries>Default Include-paths, Library-paths and Libraries</a></li> </ul> </li> <li><a href=#19-gcc-environment-variables>1.9  GCC Environment Variables</a></li> <li><a href=#110-utilities-for-examining-the-compiled-files>1.10  Utilities for Examining the Compiled Files</a><ul> <li><a href=#file-utility-determine-file-type>"file" Utility - Determine File Type</a></li> <li><a href=#nm-utility-list-symbol-table-of-object-files>"nm" Utility - List Symbol Table of Object Files</a></li> <li><a href=#ldd-utility-list-dynamic-link-libraries>"ldd" Utility - List Dynamic-Link Libraries</a></li> </ul> </li> </ul> </li> <li><a href=#2-gnu-make>2.  GNU Make</a><ul> <li><a href=#21-makefile>2.1  一个简单的makefile例子</a></li> <li><a href=#22-more-on-makefile>2.2  More on Makefile</a></li> <li><a href=#23-makefile>2.3   Makefile示例</a></li> <li><a href=#24-brief-summary>2.4  Brief Summary</a></li> </ul> </li> </ul> </li> </ul> </li> </ul> </div> <p>原网址: <a href=https://www3.ntu.edu.sg/home/ehchua/programming/cpp/gcc_make.html#zz-1.6>访问</a></p> <h2 id=compiling-linking-and-building>Compiling, Linking and Building<a class=headerlink href=#compiling-linking-and-building title="Permanent link">&para;</a></h2> <p>C/C++ Applications</p> <h3 id=1-gcc-gnu-compiler-collection>1.  GCC (GNU Compiler Collection)<a class=headerlink href=#1-gcc-gnu-compiler-collection title="Permanent link">&para;</a></h3> <h4 id=11-a-brief-history-and-introduction-to-gcc>1.1  A Brief History and Introduction to GCC<a class=headerlink href=#11-a-brief-history-and-introduction-to-gcc title="Permanent link">&para;</a></h4> <p>The original <em>GNU C Compiler</em> (GCC) is developed by Richard Stallman, the founder of the <em>GNU Project</em>. Richard Stallman founded the GNU project in 1984 to create a complete Unix-like operating system as free software, to promote freedom and cooperation among computer users and programmers.</p> <p>GCC, formerly for "<em>GNU C Compiler</em>", has grown over times to support many languages such as C (<code>gcc</code>), C++ (<code>g++</code>), Objective-C, Objective-C++, Java (<code>gcj</code>), Fortran (<code>gfortran</code>), Ada (<code>gnat</code>), Go (<code>gccgo</code>), OpenMP, Cilk Plus, and OpenAcc. It is now referred to as "<em>GNU Compiler Collection</em>". The mother site for GCC is <a href=http://gcc.gnu.org/ >http://gcc.gnu.org/</a>. The current version is GCC 7.3, released on 2018-01-25.</p> <p>GCC is a key component of so-called "<em>GNU Toolchain</em>", for developing applications and writing operating systems. The GNU Toolchain includes:</p> <ol> <li>GNU Compiler Collection (GCC): a compiler suite that supports many languages, such as C/C++ and Objective-C/C++.</li> <li>GNU Make: an automation tool for compiling and building applications.</li> <li>GNU Binutils: a suite of binary utility tools, including linker and assembler.</li> <li>GNU Debugger (GDB).</li> <li>GNU Autotools: A build system including Autoconf, Autoheader, Automake and Libtool.</li> <li>GNU Bison: a parser generator (similar to lex and yacc).</li> </ol> <p>GCC is <em>portable</em> and run in many operating platforms. GCC (and GNU Toolchain) is currently available on all Unixes. They are also ported to Windows (by Cygwin, MinGW and MinGW-W64). GCC is also a <em>cross-compiler</em>, for producing executables on different platform.</p> <h5 id=gcc-versions>GCC Versions<a class=headerlink href=#gcc-versions title="Permanent link">&para;</a></h5> <p>The various GCC versions are:</p> <ul> <li>GCC version 1 (1987): Initial version that support C.</li> <li>GCC version 2 (1992): supports C++.</li> <li>GCC version 3 (2001): incorporating ECGS (Experimental GNU Compiler System), with improve optimization.</li> <li>GCC version 4 (2005):</li> <li>GCC version 5 (2015):</li> <li>GCC Version 6 (2016):</li> <li>GCC Version 7 (2017):</li> </ul> <h5 id=c-standard-support>C++ Standard Support<a class=headerlink href=#c-standard-support title="Permanent link">&para;</a></h5> <p>There are various C++ standards:</p> <ul> <li>C++98</li> <li>C++11 (aka C++0x)</li> <li>C++14 (aka C++1y)</li> <li>C++17 (aka C++1z)</li> <li>C++2a (next planned standard in 2020)</li> </ul> <p>The default mode is C++98 for GCC versions prior to 6.1, and C++14 for GCC 6.1 and above. You can use command-line flag <code>-std</code> to explicitly specify the C++ standard. For example,</p> <ul> <li><code>-std=c++98</code>, or <code>-std=gnu++98</code> (C++98 with GNU extensions)</li> <li><code>-std=c++11</code>, or <code>-std=gnu++11</code> (C++11 with GNU extensions)</li> <li><code>-std=c++14</code>, or <code>-std=gnu++14</code> (C++14 with GNU extensions), default mode for GCC 6.1 and above.</li> <li><code>-std=c++17</code>, or <code>-std=gnu++17</code> (C++17 with GNU extensions), experimental.</li> <li><code>-std=c++2a</code>, or <code>-std=gnu++2a</code> (C++2a with GNU extensions), experimental.</li> </ul> <h4 id=12-installing-gcc-on-unixes>1.2  Installing GCC on Unixes<a class=headerlink href=#12-installing-gcc-on-unixes title="Permanent link">&para;</a></h4> <p>GNU Toolchain, including GCC, is included in all Unixes. It is the standard compiler for most Unix-like operating systems.</p> <h4 id=13-installing-gcc-on-mac-os-x>1.3  Installing GCC on Mac OS X<a class=headerlink href=#13-installing-gcc-on-mac-os-x title="Permanent link">&para;</a></h4> <p>Open a Terminal, and enter "<code>gcc --version</code>". If <code>gcc</code> is not installed, the system will prompt you to install <code>gcc</code>.</p> <div class=highlight><pre><span></span><code>$ gcc --version
 ......
 Target: x86_64-apple-darwin14.5.0   // 64-bit target codes
 Thread model: posix
-</code></pre></div>
-<h4 id="14-installing-gcc-on-windows">1.4  Installing GCC on Windows<a class="headerlink" href="#14-installing-gcc-on-windows" title="Permanent link">&para;</a></h4>
-<p>For Windows, you could either install Cygwin GCC, MinGW GCC or MinGW-W64 GCC. Read "<a href="https://www3.ntu.edu.sg/home/ehchua/programming/howto/Cygwin_HowTo.html">How to install Cygwin and MinGW</a>".</p>
-<ul>
-<li>Cygwin GCC: Cygwin is a Unix-like environment and command-line interface for Microsoft Windows. Cygwin is huge and includes most of the Unix tools and utilities. It also included the commonly-used Bash shell.</li>
-<li>MinGW: MinGW (Minimalist GNU for Windows) is a port of the GNU Compiler Collection (GCC) and GNU Binutils for use in Windows. It also included MSYS (Minimal System), which is basically a Bourne shell (<code>bash</code>).</li>
-<li>MinGW-W64: a fork of MinGW that supports both 32-bit and 64-bit windows.</li>
-</ul>
-<h5 id="various-gccs-under-cygwin">Various GCCs under Cygwin<a class="headerlink" href="#various-gccs-under-cygwin" title="Permanent link">&para;</a></h5>
-<p>There are many GCCs under Cygain/MinGW. To differentiate these variations, you need to understand the followings:</p>
-<ul>
-<li>Windows/Intel uses these instruction sets: x86 is a 32-bit instruction set; i868 is a 32-bit enhanced version of x86; x86_64 (or amd64) is a 64-bit instruction set.</li>
-<li>32-bit compilers/programs can run on 32-bit or 64-bit (backward compatible) Windows, but 64-bit compiler can only run on 64-bit Windows.</li>
-<li>64-bit compilers may produce target of 32-bit or 64-bit.</li>
-<li>If you use Cygwin's GCC, the target could be native Windows or Cygwin. If the target is native Windows, the code can be distributed and run under Windows. However, if the target is Cygwin, to distribute, you need to distribute Cygwin runtime environment (<code>cygwin1.dll</code>). This is because Cygwin is a Unix emulator under Windows.</li>
-</ul>
-<h5 id="mingw-w64-target-3264-bit-native-windows">MinGW-W64 Target 32/64-bit Native Windows<a class="headerlink" href="#mingw-w64-target-3264-bit-native-windows" title="Permanent link">&para;</a></h5>
-<p>The MinGW-W64 (a fork of MinGW, available at <a href="http://mingw-w64.org/doku.php">http://mingw-w64.org/doku.php</a>) supports target of both 32-bit and 64-bit native Windows. You can install "MinGW-W64" under "Cygwin" by selecting these packages (under "devel" category):</p>
-<ul>
-<li><code>mingw64-x86_64-gcc-core</code>: 64-bit C compiler for target of native 64-bit Windows. The executable is "<code>x86_64-w64-mingw32-gcc</code>".</li>
-<li><code>mingw64-x86_64-gcc-g++</code>: 64-bit C++ compiler for target of native 64-bit Windows. The executable is "<code>x86_64-w64-mingw32-g++</code>".</li>
-<li><code>mingw64-i686-gcc-core</code>: 64-bit C compiler for target of native 32-bit Windows. The executable is "<code>i686-w64-mingw32-gcc</code>".</li>
-<li><code>mingw64-i686-gcc-g++</code>: 64-bit C++ compiler for target of native 32-bit Windows. The executable is "<code>i686-w64-mingw32-g++</code>".</li>
-</ul>
-<p>Notes:</p>
-<ul>
-<li>I suggest you install "<code>mingw64-x86_64-gcc-core</code>" and "<code>mingw64-x86_64-gcc-g++</code>" to provide native 64-bit Windows codes, but skip "<code>mingw64-i686-gcc-core</code>" and "<code>mingw64-i686-gcc-g++</code>", unless you need to produce 32-bit Windows applications.</li>
-<li>For JNI (Java Native Interface) in 64-bit Java, you need to use "<code>x86_64-w64-mingw32-gcc</code>" or "<code>x86_64-w64-mingw32-g++</code>" to produce 64-bit native Windows code.</li>
-</ul>
-<p>Run the executables and check the versions:</p>
-<div class="highlight"><pre><span></span><code>// Target 64-bit native Windows
+</code></pre></div> <h4 id=14-installing-gcc-on-windows>1.4  Installing GCC on Windows<a class=headerlink href=#14-installing-gcc-on-windows title="Permanent link">&para;</a></h4> <p>For Windows, you could either install Cygwin GCC, MinGW GCC or MinGW-W64 GCC. Read "<a href=https://www3.ntu.edu.sg/home/ehchua/programming/howto/Cygwin_HowTo.html>How to install Cygwin and MinGW</a>".</p> <ul> <li>Cygwin GCC: Cygwin is a Unix-like environment and command-line interface for Microsoft Windows. Cygwin is huge and includes most of the Unix tools and utilities. It also included the commonly-used Bash shell.</li> <li>MinGW: MinGW (Minimalist GNU for Windows) is a port of the GNU Compiler Collection (GCC) and GNU Binutils for use in Windows. It also included MSYS (Minimal System), which is basically a Bourne shell (<code>bash</code>).</li> <li>MinGW-W64: a fork of MinGW that supports both 32-bit and 64-bit windows.</li> </ul> <h5 id=various-gccs-under-cygwin>Various GCCs under Cygwin<a class=headerlink href=#various-gccs-under-cygwin title="Permanent link">&para;</a></h5> <p>There are many GCCs under Cygain/MinGW. To differentiate these variations, you need to understand the followings:</p> <ul> <li>Windows/Intel uses these instruction sets: x86 is a 32-bit instruction set; i868 is a 32-bit enhanced version of x86; x86_64 (or amd64) is a 64-bit instruction set.</li> <li>32-bit compilers/programs can run on 32-bit or 64-bit (backward compatible) Windows, but 64-bit compiler can only run on 64-bit Windows.</li> <li>64-bit compilers may produce target of 32-bit or 64-bit.</li> <li>If you use Cygwin's GCC, the target could be native Windows or Cygwin. If the target is native Windows, the code can be distributed and run under Windows. However, if the target is Cygwin, to distribute, you need to distribute Cygwin runtime environment (<code>cygwin1.dll</code>). This is because Cygwin is a Unix emulator under Windows.</li> </ul> <h5 id=mingw-w64-target-3264-bit-native-windows>MinGW-W64 Target 32/64-bit Native Windows<a class=headerlink href=#mingw-w64-target-3264-bit-native-windows title="Permanent link">&para;</a></h5> <p>The MinGW-W64 (a fork of MinGW, available at <a href=http://mingw-w64.org/doku.php>http://mingw-w64.org/doku.php</a>) supports target of both 32-bit and 64-bit native Windows. You can install "MinGW-W64" under "Cygwin" by selecting these packages (under "devel" category):</p> <ul> <li><code>mingw64-x86_64-gcc-core</code>: 64-bit C compiler for target of native 64-bit Windows. The executable is "<code>x86_64-w64-mingw32-gcc</code>".</li> <li><code>mingw64-x86_64-gcc-g++</code>: 64-bit C++ compiler for target of native 64-bit Windows. The executable is "<code>x86_64-w64-mingw32-g++</code>".</li> <li><code>mingw64-i686-gcc-core</code>: 64-bit C compiler for target of native 32-bit Windows. The executable is "<code>i686-w64-mingw32-gcc</code>".</li> <li><code>mingw64-i686-gcc-g++</code>: 64-bit C++ compiler for target of native 32-bit Windows. The executable is "<code>i686-w64-mingw32-g++</code>".</li> </ul> <p>Notes:</p> <ul> <li>I suggest you install "<code>mingw64-x86_64-gcc-core</code>" and "<code>mingw64-x86_64-gcc-g++</code>" to provide native 64-bit Windows codes, but skip "<code>mingw64-i686-gcc-core</code>" and "<code>mingw64-i686-gcc-g++</code>", unless you need to produce 32-bit Windows applications.</li> <li>For JNI (Java Native Interface) in 64-bit Java, you need to use "<code>x86_64-w64-mingw32-gcc</code>" or "<code>x86_64-w64-mingw32-g++</code>" to produce 64-bit native Windows code.</li> </ul> <p>Run the executables and check the versions:</p> <div class=highlight><pre><span></span><code>// Target 64-bit native Windows
 $ x86_64-w64-mingw32-gcc --version
 x86_64-w64-mingw32-gcc (GCC) 6.4.0
 
@@ -908,25 +24,12 @@ i686-w64-mingw32-gcc (GCC) 6.4.0
 
 $ i686-w64-mingw32-g++ --version
 i686-w64-mingw32-g++ (GCC) 6.4.0
-</code></pre></div>
-<h5 id="other-gccs-in-cygwin">Other GCCs in Cygwin<a class="headerlink" href="#other-gccs-in-cygwin" title="Permanent link">&para;</a></h5>
-<p>Other GCC packages in Cygwin are:</p>
-<ul>
-<li><code>gcc-core, gcc-g++</code>: Basic 64-bit C/C++ compiler target 64-bit Cygwin. You probably should install these two packages too. However, to distribute the code produced, you need to distribute Cygwin Runtime Environment (<code>cygwin1.dll</code>). This is because Cygwin is a Unix emulator under Windows.</li>
-<li><code>cygwin32-gcc-core, cygwin32-gcc-g++</code>: Older 32-bit C/C++ compiler for target 32-bit Cygwin (Obsoleted by <code>gcc-code</code> and <code>gcc-g++</code>?).</li>
-<li><code>mingw-gcc-core, mingw-gcc-g++</code>: Older MinGW 32-bit C/C++ compiler for 32-bit Windows (Obsoleted by MinGW-W64 packages?).</li>
-</ul>
-<h4 id="15-post-installation">1.5  Post Installation<a class="headerlink" href="#15-post-installation" title="Permanent link">&para;</a></h4>
-<h5 id="versions">Versions<a class="headerlink" href="#versions" title="Permanent link">&para;</a></h5>
-<p>You could display the version of GCC via <code>--version</code> option:</p>
-<div class="highlight"><pre><span></span><code>$ gcc --version
+</code></pre></div> <h5 id=other-gccs-in-cygwin>Other GCCs in Cygwin<a class=headerlink href=#other-gccs-in-cygwin title="Permanent link">&para;</a></h5> <p>Other GCC packages in Cygwin are:</p> <ul> <li><code>gcc-core, gcc-g++</code>: Basic 64-bit C/C++ compiler target 64-bit Cygwin. You probably should install these two packages too. However, to distribute the code produced, you need to distribute Cygwin Runtime Environment (<code>cygwin1.dll</code>). This is because Cygwin is a Unix emulator under Windows.</li> <li><code>cygwin32-gcc-core, cygwin32-gcc-g++</code>: Older 32-bit C/C++ compiler for target 32-bit Cygwin (Obsoleted by <code>gcc-code</code> and <code>gcc-g++</code>?).</li> <li><code>mingw-gcc-core, mingw-gcc-g++</code>: Older MinGW 32-bit C/C++ compiler for 32-bit Windows (Obsoleted by MinGW-W64 packages?).</li> </ul> <h4 id=15-post-installation>1.5  Post Installation<a class=headerlink href=#15-post-installation title="Permanent link">&para;</a></h4> <h5 id=versions>Versions<a class=headerlink href=#versions title="Permanent link">&para;</a></h5> <p>You could display the version of GCC via <code>--version</code> option:</p> <div class=highlight><pre><span></span><code>$ gcc --version
 gcc (GCC) 6.4.0
 
 $ g++ --version 
 g++ (GCC) 6.4.0
-</code></pre></div>
-<p>More details can be obtained via <code>-v</code> option, for example,</p>
-<div class="highlight"><pre><span></span><code>$ gcc -v
+</code></pre></div> <p>More details can be obtained via <code>-v</code> option, for example,</p> <div class=highlight><pre><span></span><code>$ gcc -v
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/lto-wrapper.exe
@@ -943,66 +46,35 @@ Target: x86_64-pc-cygwin
 Configured with: ......
 Thread model: posix
 gcc version 6.4.0 (GCC)
-</code></pre></div>
-<h5 id="help">Help<a class="headerlink" href="#help" title="Permanent link">&para;</a></h5>
-<p>You can get the help manual via the <code>--help</code> option. For example,</p>
-<div class="highlight"><pre><span></span><code>$ gcc --help
-</code></pre></div>
-<h5 id="man-pages">Man Pages<a class="headerlink" href="#man-pages" title="Permanent link">&para;</a></h5>
-<p>You can read the GCC manual pages (or <em>man pages</em>) via the <code>man</code> utility:</p>
-<div class="highlight"><pre><span></span><code>$ man gcc
+</code></pre></div> <h5 id=help>Help<a class=headerlink href=#help title="Permanent link">&para;</a></h5> <p>You can get the help manual via the <code>--help</code> option. For example,</p> <div class=highlight><pre><span></span><code>$ gcc --help
+</code></pre></div> <h5 id=man-pages>Man Pages<a class=headerlink href=#man-pages title="Permanent link">&para;</a></h5> <p>You can read the GCC manual pages (or <em>man pages</em>) via the <code>man</code> utility:</p> <div class=highlight><pre><span></span><code>$ man gcc
 // or
 $ man g++
 // Press space key for next page, or &#39;q&#39; to quit.
-</code></pre></div>
-<p>Reading man pages under CMD or Bash shell can be difficult. You could generate a text file via:</p>
-<div class="highlight"><pre><span></span><code>$ man gcc | col -b &gt; gcc.txt
-</code></pre></div>
-<p>The <code>col</code> utility is needed to strip the backspace. (For Cygwin, it is available in "Utils", "util-linux" package.)</p>
-<p>Alternatively, you could look for an online man pages, e.g., <a href="http://linux.die.net/man/1/gcc">http://linux.die.net/man/1/gcc</a>.</p>
-<p>The GCC man pages are kept under "<code>usr/share/man/man1</code>".</p>
-<div class="highlight"><pre><span></span><code>$ whereis gcc
+</code></pre></div> <p>Reading man pages under CMD or Bash shell can be difficult. You could generate a text file via:</p> <div class=highlight><pre><span></span><code>$ man gcc | col -b &gt; gcc.txt
+</code></pre></div> <p>The <code>col</code> utility is needed to strip the backspace. (For Cygwin, it is available in "Utils", "util-linux" package.)</p> <p>Alternatively, you could look for an online man pages, e.g., <a href=http://linux.die.net/man/1/gcc>http://linux.die.net/man/1/gcc</a>.</p> <p>The GCC man pages are kept under "<code>usr/share/man/man1</code>".</p> <div class=highlight><pre><span></span><code>$ whereis gcc
 gcc: /usr/bin/gcc.exe /usr/lib/gcc /usr/share/man/man1/gcc.1.gz
-</code></pre></div>
-<h4 id="16-getting-started">1.6  Getting Started<a class="headerlink" href="#16-getting-started" title="Permanent link">&para;</a></h4>
-<p>The GNU C and C++ compiler are called <code>gcc</code> and <code>g++</code>, respectively.</p>
-<h5 id="compilelink-a-simple-c-program-helloc">Compile/Link a Simple C Program - hello.c<a class="headerlink" href="#compilelink-a-simple-c-program-helloc" title="Permanent link">&para;</a></h5>
-<p>Below is the Hello-world C program <code>hello.c</code>:</p>
-<table class="table-program"><colgroup><col class="col-line-number"> <col class="col-program"></colgroup><tbody><tr><td><div><pre data-mx-wc-processed=""><code class="language-plain">1
+</code></pre></div> <h4 id=16-getting-started>1.6  Getting Started<a class=headerlink href=#16-getting-started title="Permanent link">&para;</a></h4> <p>The GNU C and C++ compiler are called <code>gcc</code> and <code>g++</code>, respectively.</p> <h5 id=compilelink-a-simple-c-program-helloc>Compile/Link a Simple C Program - hello.c<a class=headerlink href=#compilelink-a-simple-c-program-helloc title="Permanent link">&para;</a></h5> <p>Below is the Hello-world C program <code>hello.c</code>:</p> <table class=table-program><colgroup><col class=col-line-number> <col class=col-program></colgroup><tbody><tr><td><div><pre data-mx-wc-processed><code class=language-plain>1
 2
 3
 4
 5
 6
-7</code></pre></div></td><td><div><pre data-mx-wc-processed=""><code class="language-plain">// hello.c
+7</code></pre></div></td><td><div><pre data-mx-wc-processed><code class=language-plain>// hello.c
 #include &lt;stdio.h&gt;
 
 int main() {
     printf("Hello, world!\n");
     return 0;
-}</code></pre></div></td></tr></tbody></table>
-
-<p>To compile the <code>hello.c</code>:</p>
-<div class="highlight"><pre><span></span><code>&gt; gcc hello.c
+}</code></pre></div></td></tr></tbody></table> <p>To compile the <code>hello.c</code>:</p> <div class=highlight><pre><span></span><code>&gt; gcc hello.c
   // Compile and link source file hello.c into executable a.exe (Windows) or a (Unixes)
-</code></pre></div>
-<p>The default output executable is called "<code>a.exe</code>" (Windows) or "<code>a.out</code>" (Unixes and Mac OS X).</p>
-<p>To run the program:</p>
-<div class="highlight"><pre><span></span><code>// (Windows) In CMD shell
+</code></pre></div> <p>The default output executable is called "<code>a.exe</code>" (Windows) or "<code>a.out</code>" (Unixes and Mac OS X).</p> <p>To run the program:</p> <div class=highlight><pre><span></span><code>// (Windows) In CMD shell
 &gt; a
 
 // (Unixes / Mac OS X) In Bash Shell - include the current path (./)
 $ chmod a+x a.out
 $ ./a.out
-</code></pre></div>
-<p>Notes for Unixes and Bash Shell:</p>
-<ul>
-<li>In Bash shell, the default PATH does not include the current working directory. Hence, you need to include the current path (<code>./</code>) in the command. (Windows include the current directory in the PATH automatically; whereas Unixes do not - you need to include the current directory explicitly in the PATH.)</li>
-<li>You also need to include the file extension, if any, i.e., "<code>./a.out</code>".</li>
-<li>In Unixes, the output file could be "<code>a.out</code>" or simply "<code>a</code>". Furthermore, you need to assign <em>executable file-mode</em> (<em>x</em>) to the executable file "<code>a.out</code>", via command "<code>chmod a+x _filename_</code>" (add executable file-mode "<code>+x</code>" to all users "<code>a+x</code>").</li>
-</ul>
-<p>To specify the output filename, use <code>-o</code> option:</p>
-<div class="highlight"><pre><span></span><code>// (Windows) In CMD shell
+</code></pre></div> <p>Notes for Unixes and Bash Shell:</p> <ul> <li>In Bash shell, the default PATH does not include the current working directory. Hence, you need to include the current path (<code>./</code>) in the command. (Windows include the current directory in the PATH automatically; whereas Unixes do not - you need to include the current directory explicitly in the PATH.)</li> <li>You also need to include the file extension, if any, i.e., "<code>./a.out</code>".</li> <li>In Unixes, the output file could be "<code>a.out</code>" or simply "<code>a</code>". Furthermore, you need to assign <em>executable file-mode</em> (<em>x</em>) to the executable file "<code>a.out</code>", via command "<code>chmod a+x _filename_</code>" (add executable file-mode "<code>+x</code>" to all users "<code>a+x</code>").</li> </ul> <p>To specify the output filename, use <code>-o</code> option:</p> <div class=highlight><pre><span></span><code>// (Windows) In CMD shell
 &gt; gcc -o hello.exe hello.c
   // Compile and link source file hello.c into executable hello.exe
 &gt; hello
@@ -1012,31 +84,21 @@ $ ./a.out
 $ gcc -o hello hello.c
 $ chmod a+x hello
 $ ./hello
-</code></pre></div>
-<p>NOTE for Unixes:</p>
-<ul>
-<li>In Unixes, we typically omit the <code>.exe</code> file extension (meant for Windows only), and simply name the output executable as <code>hello</code> (via command "<code>gcc -o hello hello.c</code>".</li>
-<li>You need to assign executable file mode via command "<code>chmod a+x hello</code>".</li>
-</ul>
-<h5 id="compilelink-a-simple-c-program-hellocpp">Compile/Link a Simple C++ Program - hello.cpp<a class="headerlink" href="#compilelink-a-simple-c-program-hellocpp" title="Permanent link">&para;</a></h5>
-<table class="table-program"><colgroup><col class="col-line-number"> <col class="col-program"></colgroup><tbody><tr><td><div><pre data-mx-wc-processed=""><code class="language-plain">1
+</code></pre></div> <p>NOTE for Unixes:</p> <ul> <li>In Unixes, we typically omit the <code>.exe</code> file extension (meant for Windows only), and simply name the output executable as <code>hello</code> (via command "<code>gcc -o hello hello.c</code>".</li> <li>You need to assign executable file mode via command "<code>chmod a+x hello</code>".</li> </ul> <h5 id=compilelink-a-simple-c-program-hellocpp>Compile/Link a Simple C++ Program - hello.cpp<a class=headerlink href=#compilelink-a-simple-c-program-hellocpp title="Permanent link">&para;</a></h5> <table class=table-program><colgroup><col class=col-line-number> <col class=col-program></colgroup><tbody><tr><td><div><pre data-mx-wc-processed><code class=language-plain>1
 2
 3
 4
 5
 6
 7
-8</code></pre></div></td><td><div><pre data-mx-wc-processed=""><code class="language-plain">// hello.cpp
+8</code></pre></div></td><td><div><pre data-mx-wc-processed><code class=language-plain>// hello.cpp
 #include &lt;iostream&gt;
 using namespace std;
 
 int main() {
    cout &lt;&lt; "Hello, world!" &lt;&lt; endl;
    return 0;
-}</code></pre></div></td></tr></tbody></table>
-
-<p>You need to use g++ to compile C++ program, as follows. We use the <code>-o</code> option to specify the output file name.</p>
-<div class="highlight"><pre><span></span><code>// (Windows) In CMD shell
+}</code></pre></div></td></tr></tbody></table> <p>You need to use g++ to compile C++ program, as follows. We use the <code>-o</code> option to specify the output file name.</p> <div class=highlight><pre><span></span><code>// (Windows) In CMD shell
 &gt; g++ -o hello.exe hello.cpp
    // Compile and link source hello.cpp into executable hello.exe
 &gt; hello
@@ -1046,100 +108,28 @@ int main() {
 $ g++ -o hello hello.cpp
 $ chmod a+x hello
 $ ./hello
-</code></pre></div>
-<h5 id="more-gcc-compiler-options">More GCC Compiler Options<a class="headerlink" href="#more-gcc-compiler-options" title="Permanent link">&para;</a></h5>
-<p>A few commonly-used GCC compiler options are:</p>
-<div class="highlight"><pre><span></span><code>$ g++ -Wall -g -o Hello.exe Hello.cpp
-</code></pre></div>
-<ul>
-<li><code>-o</code>: specifies the output executable filename.</li>
-<li><code>-Wall</code>: prints "<code>all</code>" Warning messages.</li>
-<li><code>-g</code>: generates additional symbolic debuggging information for use with <code>gdb</code> debugger.</li>
-</ul>
-<h5 id="compile-and-link-separately">Compile and Link Separately<a class="headerlink" href="#compile-and-link-separately" title="Permanent link">&para;</a></h5>
-<p>The above command <em>compile</em> the source file into object file and <code>link</code> with other object files and system libraries into executable in one step. You may separate compile and link in two steps as follows:</p>
-<div class="highlight"><pre><span></span><code>// Compile-only with -c option
+</code></pre></div> <h5 id=more-gcc-compiler-options>More GCC Compiler Options<a class=headerlink href=#more-gcc-compiler-options title="Permanent link">&para;</a></h5> <p>A few commonly-used GCC compiler options are:</p> <div class=highlight><pre><span></span><code>$ g++ -Wall -g -o Hello.exe Hello.cpp
+</code></pre></div> <ul> <li><code>-o</code>: specifies the output executable filename.</li> <li><code>-Wall</code>: prints "<code>all</code>" Warning messages.</li> <li><code>-g</code>: generates additional symbolic debuggging information for use with <code>gdb</code> debugger.</li> </ul> <h5 id=compile-and-link-separately>Compile and Link Separately<a class=headerlink href=#compile-and-link-separately title="Permanent link">&para;</a></h5> <p>The above command <em>compile</em> the source file into object file and <code>link</code> with other object files and system libraries into executable in one step. You may separate compile and link in two steps as follows:</p> <div class=highlight><pre><span></span><code>// Compile-only with -c option
 &gt; g++ -c -Wall -g Hello.cpp
 // Link object file(s) into an executable
 &gt; g++ -g -o Hello.exe Hello.o
-</code></pre></div>
-<p>The options are:</p>
-<ul>
-<li><code>-c</code>: Compile into object file "<code>Hello.o</code>". By default, the object file has the same name as the source file with extension of "<code>.o</code>" (there is no need to specify <code>-o</code> option). No linking with other object files or libraries.</li>
-<li>Linking is performed when the input file are object files "<code>.o</code>" (instead of source file "<code>.cpp</code>" or "<code>.c</code>"). GCC uses a separate linker program (called <code>ld.exe</code>) to perform the linking.</li>
-</ul>
-<h5 id="compile-and-link-multiple-source-files">Compile and Link Multiple Source Files<a class="headerlink" href="#compile-and-link-multiple-source-files" title="Permanent link">&para;</a></h5>
-<p>Suppose that your program has two source files: <code>file1.cpp</code>, <code>file2.cpp</code>. You could compile all of them in a single command:</p>
-<div class="highlight"><pre><span></span><code>&gt; g++ -o myprog.exe file1.cpp file2.cpp 
-</code></pre></div>
-<p>However, we usually compile each of the source files separately into object file, and link them together in the later stage. In this case, changes in one file does not require re-compilation of the other files.</p>
-<div class="highlight"><pre><span></span><code>&gt; g++ -c file1.cpp
+</code></pre></div> <p>The options are:</p> <ul> <li><code>-c</code>: Compile into object file "<code>Hello.o</code>". By default, the object file has the same name as the source file with extension of "<code>.o</code>" (there is no need to specify <code>-o</code> option). No linking with other object files or libraries.</li> <li>Linking is performed when the input file are object files "<code>.o</code>" (instead of source file "<code>.cpp</code>" or "<code>.c</code>"). GCC uses a separate linker program (called <code>ld.exe</code>) to perform the linking.</li> </ul> <h5 id=compile-and-link-multiple-source-files>Compile and Link Multiple Source Files<a class=headerlink href=#compile-and-link-multiple-source-files title="Permanent link">&para;</a></h5> <p>Suppose that your program has two source files: <code>file1.cpp</code>, <code>file2.cpp</code>. You could compile all of them in a single command:</p> <div class=highlight><pre><span></span><code>&gt; g++ -o myprog.exe file1.cpp file2.cpp 
+</code></pre></div> <p>However, we usually compile each of the source files separately into object file, and link them together in the later stage. In this case, changes in one file does not require re-compilation of the other files.</p> <div class=highlight><pre><span></span><code>&gt; g++ -c file1.cpp
 &gt; g++ -c file2.cpp
 &gt; g++ -o myprog.exe file1.o file2.o
-</code></pre></div>
-<h5 id="compile-into-a-shared-library">Compile into a Shared Library<a class="headerlink" href="#compile-into-a-shared-library" title="Permanent link">&para;</a></h5>
-<p>To compile and link C/C++ program into a shared library (<code>".dll"</code> in Windows, <code>".so"</code> in Unixes), use <code>-shared</code> option. Read "<a href="https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html">Java Native Interface</a>" for example.</p>
-<h4 id="17-gcc-compilation-process">1.7  GCC Compilation Process<a class="headerlink" href="#17-gcc-compilation-process" title="Permanent link">&para;</a></h4>
-<p>![[1611389397-d149325bad4cc01f93e4ec1e79dd01cc.png]]</p>
-<p>GCC编译C/C++程序分为4步，以 "<code>gcc -o hello.exe hello.c</code>" 为例说明</p>
-<ol>
-<li>
-<p>利用预处理器 (<code>cpp.exe</code>), 将头文件 (<code>#include</code>)包含进来，对宏包 (<code>#define</code>).进行展开，得到的文件后缀为i，这里为"<code>hello.i</code>" </p>
-<div class="highlight"><pre><span></span><code>&gt; cpp hello.c &gt; hello.i
-</code></pre></div>
-</li>
-<li>
-<p>Compilation: 得到装配代码，得到"<code>hello.s</code>".</p>
-<div class="highlight"><pre><span></span><code>&gt; gcc -S hello.i
-</code></pre></div>
-<p>其中 <code>-S</code> 指定生成装配代码，而不是目标代码。</p>
-</li>
-<li>
-<p>Assembly: The assembler (<code>as.exe</code>) converts the assembly code into machine code in the object file "<code>hello.o</code>".</p>
-<div class="highlight"><pre><span></span><code>&gt; as -o hello.o hello.s
-</code></pre></div>
-</li>
-<li>
-<p>Linker: 链接 (<code>ld.exe</code>) ，将o文件和其他库进行连接，生成可执行文件.exe</p>
-<div class="highlight"><pre><span></span><code>&gt; ld -o hello.exe hello.o ...libraries...
-</code></pre></div>
-</li>
-</ol>
-<p><strong>Tips</strong></p>
-<ul>
-<li>查看详细的编译过程Verbose Mode (-v): you can see the detailed compilation process by enabling <code>-v</code> (verbose) option. For example,</li>
-</ul>
-<div class="highlight"><pre><span></span><code>&gt; gcc -v -o hello.exe hello.c
-</code></pre></div>
-<ul>
-<li>定义宏包：Defining Macro (-D): You can use the <code>-D_name_</code> option to define a macro, or <code>-D_name_=_value_</code> to define a macro with a value. The <code>_value_</code> should be enclosed in double quotes if it contains spaces.</li>
-</ul>
-<h4 id="18-headers-h-static-libraries-lib-a-and-shared-library-dll-so">1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)<a class="headerlink" href="#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so" title="Permanent link">&para;</a></h4>
-<h5 id="static-library-vs-shared-library">Static Library vs. Shared Library<a class="headerlink" href="#static-library-vs-shared-library" title="Permanent link">&para;</a></h5>
-<p>A library is a collection of pre-compiled object files that can be linked into your programs via the linker. Examples are the system functions such as <code>printf()</code> and <code>sqrt()</code>.</p>
-<p>There are two types of external libraries: <em>static library</em> and <em>shared library</em>.</p>
-<ol>
-<li>A static library has file extension of "<code>.a</code>" (archive file) in Unixes or "<code>.lib</code>" (library) in Windows. When your program is linked against a static library, the machine code of external functions used in your program is copied into the executable. A static library can be created via the <em>archive</em> program "<code>ar.exe</code>".</li>
-<li>A shared library has file extension of "<code>.so</code>" (shared objects) in Unixes or "<code>.dll</code>" (dynamic link library) in Windows. When your program is linked against a shared library, only a small table is created in the executable. Before the executable starts running, the operating system loads the machine code needed for the external functions - a process known as <em>dynamic linking</em>. Dynamic linking makes executable files smaller and saves disk space, because one copy of a library can be shared between multiple programs. Furthermore, most operating systems allows one copy of a shared library in memory to be used by all running programs, thus, saving memory. The shared library codes can be upgraded without the need to recompile your program.</li>
-</ol>
-<p>Because of the advantage of dynamic linking, GCC, by default, links to the shared library if it is available.</p>
-<p>You can list the contents of a library via "<code>nm _filename_</code>".</p>
-<h5 id="searching-for-header-files-and-libraries-i-l-and-l">Searching for Header Files and Libraries (-I, -L and -l)<a class="headerlink" href="#searching-for-header-files-and-libraries-i-l-and-l" title="Permanent link">&para;</a></h5>
-<p>When compiling the program, the <em>compiler</em> needs the <em>header files</em> to compile the source codes; the <em>linker</em> needs the <em>libraries</em> to resolve external references from other object files or libraries. The compiler and linker will not find the headers/libraries unless you set the appropriate options, which is not obvious for first-time user.</p>
-<p>For each of the headers used in your source (via <code>#include</code> directives), the compiler searches the so-called <em>include-paths</em> for these headers. The include-paths are specified via <code>-I_dir_</code> option (or environment variable <code>CPATH</code>). Since the header's filename is known (e.g., <code>iostream.h</code>, <code>stdio.h</code>), the compiler only needs the directories.</p>
-<p>The linker searches the so-called <em>library-paths</em> for libraries needed to link the program into an executable. The library-path is specified via <code>-L_dir_</code> option (uppercase <code>'L'</code> followed by the directory path) (or environment variable <code>LIBRARY_PATH</code>). In addition, you also have to specify the library name. In Unixes, the library <code>lib_xxx_.a</code> is specified via <code>-l_xxx_</code> option (lowercase letter <code>'l'</code>, without the prefix "<code>lib</code>" and <code>".a</code>" extension). In Windows, provide the full name such as <code>-lxxx.lib</code>. The linker needs to know both the directories as well as the library names. Hence, two options need to be specified.</p>
-<h5 id="default-include-paths-library-paths-and-libraries">Default Include-paths, Library-paths and Libraries<a class="headerlink" href="#default-include-paths-library-paths-and-libraries" title="Permanent link">&para;</a></h5>
-<p>Try list the default include-paths in your system used by the "GNU C Preprocessor" via "<code>cpp -v</code>":</p>
-<div class="highlight"><pre><span></span><code>&gt; cpp -v
+</code></pre></div> <h5 id=compile-into-a-shared-library>Compile into a Shared Library<a class=headerlink href=#compile-into-a-shared-library title="Permanent link">&para;</a></h5> <p>To compile and link C/C++ program into a shared library (<code>".dll"</code> in Windows, <code>".so"</code> in Unixes), use <code>-shared</code> option. Read "<a href=https://www3.ntu.edu.sg/home/ehchua/programming/java/JavaNativeInterface.html>Java Native Interface</a>" for example.</p> <h4 id=17-gcc-compilation-process>1.7  GCC Compilation Process<a class=headerlink href=#17-gcc-compilation-process title="Permanent link">&para;</a></h4> <p>![[1611389397-d149325bad4cc01f93e4ec1e79dd01cc.png]]</p> <p>GCC编译C/C++程序分为4步，以 "<code>gcc -o hello.exe hello.c</code>" 为例说明</p> <ol> <li> <p>利用预处理器 (<code>cpp.exe</code>), 将头文件 (<code>#include</code>)包含进来，对宏包 (<code>#define</code>).进行展开，得到的文件后缀为i，这里为"<code>hello.i</code>" </p> <div class=highlight><pre><span></span><code>&gt; cpp hello.c &gt; hello.i
+</code></pre></div> </li> <li> <p>Compilation: 得到装配代码，得到"<code>hello.s</code>".</p> <div class=highlight><pre><span></span><code>&gt; gcc -S hello.i
+</code></pre></div> <p>其中 <code>-S</code> 指定生成装配代码，而不是目标代码。</p> </li> <li> <p>Assembly: The assembler (<code>as.exe</code>) converts the assembly code into machine code in the object file "<code>hello.o</code>".</p> <div class=highlight><pre><span></span><code>&gt; as -o hello.o hello.s
+</code></pre></div> </li> <li> <p>Linker: 链接 (<code>ld.exe</code>) ，将o文件和其他库进行连接，生成可执行文件.exe</p> <div class=highlight><pre><span></span><code>&gt; ld -o hello.exe hello.o ...libraries...
+</code></pre></div> </li> </ol> <p><strong>Tips</strong></p> <ul> <li>查看详细的编译过程Verbose Mode (-v): you can see the detailed compilation process by enabling <code>-v</code> (verbose) option. For example,</li> </ul> <div class=highlight><pre><span></span><code>&gt; gcc -v -o hello.exe hello.c
+</code></pre></div> <ul> <li>定义宏包：Defining Macro (-D): You can use the <code>-D_name_</code> option to define a macro, or <code>-D_name_=_value_</code> to define a macro with a value. The <code>_value_</code> should be enclosed in double quotes if it contains spaces.</li> </ul> <h4 id=18-headers-h-static-libraries-lib-a-and-shared-library-dll-so>1.8  Headers (.h), Static Libraries (.lib, .a) and Shared Library (.dll, .so)<a class=headerlink href=#18-headers-h-static-libraries-lib-a-and-shared-library-dll-so title="Permanent link">&para;</a></h4> <h5 id=static-library-vs-shared-library>Static Library vs. Shared Library<a class=headerlink href=#static-library-vs-shared-library title="Permanent link">&para;</a></h5> <p>A library is a collection of pre-compiled object files that can be linked into your programs via the linker. Examples are the system functions such as <code>printf()</code> and <code>sqrt()</code>.</p> <p>There are two types of external libraries: <em>static library</em> and <em>shared library</em>.</p> <ol> <li>A static library has file extension of "<code>.a</code>" (archive file) in Unixes or "<code>.lib</code>" (library) in Windows. When your program is linked against a static library, the machine code of external functions used in your program is copied into the executable. A static library can be created via the <em>archive</em> program "<code>ar.exe</code>".</li> <li>A shared library has file extension of "<code>.so</code>" (shared objects) in Unixes or "<code>.dll</code>" (dynamic link library) in Windows. When your program is linked against a shared library, only a small table is created in the executable. Before the executable starts running, the operating system loads the machine code needed for the external functions - a process known as <em>dynamic linking</em>. Dynamic linking makes executable files smaller and saves disk space, because one copy of a library can be shared between multiple programs. Furthermore, most operating systems allows one copy of a shared library in memory to be used by all running programs, thus, saving memory. The shared library codes can be upgraded without the need to recompile your program.</li> </ol> <p>Because of the advantage of dynamic linking, GCC, by default, links to the shared library if it is available.</p> <p>You can list the contents of a library via "<code>nm _filename_</code>".</p> <h5 id=searching-for-header-files-and-libraries-i-l-and-l>Searching for Header Files and Libraries (-I, -L and -l)<a class=headerlink href=#searching-for-header-files-and-libraries-i-l-and-l title="Permanent link">&para;</a></h5> <p>When compiling the program, the <em>compiler</em> needs the <em>header files</em> to compile the source codes; the <em>linker</em> needs the <em>libraries</em> to resolve external references from other object files or libraries. The compiler and linker will not find the headers/libraries unless you set the appropriate options, which is not obvious for first-time user.</p> <p>For each of the headers used in your source (via <code>#include</code> directives), the compiler searches the so-called <em>include-paths</em> for these headers. The include-paths are specified via <code>-I_dir_</code> option (or environment variable <code>CPATH</code>). Since the header's filename is known (e.g., <code>iostream.h</code>, <code>stdio.h</code>), the compiler only needs the directories.</p> <p>The linker searches the so-called <em>library-paths</em> for libraries needed to link the program into an executable. The library-path is specified via <code>-L_dir_</code> option (uppercase <code>'L'</code> followed by the directory path) (or environment variable <code>LIBRARY_PATH</code>). In addition, you also have to specify the library name. In Unixes, the library <code>lib_xxx_.a</code> is specified via <code>-l_xxx_</code> option (lowercase letter <code>'l'</code>, without the prefix "<code>lib</code>" and <code>".a</code>" extension). In Windows, provide the full name such as <code>-lxxx.lib</code>. The linker needs to know both the directories as well as the library names. Hence, two options need to be specified.</p> <h5 id=default-include-paths-library-paths-and-libraries>Default Include-paths, Library-paths and Libraries<a class=headerlink href=#default-include-paths-library-paths-and-libraries title="Permanent link">&para;</a></h5> <p>Try list the default include-paths in your system used by the "GNU C Preprocessor" via "<code>cpp -v</code>":</p> <div class=highlight><pre><span></span><code>&gt; cpp -v
 ......
 #include &quot;...&quot; search starts here:
 #include &lt;...&gt; search starts here:
  /usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include
  /usr/include
  /usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api
-</code></pre></div>
-<p>Try running the compilation in verbose mode (<code>-v</code>) to study the library-paths (<code>-L</code>) and libraries (<code>-l</code>) used in your system:</p>
-<div class="highlight"><pre><span></span><code>&gt; gcc -v -o hello.exe hello.c
+</code></pre></div> <p>Try running the compilation in verbose mode (<code>-v</code>) to study the library-paths (<code>-L</code>) and libraries (<code>-l</code>) used in your system:</p> <div class=highlight><pre><span></span><code>&gt; gcc -v -o hello.exe hello.c
 ......
 -L/usr/lib/gcc/x86_64-pc-cygwin/6.4.0
 -L/usr/x86_64-pc-cygwin/lib
@@ -1152,20 +142,7 @@ $ ./hello
 -lshell32   // libshell32.a
 -luser32    // libuser32.a
 -lkernel32  // libkernel32.a
-</code></pre></div>
-<p>Eclipse CDT: In Eclipse CDT, you can set the include paths, library paths and libraries by right-click on the project ⇒ Properties ⇒ C/C++ General ⇒ Paths and Symbols ⇒ Under tabs "Includes", "Library Paths" and "Libraries". The settings are applicable to the selected project only.</p>
-<h4 id="19-gcc-environment-variables">1.9  GCC Environment Variables<a class="headerlink" href="#19-gcc-environment-variables" title="Permanent link">&para;</a></h4>
-<p>GCC uses the following environment variables:</p>
-<ul>
-<li><code>PATH</code>: For searching the executables and run-time shared libraries (<code>.dll</code>, <code>.so</code>).</li>
-<li><code>CPATH</code>: For searching the <em>include-paths</em> for headers. It is searched after paths specified in <code>-I&lt;_dir_&gt;</code> options. <code>C_INCLUDE_PATH</code> and <code>CPLUS_INCLUDE_PATH</code> can be used to specify C and C++ headers if the particular language was indicated in pre-processing.</li>
-<li><code>LIBRARY_PATH</code>: For searching <em>library-paths</em> for link libraries. It is searched after paths specified in -<code>L&lt;_dir_&gt;</code> options.</li>
-</ul>
-<h4 id="110-utilities-for-examining-the-compiled-files">1.10  Utilities for Examining the Compiled Files<a class="headerlink" href="#110-utilities-for-examining-the-compiled-files" title="Permanent link">&para;</a></h4>
-<p>For all the GNU utilities, you can use "<code>_command_ --help</code>" to list the help menu; or "<code>man _command_</code>" to display the man pages.</p>
-<h5 id="file-utility-determine-file-type">"file" Utility - Determine File Type<a class="headerlink" href="#file-utility-determine-file-type" title="Permanent link">&para;</a></h5>
-<p>The utility "<code>file</code>" can be used to display the type of object files and executable files. For example,</p>
-<div class="highlight"><pre><span></span><code>$ gcc -c hello.c
+</code></pre></div> <p>Eclipse CDT: In Eclipse CDT, you can set the include paths, library paths and libraries by right-click on the project ⇒ Properties ⇒ C/C++ General ⇒ Paths and Symbols ⇒ Under tabs "Includes", "Library Paths" and "Libraries". The settings are applicable to the selected project only.</p> <h4 id=19-gcc-environment-variables>1.9  GCC Environment Variables<a class=headerlink href=#19-gcc-environment-variables title="Permanent link">&para;</a></h4> <p>GCC uses the following environment variables:</p> <ul> <li><code>PATH</code>: For searching the executables and run-time shared libraries (<code>.dll</code>, <code>.so</code>).</li> <li><code>CPATH</code>: For searching the <em>include-paths</em> for headers. It is searched after paths specified in <code>-I&lt;_dir_&gt;</code> options. <code>C_INCLUDE_PATH</code> and <code>CPLUS_INCLUDE_PATH</code> can be used to specify C and C++ headers if the particular language was indicated in pre-processing.</li> <li><code>LIBRARY_PATH</code>: For searching <em>library-paths</em> for link libraries. It is searched after paths specified in -<code>L&lt;_dir_&gt;</code> options.</li> </ul> <h4 id=110-utilities-for-examining-the-compiled-files>1.10  Utilities for Examining the Compiled Files<a class=headerlink href=#110-utilities-for-examining-the-compiled-files title="Permanent link">&para;</a></h4> <p>For all the GNU utilities, you can use "<code>_command_ --help</code>" to list the help menu; or "<code>man _command_</code>" to display the man pages.</p> <h5 id=file-utility-determine-file-type>"file" Utility - Determine File Type<a class=headerlink href=#file-utility-determine-file-type title="Permanent link">&para;</a></h5> <p>The utility "<code>file</code>" can be used to display the type of object files and executable files. For example,</p> <div class=highlight><pre><span></span><code>$ gcc -c hello.c
 $ gcc -o hello.exe hello.o
 
 $ file hello.c
@@ -1176,10 +153,7 @@ hello.o: data
 
 &gt; file hello.exe
 hello.exe: PE32 executable (console) x86-64, for MS Windows
-</code></pre></div>
-<h5 id="nm-utility-list-symbol-table-of-object-files">"nm" Utility - List Symbol Table of Object Files<a class="headerlink" href="#nm-utility-list-symbol-table-of-object-files" title="Permanent link">&para;</a></h5>
-<p>The utility "<code>nm</code>" lists symbol table of object files. For example,</p>
-<div class="highlight"><pre><span></span><code>$ nm hello.o
+</code></pre></div> <h5 id=nm-utility-list-symbol-table-of-object-files>"nm" Utility - List Symbol Table of Object Files<a class=headerlink href=#nm-utility-list-symbol-table-of-object-files title="Permanent link">&para;</a></h5> <p>The utility "<code>nm</code>" lists symbol table of object files. For example,</p> <div class=highlight><pre><span></span><code>$ nm hello.o
 0000000000000000 b .bss
 0000000000000000 d .data
 0000000000000000 p .pdata
@@ -1196,11 +170,7 @@ $ nm hello.exe | grep main
 0000000100401120 T __main
 00000001004010e0 T main
 ......
-</code></pre></div>
-<p>"nm" is commonly-used to check if a particular function is defined in an object file. A <code>'T'</code> in the second column indicates a function that is <em>defined</em>, while a <code>'U'</code> indicates a function which is <em>undefined</em> and should be resolved by the linker.</p>
-<h5 id="ldd-utility-list-dynamic-link-libraries">"ldd" Utility - List Dynamic-Link Libraries<a class="headerlink" href="#ldd-utility-list-dynamic-link-libraries" title="Permanent link">&para;</a></h5>
-<p>The utility "<code>ldd</code>" examines an executable and displays a list of the shared libraries that it needs. For example,</p>
-<div class="highlight"><pre><span></span><code>&gt; ldd hello.exe
+</code></pre></div> <p>"nm" is commonly-used to check if a particular function is defined in an object file. A <code>'T'</code> in the second column indicates a function that is <em>defined</em>, while a <code>'U'</code> indicates a function which is <em>undefined</em> and should be resolved by the linker.</p> <h5 id=ldd-utility-list-dynamic-link-libraries>"ldd" Utility - List Dynamic-Link Libraries<a class=headerlink href=#ldd-utility-list-dynamic-link-libraries title="Permanent link">&para;</a></h5> <p>The utility "<code>ldd</code>" examines an executable and displays a list of the shared libraries that it needs. For example,</p> <div class=highlight><pre><span></span><code>&gt; ldd hello.exe
 ntdll.dll =&gt; /cygdrive/c/WINDOWS/SYSTEM32/ntdll.dll (0x7ff9ba3c0000)
 KERNEL32.DLL =&gt; /cygdrive/c/WINDOWS/System32/KERNEL32.DLL (0x7ff9b9880000)
 KERNELBASE.dll =&gt; /cygdrive/c/WINDOWS/System32/KERNELBASE.dll (0x7ff9b6a60000)
@@ -1210,27 +180,14 @@ msvcrt.dll =&gt; /cygdrive/c/WINDOWS/System32/msvcrt.dll (0x7ff9b9100000)
 sechost.dll =&gt; /cygdrive/c/WINDOWS/System32/sechost.dll (0x7ff9b9000000)
 RPCRT4.dll =&gt; /cygdrive/c/WINDOWS/System32/RPCRT4.dll (0x7ff9b9700000)
 cygwin1.dll =&gt; /usr/bin/cygwin1.dll (0x180040000)
-</code></pre></div>
-<h3 id="2-gnu-make">2.  GNU Make<a class="headerlink" href="#2-gnu-make" title="Permanent link">&para;</a></h3>
-<p>make对makefile进行操作</p>
-<p>查看make帮助：</p>
-<ul>
-<li>"<code>make --help</code>" </li>
-<li>"<code>man make</code>"</li>
-</ul>
-<h4 id="21-makefile">2.1  一个简单的makefile例子<a class="headerlink" href="#21-makefile" title="Permanent link">&para;</a></h4>
-<p>First Makefile By Example：<code>hello.c</code></p>
-<div class="highlight"><pre><span></span><code><span class="c1">// hello.c</span>
-<span class="cp">#include</span> <span class="cpf">&lt;stdio.h&gt;</span><span class="cp"></span>
+</code></pre></div> <h3 id=2-gnu-make>2.  GNU Make<a class=headerlink href=#2-gnu-make title="Permanent link">&para;</a></h3> <p>make对makefile进行操作</p> <p>查看make帮助：</p> <ul> <li>"<code>make --help</code>" </li> <li>"<code>man make</code>"</li> </ul> <h4 id=21-makefile>2.1  一个简单的makefile例子<a class=headerlink href=#21-makefile title="Permanent link">&para;</a></h4> <p>First Makefile By Example：<code>hello.c</code></p> <div class=highlight><pre><span></span><code><span class=c1>// hello.c</span>
+<span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp></span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="n">printf</span><span class="p">(</span><span class="s">&quot;Hello, world!</span><span class="se">\n</span><span class="s">&quot;</span><span class="p">);</span>
-    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div>
-<p>创建一个makefile文件（没有后缀名）</p>
-<p>Use "tab" to indent the command (NOT spaces).</p>
-<div class="highlight"><pre><span></span><code>all: hello.exe
+<span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+    <span class=n>printf</span><span class=p>(</span><span class=s>&quot;Hello, world!</span><span class=se>\n</span><span class=s>&quot;</span><span class=p>);</span>
+    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+<span class=p>}</span>
+</code></pre></div> <p>创建一个makefile文件（没有后缀名）</p> <p>Use "tab" to indent the command (NOT spaces).</p> <div class=highlight><pre><span></span><code>all: hello.exe
 
 hello.exe: hello.o
      gcc -o hello.exe hello.o
@@ -1240,133 +197,54 @@ hello.o: hello.c
 
 clean:
      rm hello.o hello.exe
-</code></pre></div>
-<p>Run the "<code>make</code>" utility as follows:</p>
-<div class="highlight"><pre><span></span><code>&gt; make
+</code></pre></div> <p>Run the "<code>make</code>" utility as follows:</p> <div class=highlight><pre><span></span><code>&gt; make
 gcc -c hello.c
 gcc -o hello.exe hello.o
-</code></pre></div>
-<p>. A makefile consists of a set of rules. makefile语法的3部分： a target, a list of pre-requisites and a command, as follows:</p>
-<div class="highlight"><pre><span></span><code>target: pre-req-1 pre-req-2 ...
+</code></pre></div> <p>. A makefile consists of a set of rules. makefile语法的3部分： a target, a list of pre-requisites and a command, as follows:</p> <div class=highlight><pre><span></span><code>target: pre-req-1 pre-req-2 ...
     command
-</code></pre></div>
-<p>其中：</p>
-<ul>
-<li>目标和前提条件prerequisites由分号隔开，第二行的命令需要有缩进（用tab键实现，不是space键）</li>
-<li>make在执行规则的时候，首先去寻找prerequisites，如果prerequisites有对应的规则，则会事先去更新这些prerequisites的规则</li>
-<li>运行make没有任何变量的话，则从target "<code>all</code>" 开始执行</li>
-</ul>
-<p>因此这里的执行顺序：</p>
-<ul>
-<li>make首先执行all，发觉前提条件为hello.exe, 因此需要执行hello.exe对应的规则，这时候hello.exe前提条件为hello.o, 所以需要去执行生成hello.o的规则。In the above example, the rule "<code>all</code>" has a pre-requisite "<code>hello.exe</code>". <code>make</code> cannot find the file "<code>hello.exe</code>", so it looks for a rule to create it. The rule "<code>hello.exe</code>" has a pre-requisite "<code>hello.o</code>". Again, it does not exist, so <code>make</code> looks for a rule to create it. The rule "<code>hello.o</code>" has a pre-requisite "<code>hello.c</code>". <code>make</code> checks that "<code>hello.c</code>" exists and it is newer than the target (which does not exist). It runs the command "<code>gcc -c hello.c</code>". The rule "<code>hello.exe</code>" then run its command "<code>gcc -o hello.exe hello.o</code>". Finally, the rule "<code>all</code>" does nothing.</li>
-</ul>
-<p>More importantly, if the pre-requisite is not newer than than target, the command will not be run. In other words, the command will be run only if the target is out-dated compared with its pre-requisite. For example, if we re-run the make command:</p>
-<div class="highlight"><pre><span></span><code>&gt; make
+</code></pre></div> <p>其中：</p> <ul> <li>目标和前提条件prerequisites由分号隔开，第二行的命令需要有缩进（用tab键实现，不是space键）</li> <li>make在执行规则的时候，首先去寻找prerequisites，如果prerequisites有对应的规则，则会事先去更新这些prerequisites的规则</li> <li>运行make没有任何变量的话，则从target "<code>all</code>" 开始执行</li> </ul> <p>因此这里的执行顺序：</p> <ul> <li>make首先执行all，发觉前提条件为hello.exe, 因此需要执行hello.exe对应的规则，这时候hello.exe前提条件为hello.o, 所以需要去执行生成hello.o的规则。In the above example, the rule "<code>all</code>" has a pre-requisite "<code>hello.exe</code>". <code>make</code> cannot find the file "<code>hello.exe</code>", so it looks for a rule to create it. The rule "<code>hello.exe</code>" has a pre-requisite "<code>hello.o</code>". Again, it does not exist, so <code>make</code> looks for a rule to create it. The rule "<code>hello.o</code>" has a pre-requisite "<code>hello.c</code>". <code>make</code> checks that "<code>hello.c</code>" exists and it is newer than the target (which does not exist). It runs the command "<code>gcc -c hello.c</code>". The rule "<code>hello.exe</code>" then run its command "<code>gcc -o hello.exe hello.o</code>". Finally, the rule "<code>all</code>" does nothing.</li> </ul> <p>More importantly, if the pre-requisite is not newer than than target, the command will not be run. In other words, the command will be run only if the target is out-dated compared with its pre-requisite. For example, if we re-run the make command:</p> <div class=highlight><pre><span></span><code>&gt; make
 make: Nothing to be done for `all&#39;.
-</code></pre></div>
-<p>也可以单独执行makefile里的某个规则，比如：</p>
-<div class="highlight"><pre><span></span><code>&gt; make clean
+</code></pre></div> <p>也可以单独执行makefile里的某个规则，比如：</p> <div class=highlight><pre><span></span><code>&gt; make clean
 rm hello.o hello.exe
 
 &gt; make
 gcc -c hello.c
 gcc -o hello.exe hello.o
-</code></pre></div>
-<p>Try modifying the "<code>hello.c</code>" and run <code>make</code>.</p>
-<p>NOTES:</p>
-<ul>
-<li>If the <em>command</em> is not preceded by a tab, you get an error message "makefile:4: *** missing separator. Stop."</li>
-<li>If there is no <code>makefile</code> in the current directory, you get an error message "make: *** No targets specified and no makefile found. Stop."</li>
-<li>makefile 可以命名为 "<code>makefile</code>", "<code>Makefile</code>" or "<code>GNUMakefile</code>" （没有后缀）</li>
-</ul>
-<h4 id="22-more-on-makefile">2.2  More on Makefile<a class="headerlink" href="#22-more-on-makefile" title="Permanent link">&para;</a></h4>
-<ul>
-<li>注释： <code>#</code> </li>
-<li>对一个长行进行分行处理 (<code>\</code>).</li>
-<li>
-<p>一般规则的语法</p>
-<div class="highlight"><pre><span></span><code>target1 [target2 ...]: [pre-req-1 pre-req-2 ...]
+</code></pre></div> <p>Try modifying the "<code>hello.c</code>" and run <code>make</code>.</p> <p>NOTES:</p> <ul> <li>If the <em>command</em> is not preceded by a tab, you get an error message "makefile:4: *** missing separator. Stop."</li> <li>If there is no <code>makefile</code> in the current directory, you get an error message "make: *** No targets specified and no makefile found. Stop."</li> <li>makefile 可以命名为 "<code>makefile</code>", "<code>Makefile</code>" or "<code>GNUMakefile</code>" （没有后缀）</li> </ul> <h4 id=22-more-on-makefile>2.2  More on Makefile<a class=headerlink href=#22-more-on-makefile title="Permanent link">&para;</a></h4> <ul> <li>注释： <code>#</code> </li> <li>对一个长行进行分行处理 (<code>\</code>).</li> <li> <p>一般规则的语法</p> <div class=highlight><pre><span></span><code>target1 [target2 ...]: [pre-req-1 pre-req-2 ...]
     [command1
      command2
      ......]
-</code></pre></div>
-</li>
-<li>
-<p>Phony Targets (or Artificial Targets) 。该target不代表文件，比如 <code>all</code>, <code>clean</code>, <code>install</code>. Phony目标总是最新的</p>
-</li>
-<li>
-<p>变量用<code>$</code>开头，后面带小括号 <code>(...)</code>或者大括号 <code>{...}</code>。比如<code>$(CC)</code>, <code>$(CC_FLAGS)</code>, <code>$@</code>, <code>$^</code></p>
-</li>
-<li>
-<p>自动变量:</p>
-</li>
-<li>
-<p><code>$@</code>: the target filename.</p>
-</li>
-<li>
-<p><code>$*</code>: the target filename without the file extension.</p>
-</li>
-<li>
-<p><code>$&lt;</code>: the first prerequisite filename.</p>
-</li>
-<li>
-<p><code>$^</code>: the filenames of all the prerequisites, separated by spaces, discard duplicates.</p>
-</li>
-<li>
-<p><code>$+</code>: similar to <code>$^</code>, but includes duplicates.</p>
-</li>
-<li>
-<p><code>$?</code>: the names of all prerequisites that are newer than the target, separated by spaces.</p>
-<p>比如：</p>
-<div class="highlight"><pre><span></span><code><span class="nf">all</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">exe</span>
+</code></pre></div> </li> <li> <p>Phony Targets (or Artificial Targets) 。该target不代表文件，比如 <code>all</code>, <code>clean</code>, <code>install</code>. Phony目标总是最新的</p> </li> <li> <p>变量用<code>$</code>开头，后面带小括号 <code>(...)</code>或者大括号 <code>{...}</code>。比如<code>$(CC)</code>, <code>$(CC_FLAGS)</code>, <code>$@</code>, <code>$^</code></p> </li> <li> <p>自动变量:</p> </li> <li> <p><code>$@</code>: the target filename.</p> </li> <li> <p><code>$*</code>: the target filename without the file extension.</p> </li> <li> <p><code>$&lt;</code>: the first prerequisite filename.</p> </li> <li> <p><code>$^</code>: the filenames of all the prerequisites, separated by spaces, discard duplicates.</p> </li> <li> <p><code>$+</code>: similar to <code>$^</code>, but includes duplicates.</p> </li> <li> <p><code>$?</code>: the names of all prerequisites that are newer than the target, separated by spaces.</p> <p>比如：</p> <div class=highlight><pre><span></span><code><span class=nf>all</span><span class=o>:</span> <span class=n>hello</span>.<span class=n>exe</span>
 
-<span class="c"># $@ matches the target; $&lt; matches the first dependent</span>
-<span class="nf">hello.exe</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">o</span>
-    gcc -o <span class="nv">$@</span> $&lt;
+<span class=c># $@ matches the target; $&lt; matches the first dependent</span>
+<span class=nf>hello.exe</span><span class=o>:</span> <span class=n>hello</span>.<span class=n>o</span>
+    gcc -o <span class=nv>$@</span> $&lt;
 
-<span class="nf">hello.o</span><span class="o">:</span> <span class="n">hello</span>.<span class="n">c</span>
+<span class=nf>hello.o</span><span class=o>:</span> <span class=n>hello</span>.<span class=n>c</span>
     gcc -c $&lt;
 
-<span class="nf">clean</span><span class="o">:</span>
+<span class=nf>clean</span><span class=o>:</span>
     rm hello.o hello.exe
-</code></pre></div>
-</li>
-<li>
-<p>虚拟路径：利用 <code>VPATH</code> (大写)来指定要搜索的依赖和目标文件路径。比如</p>
-</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c"># Search for dependencies and targets from &quot;src&quot; and &quot;include&quot; directories</span>
-<span class="c"># The directories are separated by space</span>
-<span class="nv">VPATH</span> <span class="o">=</span> src include
-</code></pre></div>
-<p>用小写的可以用来指出路径名：</p>
-<div class="highlight"><pre><span></span><code><span class="c"># Search for .c files in &quot;src&quot; directory; .h files in &quot;include&quot; directory</span>
-<span class="c"># The pattern matching character &#39;%&#39; matches filename without the extension</span>
-<span class="cp">vpath %.c src</span>
-<span class="cp">vpath %.h include</span>
-</code></pre></div>
-<ul>
-<li>Pattern Rules 用<code>'%'</code>来进行文件名的匹配</li>
-</ul>
-<div class="highlight"><pre><span></span><code><span class="c"># Applicable for create .o object file.</span>
-<span class="c"># &#39;%&#39; matches filename.</span>
-<span class="c"># $&lt; is the first pre-requisite</span>
-<span class="c"># $(COMPILE.c) consists of compiler name and compiler options</span>
-<span class="c"># $(OUTPUT_OPTIONS) could be -o $@</span>
-<span class="nf">%.o</span><span class="o">:</span> %.<span class="n">c</span>
-  <span class="k">$(</span>COMPILE.c<span class="k">)</span> <span class="k">$(</span>OUTPUT_OPTION<span class="k">)</span> $&lt;
+</code></pre></div> </li> <li> <p>虚拟路径：利用 <code>VPATH</code> (大写)来指定要搜索的依赖和目标文件路径。比如</p> </li> </ul> <div class=highlight><pre><span></span><code><span class=c># Search for dependencies and targets from &quot;src&quot; and &quot;include&quot; directories</span>
+<span class=c># The directories are separated by space</span>
+<span class=nv>VPATH</span> <span class=o>=</span> src include
+</code></pre></div> <p>用小写的可以用来指出路径名：</p> <div class=highlight><pre><span></span><code><span class=c># Search for .c files in &quot;src&quot; directory; .h files in &quot;include&quot; directory</span>
+<span class=c># The pattern matching character &#39;%&#39; matches filename without the extension</span>
+<span class=cp>vpath %.c src</span>
+<span class=cp>vpath %.h include</span>
+</code></pre></div> <ul> <li>Pattern Rules 用<code>'%'</code>来进行文件名的匹配</li> </ul> <div class=highlight><pre><span></span><code><span class=c># Applicable for create .o object file.</span>
+<span class=c># &#39;%&#39; matches filename.</span>
+<span class=c># $&lt; is the first pre-requisite</span>
+<span class=c># $(COMPILE.c) consists of compiler name and compiler options</span>
+<span class=c># $(OUTPUT_OPTIONS) could be -o $@</span>
+<span class=nf>%.o</span><span class=o>:</span> %.<span class=n>c</span>
+  <span class=k>$(</span>COMPILE.c<span class=k>)</span> <span class=k>$(</span>OUTPUT_OPTION<span class=k>)</span> $&lt;
 
-<span class="c"># Applicable for create executable (without extension) from object .o object file</span>
-<span class="c"># $^ matches all the pre-requisites (no duplicates)</span>
-<span class="nf">%</span><span class="o">:</span> %.<span class="n">o</span>
-<span class="k">$(</span><span class="nv">LINK.o</span><span class="k">)</span> <span class="err">$^</span> <span class="k">$(</span><span class="nv">LOADLIBES</span><span class="k">)</span> <span class="k">$(</span><span class="nv">LDLIBS</span><span class="k">)</span> <span class="err">-o</span> <span class="k">$@</span>
-</code></pre></div>
-<ul>
-<li>隐含的匹配规则 You can list all the rule via <code>--print-data-base</code> option.</li>
-</ul>
-<h4 id="23-makefile">2.3   Makefile示例<a class="headerlink" href="#23-makefile" title="Permanent link">&para;</a></h4>
-<p>This sample makefile is extracted from Eclipse's "C/C++ Development Guide -Makefile".</p>
-<div class="highlight"><pre><span></span><code># A sample Makefile
+<span class=c># Applicable for create executable (without extension) from object .o object file</span>
+<span class=c># $^ matches all the pre-requisites (no duplicates)</span>
+<span class=nf>%</span><span class=o>:</span> %.<span class=n>o</span>
+<span class=k>$(</span><span class=nv>LINK.o</span><span class=k>)</span> <span class=err>$^</span> <span class=k>$(</span><span class=nv>LOADLIBES</span><span class=k>)</span> <span class=k>$(</span><span class=nv>LDLIBS</span><span class=k>)</span> <span class=err>-o</span> <span class=k>$@</span>
+</code></pre></div> <ul> <li>隐含的匹配规则 You can list all the rule via <code>--print-data-base</code> option.</li> </ul> <h4 id=23-makefile>2.3   Makefile示例<a class=headerlink href=#23-makefile title="Permanent link">&para;</a></h4> <p>This sample makefile is extracted from Eclipse's "C/C++ Development Guide -Makefile".</p> <div class=highlight><pre><span></span><code># A sample Makefile
 # This Makefile demonstrates and explains 
 # Make Macros, Macro Expansions,
 # Rules, Targets, Dependencies, Commands, Goals
@@ -1442,64 +320,4 @@ Test2.o : Test2.h
 # %.dep : %.cpp
 #   g++ -M $(FLAGS) $&lt; &gt; $@
 # include $(OBJS:.o=.dep)
-</code></pre></div>
-<h4 id="24-brief-summary">2.4  Brief Summary<a class="headerlink" href="#24-brief-summary" title="Permanent link">&para;</a></h4>
-<p>I have presented the basic make features here so that you can read and understand simple makefiles for building C/C++ applications. Make is actually quite complex, and can be considered as a programming language by itself!!</p>
-<p>REFERENCES &amp; RESOURCES</p>
-<ol>
-<li>GCC Manual "Using the GNU Compiler Collection (GCC)" @ <a href="http://gcc.gnu.org/onlinedocs">http://gcc.gnu.org/onlinedocs</a>.</li>
-<li>GNU 'make' manual @ <a href="http://www.gnu.org/software/make/manual/make.html">http://www.gnu.org/software/make/manual/make.html</a>.</li>
-<li>Robert Mecklenburg, "Managing Projects with GNU Make", 3<sup>rd</sup> Edition, 2004.</li>
-</ol>
-<p>Latest version tested: CygWin GCC 6.4.0, MinGW-W64 GCC 6.4.0<br />
-Last modified: March, 2018</p>
-<hr />
-                
-              
-              
-                
-
-
-              
-            </article>
-          </div>
-        </div>
-        
-      </main>
-      
-        
-<footer class="md-footer">
-  
-  <div class="md-footer-meta md-typeset">
-    <div class="md-footer-meta__inner md-grid">
-      <div class="md-footer-copyright">
-        
-          <div class="md-footer-copyright__highlight">
-            Copyright &copy; mdeng li
-          </div>
-        
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
-        
-      </div>
-      
-    </div>
-  </div>
-</footer>
-      
-    </div>
-    <div class="md-dialog" data-md-component="dialog">
-      <div class="md-dialog__inner md-typeset"></div>
-    </div>
-    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
-    
-    
-      <script src="../../../../assets/javascripts/bundle.7353b375.min.js"></script>
-      
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
-      
-    
-  </body>
-</html>
+</code></pre></div> <h4 id=24-brief-summary>2.4  Brief Summary<a class=headerlink href=#24-brief-summary title="Permanent link">&para;</a></h4> <p>I have presented the basic make features here so that you can read and understand simple makefiles for building C/C++ applications. Make is actually quite complex, and can be considered as a programming language by itself!!</p> <p>REFERENCES &amp; RESOURCES</p> <ol> <li>GCC Manual "Using the GNU Compiler Collection (GCC)" @ <a href=http://gcc.gnu.org/onlinedocs>http://gcc.gnu.org/onlinedocs</a>.</li> <li>GNU 'make' manual @ <a href=http://www.gnu.org/software/make/manual/make.html>http://www.gnu.org/software/make/manual/make.html</a>.</li> <li>Robert Mecklenburg, "Managing Projects with GNU Make", 3<sup>rd</sup> Edition, 2004.</li> </ol> <p>Latest version tested: CygWin GCC 6.4.0, MinGW-W64 GCC 6.4.0<br> Last modified: March, 2018</p> <hr> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
