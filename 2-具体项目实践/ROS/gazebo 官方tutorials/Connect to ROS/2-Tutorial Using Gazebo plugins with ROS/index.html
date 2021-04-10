@@ -1,0 +1,449 @@
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/gazebo%20%E5%AE%98%E6%96%B9tutorials/Connect%20to%20ROS/2-Tutorial%20Using%20Gazebo%20plugins%20with%20ROS/ rel=canonical><link rel=icon href=../../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>2 Tutorial Using Gazebo plugins with ROS - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#tutorial-using-gazebo-plugins-with-ros class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 2 Tutorial Using Gazebo plugins with ROS </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#_1 class=md-nav__link> 插件类型 </a> </li> <li class=md-nav__item> <a href=#modelplugin class=md-nav__link> 添加模型插件 ModelPlugin </a> </li> <li class=md-nav__item> <a href=#adding-a-sensorplugin class=md-nav__link> Adding a SensorPlugin </a> </li> <li class=md-nav__item> <a href=#rrbot class=md-nav__link> RRBot 中的相机插件 </a> <nav class=md-nav aria-label="RRBot 中的相机插件"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#rrbotxacrolinkjoint class=md-nav__link> rrbot.xacro中的相机link/joint定义 </a> </li> <li class=md-nav__item> <a href=#rrbotgazebo class=md-nav__link> rrbot.gazebo中的相机及插件设置 </a> </li> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 运行示例 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#rrbot_1 class=md-nav__link> RRBot 中的激光雷达插件 </a> <nav class=md-nav aria-label="RRBot 中的激光雷达插件"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#xacro-urdflinkjoint class=md-nav__link> 在Xacro URDF中添加link和joint </a> </li> <li class=md-nav__item> <a href=#rrbotgazebo_1 class=md-nav__link> 在rrbot.gazebo中添加雷达和插件 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 运行示例 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 下一步 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 后面是还没看的 </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <ul> <li>无 created_at: 2021-04-03 10:06:31 original_url: <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">http://gazebosim.org/tutorials?tut=ros_gzplugins</a></li> </ul> <hr> <h1 id=tutorial-using-gazebo-plugins-with-ros>Tutorial: Using Gazebo plugins with ROS<a class=headerlink href=#tutorial-using-gazebo-plugins-with-ros title="Permanent link">&para;</a></h1> <p>Gazebo可以输出敏感器的输出信息, 接收motor的输入信息.</p> <p>本教程的接上一课程[[1-Tutorial Using a URDF in Gazebo]] (<a href="http://gazebosim.org/tutorials/?tut=ros_urdf">previous tutorial on URDFs</a> )</p> <h2 id=_1>插件类型<a class=headerlink href=#_1 title="Permanent link">&para;</a></h2> <p>Gazebo 支持多种插件 <a href="http://gazebosim.org/tutorials?tut=plugins_hello_world&cat=write_plugin">several plugin types</a>, 不过只有如下3种用于URDF:</p> <ol> <li><a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1ModelPlugin.html>ModelPlugins</a>, to provide access to the <a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1physics_1_1Model.html>physics::Model</a> API</li> <li><a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1SensorPlugin.html>SensorPlugins</a>, to provide access to the <a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1sensors_1_1Sensor.html>sensors::Sensor</a> API</li> <li><a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1VisualPlugin.html>VisualPlugins</a>, to provide access to the <a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1rendering_1_1Visual.html>rendering::Visual</a> API</li> </ol> <p>最好先确认下是否安装了插件<code>sudo apt-get install ros-melodic-gazebo-plugins</code></p> <h2 id=modelplugin>添加模型插件 <code>ModelPlugin</code><a class=headerlink href=#modelplugin title="Permanent link">&para;</a></h2> <p>直接在<code>&lt;robot&gt;</code>元素下给出即可, 示例如下: </p> <div class=highlight><pre><span></span><code>&lt;robot&gt;
+  ... robot description ...
+  &lt;gazebo&gt;
+    &lt;plugin name=&quot;differential_drive_controller&quot; filename=&quot;libdiffdrive_plugin.so&quot;&gt;
+      ... plugin parameters ...
+    &lt;/plugin&gt;
+  &lt;/gazebo&gt;
+  ... robot description ...
+&lt;/robot&gt;
+</code></pre></div> <p>Upon loading the <a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1physics_1_1Model.html>robot model</a> within Gazebo, the <code>diffdrive_plugin</code> code will be given a reference to the model itself, allowing it to manipulate it. Also, it will be give a reference to the <a href=http://osrf-distributions.s3.amazonaws.com/sdformat/api/dev/classsdf_1_1Element.html>SDF element</a> of itself, in order to read the plugin parameters passed to it.</p> <h2 id=adding-a-sensorplugin>Adding a <code>SensorPlugin</code><a class=headerlink href=#adding-a-sensorplugin title="Permanent link">&para;</a></h2> <p><a href=http://gazebosim.org/api/dev/group__gazebo__sensors.html>Sensors</a>是附加在link上,因此敏感器插件的reference为link, 在link reference下定义.</p> <div class=highlight><pre><span></span><code>&lt;robot&gt;
+  ... robot description ...
+  &lt;link name=&quot;sensor_link&quot;&gt;
+    ... link description ...
+  &lt;/link&gt;
+
+  &lt;gazebo reference=&quot;sensor_link&quot;&gt;
+    &lt;sensor type=&quot;camera&quot; name=&quot;camera1&quot;&gt;
+      ... sensor parameters ...
+      &lt;plugin name=&quot;camera_controller&quot; filename=&quot;libgazebo_ros_camera.so&quot;&gt;
+        ... plugin parameters ..
+      &lt;/plugin&gt;
+    &lt;/sensor&gt;
+  &lt;/gazebo&gt;
+
+&lt;/robot&gt;
+</code></pre></div> <p>Upon loading the robot model within Gazebo, the <code>camera_controller</code> code will be given a reference to the sensor, providing access to its API. Also, it will be give a reference to the SDF element of itself, in order to read the plugin parameters passed to it.</p> <h2 id=rrbot>RRBot 中的相机插件<a class=headerlink href=#rrbot title="Permanent link">&para;</a></h2> <p>^dd2599</p> <p>主要步骤:</p> <ol> <li>在<code>rrbot.xacro</code>中给出相机link和相关的joint定义</li> <li>在<code>.gazebo</code> 文件针对相机link,给出敏感器参数和敏感器插件的参数和关联</li> <li>在Gazebo中进行仿真</li> </ol> <h3 id=rrbotxacrolinkjoint><code>rrbot.xacro</code>中的相机link/joint定义<a class=headerlink href=#rrbotxacrolinkjoint title="Permanent link">&para;</a></h3> <ul> <li>首先需要在<code>rrbot.xacro</code>模型文件中定义一个相机的link以及joint将相机link和其他link连接起来. <div class=highlight><pre><span></span><code>  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;camera_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;${camera_link} 0 ${height3 - axel_offset*2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/joint&gt;</span>
+
+  <span class=c>&lt;!-- Camera --&gt;</span>
+  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;collision&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;geometry&gt;</span>
+    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;/geometry&gt;</span>
+    <span class=nt>&lt;/collision&gt;</span>
+
+    <span class=nt>&lt;visual&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;geometry&gt;</span>
+    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;/geometry&gt;</span>
+      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;red&quot;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;/visual&gt;</span>
+
+    <span class=nt>&lt;inertial&gt;</span>
+      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1e-5&quot;</span> <span class=nt>/&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;inertia</span> <span class=na>ixx=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0&quot;</span> <span class=na>iyy=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0&quot;</span> <span class=na>izz=</span><span class=s>&quot;1e-6&quot;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/inertial&gt;</span>
+  <span class=nt>&lt;/link&gt;</span>
+</code></pre></div></li> </ul> <h3 id=rrbotgazebo><code>rrbot.gazebo</code>中的相机及插件设置<a class=headerlink href=#rrbotgazebo title="Permanent link">&para;</a></h3> <p>然后在<code>rrbot.gazebo</code> 文件中对相机进行定义,并发布图形信息.</p> <p><div class=highlight><pre><span></span><code>      <span class=c>&lt;!-- camera --&gt;</span>
+      <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>&gt;</span>
+        <span class=nt>&lt;sensor</span> <span class=na>type=</span><span class=s>&quot;camera&quot;</span> <span class=na>name=</span><span class=s>&quot;camera1&quot;</span><span class=nt>&gt;</span>
+          <span class=nt>&lt;update_rate&gt;</span>30.0<span class=nt>&lt;/update_rate&gt;</span>
+          <span class=nt>&lt;camera</span> <span class=na>name=</span><span class=s>&quot;head&quot;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;horizontal_fov&gt;</span>1.3962634<span class=nt>&lt;/horizontal_fov&gt;</span>
+            <span class=nt>&lt;image&gt;</span>
+              <span class=nt>&lt;width&gt;</span>800<span class=nt>&lt;/width&gt;</span>
+              <span class=nt>&lt;height&gt;</span>800<span class=nt>&lt;/height&gt;</span>
+              <span class=nt>&lt;format&gt;</span>R8G8B8<span class=nt>&lt;/format&gt;</span>
+            <span class=nt>&lt;/image&gt;</span>
+            <span class=nt>&lt;clip&gt;</span>
+              <span class=nt>&lt;near&gt;</span>0.02<span class=nt>&lt;/near&gt;</span>
+              <span class=nt>&lt;far&gt;</span>300<span class=nt>&lt;/far&gt;</span>
+            <span class=nt>&lt;/clip&gt;</span>
+            <span class=nt>&lt;noise&gt;</span>
+              <span class=nt>&lt;type&gt;</span>gaussian<span class=nt>&lt;/type&gt;</span>
+              <span class=c>&lt;!-- Noise is sampled independently per pixel on each frame.</span>
+<span class=c>                   That pixel&#39;s noise value is added to each of its color</span>
+<span class=c>                   channels, which at that point lie in the range [0,1]. --&gt;</span>
+              <span class=nt>&lt;mean&gt;</span>0.0<span class=nt>&lt;/mean&gt;</span>
+              <span class=nt>&lt;stddev&gt;</span>0.007<span class=nt>&lt;/stddev&gt;</span>
+            <span class=nt>&lt;/noise&gt;</span>
+          <span class=nt>&lt;/camera&gt;</span>
+          <span class=nt>&lt;plugin</span> <span class=na>name=</span><span class=s>&quot;camera_controller&quot;</span> <span class=na>filename=</span><span class=s>&quot;libgazebo_ros_camera.so&quot;</span><span class=nt>&gt;</span>
+            <span class=nt>&lt;alwaysOn&gt;</span>true<span class=nt>&lt;/alwaysOn&gt;</span>
+            <span class=nt>&lt;updateRate&gt;</span>0.0<span class=nt>&lt;/updateRate&gt;</span>
+            <span class=nt>&lt;cameraName&gt;</span>rrbot/camera1<span class=nt>&lt;/cameraName&gt;</span>
+            <span class=nt>&lt;imageTopicName&gt;</span>image_raw<span class=nt>&lt;/imageTopicName&gt;</span>
+            <span class=nt>&lt;cameraInfoTopicName&gt;</span>camera_info<span class=nt>&lt;/cameraInfoTopicName&gt;</span>
+            <span class=nt>&lt;frameName&gt;</span>camera_link<span class=nt>&lt;/frameName&gt;</span>
+            <span class=nt>&lt;hackBaseline&gt;</span>0.07<span class=nt>&lt;/hackBaseline&gt;</span>
+            <span class=nt>&lt;distortionK1&gt;</span>0.0<span class=nt>&lt;/distortionK1&gt;</span>
+            <span class=nt>&lt;distortionK2&gt;</span>0.0<span class=nt>&lt;/distortionK2&gt;</span>
+            <span class=nt>&lt;distortionK3&gt;</span>0.0<span class=nt>&lt;/distortionK3&gt;</span>
+            <span class=nt>&lt;distortionT1&gt;</span>0.0<span class=nt>&lt;/distortionT1&gt;</span>
+            <span class=nt>&lt;distortionT2&gt;</span>0.0<span class=nt>&lt;/distortionT2&gt;</span>
+          <span class=nt>&lt;/plugin&gt;</span>
+        <span class=nt>&lt;/sensor&gt;</span>
+      <span class=nt>&lt;/gazebo&gt;</span>
+</code></pre></div> - <code>reference="camera_link"</code>表示下面的元素是针对<code>camer_link</code>定义的. - 声明敏感器的类型和名称<code>&lt;sensor type="camera" name="camera1"&gt;</code> - Gazebo中的图形生成周期<code>&lt;update_rate&gt;30.0&lt;/update_rate&gt;</code>, 实际中如果运行过快, 则频率可能会小于这些. - 根据相机指标对如下的指标进行设置: <div class=highlight><pre><span></span><code>      <span class=nt>&lt;horizontal_fov&gt;</span>1.3962634<span class=nt>&lt;/horizontal_fov&gt;</span>
+      <span class=nt>&lt;image&gt;</span>
+        <span class=nt>&lt;width&gt;</span>800<span class=nt>&lt;/width&gt;</span>
+        <span class=nt>&lt;height&gt;</span>800<span class=nt>&lt;/height&gt;</span>
+        <span class=nt>&lt;format&gt;</span>R8G8B8<span class=nt>&lt;/format&gt;</span>
+      <span class=nt>&lt;/image&gt;</span>
+      <span class=nt>&lt;clip&gt;</span>
+        <span class=nt>&lt;near&gt;</span>0.02<span class=nt>&lt;/near&gt;</span>
+        <span class=nt>&lt;far&gt;</span>300<span class=nt>&lt;/far&gt;</span>
+      <span class=nt>&lt;/clip&gt;</span>
+</code></pre></div> 其中near和far指的是相机能看到的最近目标和最远目标, 在optometry坐标系下给出.</p> <ul> <li> <p>将相机和插件进行关联<code>&lt;plugin name="camera_controller" filename="libgazebo_ros_camera.so"&gt;</code>, 插件的源文件为<code>gazebo_ros/gazebo_ros_camera.cpp</code> (<strong>找不到这个文件?</strong>)</p> </li> <li> <p><code>&lt;plugin /&gt;</code>里给出了插件的相关参数,比如 <div class=highlight><pre><span></span><code>     <span class=nt>&lt;cameraName&gt;</span>rrbot/camera1<span class=nt>&lt;/cameraName&gt;</span>
+     <span class=nt>&lt;imageTopicName&gt;</span>image_raw<span class=nt>&lt;/imageTopicName&gt;</span>
+     <span class=nt>&lt;cameraInfoTopicName&gt;</span>camera_info<span class=nt>&lt;/cameraInfoTopicName&gt;</span>
+</code></pre></div></p> </li> </ul> <p>可以订阅如下由相机发布的消息:</p> <div class=highlight><pre><span></span><code>      /rrbot/camera1/image_raw
+      /rrbot/camera1/camera_info
+</code></pre></div> <p>​ </p> <h3 id=_2>运行示例<a class=headerlink href=#_2 title="Permanent link">&para;</a></h3> <p>如下:</p> <div class=highlight><pre><span></span><code>roslaunch rrbot_gazebo rrbot_world.launch
+roslaunch rrbot_description rrbot_rviz.launch
+</code></pre></div> <p>In Rviz, add a ''Camera'' display and under ''Image Topic'' set it to <code>/rrbot/camera1/image_raw</code>.</p> <p>You should see a camera view of your Gazebo environment. In the following two pictures, a soda can was added to the environment for better visuals.</p> <p>The coke can added: ![[Pasted image 20210403110718.png]]</p> <p>在单摆摆下来后的相机视图如下: ![[Pasted image 20210403110835.png]]</p> <h2 id=rrbot_1>RRBot 中的激光雷达插件<a class=headerlink href=#rrbot_1 title="Permanent link">&para;</a></h2> <p>主要步骤:</p> <ol> <li>先在Xacro URDF中添加link和joint</li> <li>在<code>rrbot.gazebo</code>中添加雷达和插件</li> <li>运行launch文件</li> </ol> <h3 id=xacro-urdflinkjoint>在Xacro URDF中添加link和joint<a class=headerlink href=#xacro-urdflinkjoint title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;hokuyo_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height3 - axel_offset/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
+    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>/&gt;</span>
+  <span class=nt>&lt;/joint&gt;</span>
+
+  <span class=c>&lt;!-- Hokuyo Laser --&gt;</span>
+  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>&gt;</span>
+    <span class=nt>&lt;collision&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;geometry&gt;</span>
+    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;0.1 0.1 0.1&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;/geometry&gt;</span>
+    <span class=nt>&lt;/collision&gt;</span>
+
+    <span class=nt>&lt;visual&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;geometry&gt;</span>
+        <span class=nt>&lt;mesh</span> <span class=na>filename=</span><span class=s>&quot;package://rrbot_description/meshes/hokuyo.dae&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;/geometry&gt;</span>
+    <span class=nt>&lt;/visual&gt;</span>
+
+    <span class=nt>&lt;inertial&gt;</span>
+      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1e-5&quot;</span> <span class=nt>/&gt;</span>
+      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
+      <span class=nt>&lt;inertia</span> <span class=na>ixx=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0&quot;</span> <span class=na>iyy=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0&quot;</span> <span class=na>izz=</span><span class=s>&quot;1e-6&quot;</span> <span class=nt>/&gt;</span>
+    <span class=nt>&lt;/inertial&gt;</span>
+  <span class=nt>&lt;/link&gt;</span>
+</code></pre></div> <h3 id=rrbotgazebo_1>在<code>rrbot.gazebo</code>中添加雷达和插件<a class=headerlink href=#rrbotgazebo_1 title="Permanent link">&para;</a></h3> <p>Now we'll add the plugin information to <code>rrbot.gazebo</code>, again as we did for the camera example:</p> <div class=highlight><pre><span></span><code>  &lt;!-- hokuyo --&gt;
+  &lt;gazebo reference=&quot;hokuyo_link&quot;&gt;
+    &lt;sensor type=&quot;gpu_ray&quot; name=&quot;head_hokuyo_sensor&quot;&gt;
+      &lt;pose&gt;0 0 0 0 0 0&lt;/pose&gt;
+      &lt;visualize&gt;false&lt;/visualize&gt;
+      &lt;update_rate&gt;40&lt;/update_rate&gt;
+      &lt;ray&gt;
+        &lt;scan&gt;
+          &lt;horizontal&gt;
+            &lt;samples&gt;720&lt;/samples&gt;
+            &lt;resolution&gt;1&lt;/resolution&gt;
+            &lt;min_angle&gt;-1.570796&lt;/min_angle&gt;
+            &lt;max_angle&gt;1.570796&lt;/max_angle&gt;
+          &lt;/horizontal&gt;
+        &lt;/scan&gt;
+        &lt;range&gt;
+          &lt;min&gt;0.10&lt;/min&gt;
+          &lt;max&gt;30.0&lt;/max&gt;
+          &lt;resolution&gt;0.01&lt;/resolution&gt;
+        &lt;/range&gt;
+        &lt;noise&gt;
+          &lt;type&gt;gaussian&lt;/type&gt;
+          &lt;!-- Noise parameters based on published spec for Hokuyo laser
+               achieving &quot;+-30mm&quot; accuracy at range &lt; 10m.  A mean of 0.0m and
+               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
+               reading. --&gt;
+          &lt;mean&gt;0.0&lt;/mean&gt;
+          &lt;stddev&gt;0.01&lt;/stddev&gt;
+        &lt;/noise&gt;
+      &lt;/ray&gt;
+      &lt;plugin name=&quot;gazebo_ros_head_hokuyo_controller&quot; filename=&quot;libgazebo_ros_gpu_laser.so&quot;&gt;
+        &lt;topicName&gt;/rrbot/laser/scan&lt;/topicName&gt;
+        &lt;frameName&gt;hokuyo_link&lt;/frameName&gt;
+      &lt;/plugin&gt;
+    &lt;/sensor&gt;
+  &lt;/gazebo&gt;
+</code></pre></div> <p>几点说明</p> <ol> <li><code>&lt;visualize&gt;false&lt;/visualize&gt;</code>如果设置为true,则可以看到扫描区域.</li> <li>更多关于 <code>&lt;sensor&gt;</code> 和 <code>&lt;ray&gt;</code> 的说明见 <a href=http://gazebosim.org/sdf/dev.html#sensor225>SDF Documentation</a>.</li> <li>发布的话题名称`<topicname>/rrbot/laser/scan</topicname></li> </ol> <h3 id=_3>运行示例<a class=headerlink href=#_3 title="Permanent link">&para;</a></h3> <p>After you have saved both <code>rrbot.xacro</code> and <code>rrbot.gazebo</code>, you should be able to launch both Rviz and Gazebo in separate terminals:</p> <div class=highlight><pre><span></span><code>roslaunch rrbot_gazebo rrbot.launch
+roslaunch rrbot_description rrbot_rviz.launch
+</code></pre></div> <p>In Rviz, add a ''LaserScan'' display and under ''Topic'' set it to <code>/rrbot/laser/scan</code>.</p> <p>You should see a faint laser scan line in your Gazebo environment. While the pendulum is swinging, you should also see the laser scan swing. If the scan is too faint, you can up the size of the laser scan in the properties of the LaserScan display in Rviz. A size of 1m is very easy to see. In the following two pictures, a house and construction barrel was added to the environment for better visuals.</p> <p>View from Gazebo:</p> <p><img alt src=assets/1617415591-bef6eefbd1e7512b73e6161dcccfb21a.png></p> <p>The corresponding laser view from Rviz:</p> <p><img alt src=assets/1617415591-34c8575f6330a0d182c145c912d272c1.png></p> <h2 id=_4>下一步<a class=headerlink href=#_4 title="Permanent link">&para;</a></h2> <p>Next we will analyze the <code>ros_control</code> packages integrated with Gazebo for tight controller/actuator/simulator integration <a href="http://gazebosim.org/tutorials/?tut=ros_control">Actuators, controllers, and ros_control</a>.</p> <h2 id=_5>后面是还没看的<a class=headerlink href=#_5 title="Permanent link">&para;</a></h2> <h1 id=gazebo_plugins><code>gazebo_plugins</code>中的可用插件<a class=headerlink href=#gazebo_plugins title="Permanent link">&para;</a></h1> <p>The following sections document all of the plugins available in the <code>gazebo_plugins</code>. We suggest you review them in order because more detail is covered in the first couple of plugins and you can learn some of the concepts from the various plugins' documentation.</p> <p>The names of each section is derived from the plugin class name. For example, "Block Laser" is from the <code>GazeboRosBlockLaser</code> class and can be found in the file <code>gazebo_plugins/src/gazebo_ros_block_laser.cpp</code>.</p> <p>If there are some sections blank, it means that this author got tired of documenting every plugin and you should fill in the area with your experience should you have knowledge and examples of how to use the particular plugin.</p> <h2 id=_6>相机插件<a class=headerlink href=#_6 title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> provides ROS interface for simulating cameras such as <code>wge100_camera</code> by publishing the CameraInfo and Image ROS messages as described in <code>sensor_msgs</code>.</p> <h2 id=multicamera>Multicamera<a class=headerlink href=#multicamera title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> synchronizes multiple camera's shutters such that they publish their images together. Typically used for stereo cameras, uses a very similar interface as the plain <code>Camera</code> plugin</p> <p><strong>Note:</strong> currently only supports stereo cameras. See <a href=https://github.com/osrf/gazebo_ros_pkgs/issues/13>Github issue</a>.</p> <h3 id=atlas-code-example>Atlas Code Example<a class=headerlink href=#atlas-code-example title="Permanent link">&para;</a></h3> <p>In this code example there is both a left and right camera:</p> <div class=highlight><pre><span></span><code>  &lt;gazebo reference=&quot;left_camera_frame&quot;&gt;
+    &lt;sensor type=&quot;multicamera&quot; name=&quot;stereo_camera&quot;&gt;
+      &lt;update_rate&gt;30.0&lt;/update_rate&gt;
+      &lt;camera name=&quot;left&quot;&gt;
+        &lt;horizontal_fov&gt;1.3962634&lt;/horizontal_fov&gt;
+        &lt;image&gt;
+          &lt;width&gt;800&lt;/width&gt;
+          &lt;height&gt;800&lt;/height&gt;
+          &lt;format&gt;R8G8B8&lt;/format&gt;
+        &lt;/image&gt;
+        &lt;clip&gt;
+          &lt;near&gt;0.02&lt;/near&gt;
+          &lt;far&gt;300&lt;/far&gt;
+        &lt;/clip&gt;
+        &lt;noise&gt;
+          &lt;type&gt;gaussian&lt;/type&gt;
+          &lt;mean&gt;0.0&lt;/mean&gt;
+          &lt;stddev&gt;0.007&lt;/stddev&gt;
+        &lt;/noise&gt;
+      &lt;/camera&gt;
+      &lt;camera name=&quot;right&quot;&gt;
+        &lt;pose&gt;0 -0.07 0 0 0 0&lt;/pose&gt;
+        &lt;horizontal_fov&gt;1.3962634&lt;/horizontal_fov&gt;
+        &lt;image&gt;
+          &lt;width&gt;800&lt;/width&gt;
+          &lt;height&gt;800&lt;/height&gt;
+          &lt;format&gt;R8G8B8&lt;/format&gt;
+        &lt;/image&gt;
+        &lt;clip&gt;
+          &lt;near&gt;0.02&lt;/near&gt;
+          &lt;far&gt;300&lt;/far&gt;
+        &lt;/clip&gt;
+        &lt;noise&gt;
+          &lt;type&gt;gaussian&lt;/type&gt;
+          &lt;mean&gt;0.0&lt;/mean&gt;
+          &lt;stddev&gt;0.007&lt;/stddev&gt;
+        &lt;/noise&gt;
+      &lt;/camera&gt;
+      &lt;plugin name=&quot;stereo_camera_controller&quot; filename=&quot;libgazebo_ros_multicamera.so&quot;&gt;
+        &lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+        &lt;updateRate&gt;0.0&lt;/updateRate&gt;
+        &lt;cameraName&gt;multisense_sl/camera&lt;/cameraName&gt;
+        &lt;imageTopicName&gt;image_raw&lt;/imageTopicName&gt;
+        &lt;cameraInfoTopicName&gt;camera_info&lt;/cameraInfoTopicName&gt;
+        &lt;frameName&gt;left_camera_optical_frame&lt;/frameName&gt;
+        &lt;!--&lt;rightFrameName&gt;right_camera_optical_frame&lt;/rightFrameName&gt;--&gt;
+        &lt;hackBaseline&gt;0.07&lt;/hackBaseline&gt;
+        &lt;distortionK1&gt;0.0&lt;/distortionK1&gt;
+        &lt;distortionK2&gt;0.0&lt;/distortionK2&gt;
+        &lt;distortionK3&gt;0.0&lt;/distortionK3&gt;
+        &lt;distortionT1&gt;0.0&lt;/distortionT1&gt;
+        &lt;distortionT2&gt;0.0&lt;/distortionT2&gt;
+      &lt;/plugin&gt;
+    &lt;/sensor&gt;
+  &lt;/gazebo&gt;
+</code></pre></div> <h2 id=depth-camera>Depth Camera<a class=headerlink href=#depth-camera title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates a sensor like a Kinect, which is duplicated in the Kinect plugin. Will probably be merged in the future.</p> <h2 id=openni-kinect>Openni Kinect<a class=headerlink href=#openni-kinect title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates a Microsoft Kinect, publishes the same topics as the corresponding ROS drivers for the Microsoft kinect as documented in the Fuerte documentation <a href=http://www.ros.org/wiki/openni_camera>here</a>.</p> <div class=highlight><pre><span></span><code>&lt;gazebo reference=&quot;${link_name}&quot;&gt;
+  &lt;sensor name=&quot;${link_name}_camera&quot; type=&quot;depth&quot;&gt;
+    &lt;update_rate&gt;20&lt;/update_rate&gt;
+    &lt;camera&gt;
+      &lt;horizontal_fov&gt;1.047198&lt;/horizontal_fov&gt;
+      &lt;image&gt;
+        &lt;width&gt;640&lt;/width&gt;
+        &lt;height&gt;480&lt;/height&gt;
+        &lt;format&gt;R8G8B8&lt;/format&gt;
+      &lt;/image&gt;
+      &lt;clip&gt;
+        &lt;near&gt;0.05&lt;/near&gt;
+        &lt;far&gt;3&lt;/far&gt;
+      &lt;/clip&gt;
+    &lt;/camera&gt;
+    &lt;plugin name=&quot;${link_name}_controller&quot; filename=&quot;libgazebo_ros_openni_kinect.so&quot;&gt;
+      &lt;baseline&gt;0.2&lt;/baseline&gt;
+      &lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+      &lt;updateRate&gt;1.0&lt;/updateRate&gt;
+      &lt;cameraName&gt;${camera_name}_ir&lt;/cameraName&gt;
+      &lt;imageTopicName&gt;/${camera_name}/color/image_raw&lt;/imageTopicName&gt;
+      &lt;cameraInfoTopicName&gt;/${camera_name}/color/camera_info&lt;/cameraInfoTopicName&gt;
+      &lt;depthImageTopicName&gt;/${camera_name}/depth/image_raw&lt;/depthImageTopicName&gt;
+      &lt;depthImageInfoTopicName&gt;/${camera_name}/depth/camera_info&lt;/depthImageInfoTopicName&gt;
+      &lt;pointCloudTopicName&gt;/${camera_name}/depth/points&lt;/pointCloudTopicName&gt;
+      &lt;frameName&gt;${frame_name}&lt;/frameName&gt;
+      &lt;pointCloudCutoff&gt;0.5&lt;/pointCloudCutoff&gt;
+      &lt;pointCloudCutoffMax&gt;3.0&lt;/pointCloudCutoffMax&gt;
+      &lt;distortionK1&gt;0.00000001&lt;/distortionK1&gt;
+      &lt;distortionK2&gt;0.00000001&lt;/distortionK2&gt;
+      &lt;distortionK3&gt;0.00000001&lt;/distortionK3&gt;
+      &lt;distortionT1&gt;0.00000001&lt;/distortionT1&gt;
+      &lt;distortionT2&gt;0.00000001&lt;/distortionT2&gt;
+      &lt;CxPrime&gt;0&lt;/CxPrime&gt;
+      &lt;Cx&gt;0&lt;/Cx&gt;
+      &lt;Cy&gt;0&lt;/Cy&gt;
+      &lt;focalLength&gt;0&lt;/focalLength&gt;
+      &lt;hackBaseline&gt;0&lt;/hackBaseline&gt;
+    &lt;/plugin&gt;
+  &lt;/sensor&gt;
+&lt;/gazebo&gt;
+</code></pre></div> <p>You can find a more detailed description for configuring a depth camera in <a href="http://gazebosim.org/tutorials/?tut=ros_depth_camera">Use a Gazebo Depth Camera with ROS</a>.</p> <h2 id=gpu-laser>GPU Laser<a class=headerlink href=#gpu-laser title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates laser range sensor by broadcasting LaserScan message as described in sensor_msgs. See <a href=http://ros.org/wiki/hokuyo_node>Hokuyo Laser Scanners Reference</a>.</p> <h3 id=_7><a class=headerlink href=#_7 title="Permanent link">&para;</a></h3> <h2 id=laser>Laser<a class=headerlink href=#laser title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> the non-GPU version of <code>GPU Laser</code>, but essentially uses the same code. See GPU Laser for documentation.</p> <p>To run with RRBot, open <code>rrbot.gazebo</code> and change the following two lines.</p> <p>replace</p> <div class=highlight><pre><span></span><code>    &lt;sensor type=&quot;gpu_ray&quot; name=&quot;head_hokuyo_sensor&quot;&gt;
+</code></pre></div> <p>with</p> <div class=highlight><pre><span></span><code>    &lt;sensor type=&quot;ray&quot; name=&quot;head_hokuyo_sensor&quot;&gt;
+</code></pre></div> <p>and replace</p> <div class=highlight><pre><span></span><code>      &lt;plugin name=&quot;gazebo_ros_head_hokuyo_controller&quot; filename=&quot;libgazebo_ros_gpu_laser.so&quot;&gt;
+</code></pre></div> <p>with</p> <div class=highlight><pre><span></span><code>      &lt;plugin name=&quot;gazebo_ros_head_hokuyo_controller&quot; filename=&quot;libgazebo_ros_laser.so&quot;&gt;
+</code></pre></div> <p>save, then launch the same launch files as for GPU Laser.</p> <h2 id=block-laser>Block Laser<a class=headerlink href=#block-laser title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> provides grid style laser range scanner simulation (e.g. Velodyne).</p> <h2 id=f3d-force-feedback-ground-truth>F3D (Force Feedback Ground Truth)<a class=headerlink href=#f3d-force-feedback-ground-truth title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> broadcasts external forces on a body in simulation over WrenchStamped message as described in geometry_msgs.</p> <h2 id=force>Force<a class=headerlink href=#force title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> ROS interface for applying Wrench (geometry_msgs) on a body in simulation.</p> <h2 id=imu-gazeborosimu>IMU (GazeboRosImu)<a class=headerlink href=#imu-gazeborosimu title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates IMU sensor. Measurements are computed by the ROS plugin, not by Gazebo. See usage snippet sample below for implementation.</p> <div class=highlight><pre><span></span><code>&lt;robot&gt;
+:
+  &lt;gazebo&gt;
+    &lt;plugin name=&quot;imu_plugin&quot; filename=&quot;libgazebo_ros_imu.so&quot;&gt;
+      &lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+      &lt;bodyName&gt;base_footprint&lt;/bodyName&gt;
+      &lt;topicName&gt;imu&lt;/topicName&gt;
+      &lt;serviceName&gt;imu_service&lt;/serviceName&gt;
+      &lt;gaussianNoise&gt;0.0&lt;/gaussianNoise&gt;
+      &lt;updateRate&gt;20.0&lt;/updateRate&gt;
+    &lt;/plugin&gt;
+  &lt;/gazebo&gt;
+&lt;/robot&gt;
+</code></pre></div> <h2 id=imu-sensor-gazeborosimusensor>IMU sensor (GazeboRosImuSensor)<a class=headerlink href=#imu-sensor-gazeborosimusensor title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates an Inertial Motion Unit sensor, the main differences from <strong>IMU</strong> (GazeboRosIMU) are: - inheritance from SensorPlugin instead of ModelPlugin, - measurements are given by gazebo ImuSensor instead of being computed by the ros plugin, - gravity is included in inertial measurements. - set <code>initialOrientationAsReference</code> to <code>false</code> to comply with <a href=https://www.ros.org/reps/rep-0145.html>REP 145</a>.</p> <div class=highlight><pre><span></span><code>  &lt;gazebo reference=&quot;imu_link&quot;&gt;
+    &lt;gravity&gt;true&lt;/gravity&gt;
+    &lt;sensor name=&quot;imu_sensor&quot; type=&quot;imu&quot;&gt;
+      &lt;always_on&gt;true&lt;/always_on&gt;
+      &lt;update_rate&gt;100&lt;/update_rate&gt;
+      &lt;visualize&gt;true&lt;/visualize&gt;
+      &lt;topic&gt;__default_topic__&lt;/topic&gt;
+      &lt;plugin filename=&quot;libgazebo_ros_imu_sensor.so&quot; name=&quot;imu_plugin&quot;&gt;
+        &lt;topicName&gt;imu&lt;/topicName&gt;
+        &lt;bodyName&gt;imu_link&lt;/bodyName&gt;
+        &lt;updateRateHZ&gt;10.0&lt;/updateRateHZ&gt;
+        &lt;gaussianNoise&gt;0.0&lt;/gaussianNoise&gt;
+        &lt;xyzOffset&gt;0 0 0&lt;/xyzOffset&gt;
+        &lt;rpyOffset&gt;0 0 0&lt;/rpyOffset&gt;
+        &lt;frameName&gt;imu_link&lt;/frameName&gt;
+        &lt;initialOrientationAsReference&gt;false&lt;/initialOrientationAsReference&gt;
+      &lt;/plugin&gt;
+      &lt;pose&gt;0 0 0 0 0 0&lt;/pose&gt;
+    &lt;/sensor&gt;
+  &lt;/gazebo&gt;
+</code></pre></div> <h2 id=joint-pose-trajectory>Joint Pose Trajectory<a class=headerlink href=#joint-pose-trajectory title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> listens to a joint_trajectory_action and plays back the set of joint positions. Sets the set of joints to exact positions without regards to simulated physics and forces.</p> <h2 id=p3d-3d-position-interface-for-ground-truth>P3D (3D Position Interface for Ground Truth)<a class=headerlink href=#p3d-3d-position-interface-for-ground-truth title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> broadcasts the inertial pose of any body in simulation via Odometry message as described in nav_msgs via ROS topic.</p> <h2 id=projector>Projector<a class=headerlink href=#projector title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> projects a static texture from a source outwards, such as used with the PR2's original head camera sensor. See <a href=http://osrf-distributions.s3.amazonaws.com/gazebo/api/dev/classgazebo_1_1rendering_1_1Projector.html>API documentation</a> for more information.</p> <h2 id=prosilica-camera>Prosilica Camera<a class=headerlink href=#prosilica-camera title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> simulates interfaces exposed by a <a href=http://www.ros.org/wiki/prosilica_camera>ROS Prosilica Camera</a>. Here's an <a href="https://bitbucket.org/hsu/nasa_r2_simulator/src/5ee1de067038749dcc133ed7cf87b45715cc4457/r2_gazebo/urdf/sensors/grasshopper2.gazebo.xacro?at=hsu">example URDF Xacro macro</a>.</p> <h2 id=bumper>Bumper<a class=headerlink href=#bumper title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> provides contact feedback via <a href=http://docs.ros.org/api/gazebo_msgs/html/msg/ContactsState.html>ContactsState message</a>.</p> <div class=highlight><pre><span></span><code>&lt;gazebo&gt;
+  &lt;plugin name=&quot;${name}_gazebo_ros_bumper_controller&quot; filename=&quot;libgazebo_ros_bumper.so&quot;&gt;
+    &lt;alwaysOn&gt;true&lt;/alwaysOn&gt;
+    &lt;updateRate&gt;${update_rate}&lt;/updateRate&gt;
+    &lt;bumperTopicName&gt;${name}_bumper&lt;/bumperTopicName&gt;
+    &lt;frameName&gt;world&lt;/frameName&gt;
+  &lt;/plugin&gt;
+&lt;/gazebo&gt;
+</code></pre></div> <h2 id=differential-drive>Differential Drive<a class=headerlink href=#differential-drive title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> model plugin that provides a basic controller for differential drive robots in Gazebo. You need a well defined differential drive robot to use this plugin.</p> <div class=highlight><pre><span></span><code>&lt;gazebo&gt;
+  &lt;plugin name=&quot;differential_drive_controller&quot; filename=&quot;libgazebo_ros_diff_drive.so&quot;&gt;
+
+    &lt;!-- Plugin update rate in Hz --&gt;
+    &lt;updateRate&gt;${update_rate}&lt;/updateRate&gt;
+
+    &lt;!-- Name of left joint, defaults to `left_joint` --&gt;
+    &lt;leftJoint&gt;base_link_left_wheel_joint&lt;/leftJoint&gt;
+
+    &lt;!-- Name of right joint, defaults to `right_joint` --&gt;
+    &lt;rightJoint&gt;base_link_right_wheel_joint&lt;/rightJoint&gt;
+
+    &lt;!-- The distance from the center of one wheel to the other, in meters, defaults to 0.34 m --&gt;
+    &lt;wheelSeparation&gt;0.5380&lt;/wheelSeparation&gt;
+
+    &lt;!-- Diameter of the wheels, in meters, defaults to 0.15 m --&gt;
+    &lt;wheelDiameter&gt;0.2410&lt;/wheelDiameter&gt;
+
+    &lt;!-- Wheel acceleration, in rad/s^2, defaults to 0.0 rad/s^2 --&gt;
+    &lt;wheelAcceleration&gt;1.0&lt;/wheelAcceleration&gt;
+
+    &lt;!-- Maximum torque which the wheels can produce, in Nm, defaults to 5 Nm --&gt;
+    &lt;wheelTorque&gt;20&lt;/wheelTorque&gt;
+
+    &lt;!-- Topic to receive geometry_msgs/Twist message commands, defaults to `cmd_vel` --&gt;
+    &lt;commandTopic&gt;cmd_vel&lt;/commandTopic&gt;
+
+    &lt;!-- Topic to publish nav_msgs/Odometry messages, defaults to `odom` --&gt;
+    &lt;odometryTopic&gt;odom&lt;/odometryTopic&gt;
+
+    &lt;!-- Odometry frame, defaults to `odom` --&gt;
+    &lt;odometryFrame&gt;odom&lt;/odometryFrame&gt;
+
+    &lt;!-- Robot frame to calculate odometry from, defaults to `base_footprint` --&gt;
+    &lt;robotBaseFrame&gt;base_footprint&lt;/robotBaseFrame&gt;
+
+    &lt;!-- Odometry source, 0 for ENCODER, 1 for WORLD, defaults to WORLD --&gt;
+    &lt;odometrySource&gt;1&lt;/odometrySource&gt;
+
+    &lt;!-- Set to true to publish transforms for the wheel links, defaults to false --&gt;
+    &lt;publishWheelTF&gt;true&lt;/publishWheelTF&gt;
+
+    &lt;!-- Set to true to publish transforms for the odometry, defaults to true --&gt;
+    &lt;publishOdom&gt;true&lt;/publishOdom&gt;
+
+    &lt;!-- Set to true to publish sensor_msgs/JointState on /joint_states for the wheel joints, defaults to false --&gt;
+    &lt;publishWheelJointState&gt;true&lt;/publishWheelJointState&gt;
+
+    &lt;!-- Set to true to swap right and left wheels, defaults to true --&gt;
+    &lt;legacyMode&gt;false&lt;/legacyMode&gt;
+  &lt;/plugin&gt;
+&lt;/gazebo&gt;
+</code></pre></div> <h2 id=skid-steering-drive>Skid Steering Drive<a class=headerlink href=#skid-steering-drive title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> model plugin that provides a basic controller for skid steering drive robots in Gazebo (Pioneer 3AT for instance).</p> <div class=highlight><pre><span></span><code>&lt;gazebo&gt;
+  &lt;plugin name=&quot;skid_steer_drive_controller&quot; filename=&quot;libgazebo_ros_skid_steer_drive.so&quot;&gt;
+    &lt;updateRate&gt;100.0&lt;/updateRate&gt;
+    &lt;robotNamespace&gt;/&lt;/robotNamespace&gt;
+    &lt;leftFrontJoint&gt;front_left_wheel_joint&lt;/leftFrontJoint&gt;
+    &lt;rightFrontJoint&gt;front_right_wheel_joint&lt;/rightFrontJoint&gt;
+    &lt;leftRearJoint&gt;back_left_wheel_joint&lt;/leftRearJoint&gt;
+    &lt;rightRearJoint&gt;back_right_wheel_joint&lt;/rightRearJoint&gt;
+    &lt;wheelSeparation&gt;0.4&lt;/wheelSeparation&gt;
+    &lt;wheelDiameter&gt;0.215&lt;/wheelDiameter&gt;
+    &lt;robotBaseFrame&gt;base_link&lt;/robotBaseFrame&gt;
+    &lt;torque&gt;20&lt;/torque&gt;
+    &lt;topicName&gt;cmd_vel&lt;/topicName&gt;
+    &lt;broadcastTF&gt;false&lt;/broadcastTF&gt;
+  &lt;/plugin&gt;
+&lt;/gazebo&gt;
+</code></pre></div> <h2 id=video-plugin>Video Plugin<a class=headerlink href=#video-plugin title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> visual plugin that displays a ROS image stream on an OGRE Texture inside gazebo. This plugin does not modify the texture of one of the existing link surfaces, but creates a new texture on top of it. The texture will be created on the XY plane, visible from the +Z side. The plugin requires a pixel size while constructing the texture, and will resize incoming ROS image messages to match if they are a different size.</p> <div class=highlight><pre><span></span><code>&lt;gazebo reference=&quot;display_screen_link&quot;&gt;
+  &lt;visual&gt;
+    &lt;plugin name=&quot;display_video_controller&quot; filename=&quot;libgazebo_ros_video.so&quot;&gt;
+      &lt;topicName&gt;image&lt;/topicName&gt;
+      &lt;height&gt;120&lt;/height&gt;
+      &lt;width&gt;160&lt;/width&gt;
+    &lt;/plugin&gt;
+  &lt;/visual&gt;
+&lt;/gazebo&gt;
+</code></pre></div> <h2 id=planar-move-plugin>Planar Move Plugin<a class=headerlink href=#planar-move-plugin title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> model plugin that allows arbitrary objects (for instance cubes, spheres and cylinders) to be moved along a horizontal plane using a geometry_msgs/Twist message. The plugin works by imparting a linear velocity (XY) and an angular velocity (Z) to the object every cycle.</p> <p>Here is a full URDF example that demonstrates how to control a floating box inside gazebo using this plugin, using different visual and collision elements. Note: The object needs to have sufficient inertia to prevent undesirable motions - which can occur as a reaction to the supplied velocity. You can try increasing inertia until the object moves as desired. It is also good to have the center of mass close to the ground.</p> <div class=highlight><pre><span></span><code>&lt;robot name=&quot;test_model&quot;&gt;
+
+  &lt;!-- root link, on the ground just below the model origin --&gt;
+  &lt;link name=&quot;base_footprint&quot;&gt;
+   &lt;visual&gt;
+      &lt;origin xyz=&quot;0 0 0&quot; rpy=&quot;0 0 0&quot; /&gt;
+      &lt;geometry&gt;
+        &lt;box size=&quot;0.001 0.001 0.001&quot; /&gt;
+      &lt;/geometry&gt;
+    &lt;/visual&gt;
+  &lt;/link&gt;
+
+  &lt;joint name=&quot;base_link_joint&quot; type=&quot;fixed&quot;&gt;
+    &lt;origin xyz=&quot;0.0 0 1.25&quot; rpy=&quot;0 0 0&quot; /&gt;
+    &lt;parent link=&quot;base_footprint&quot;/&gt;
+    &lt;child link=&quot;base_link&quot; /&gt;
+  &lt;/joint&gt;
+
+  &lt;!-- the model --&gt;
+  &lt;link name=&quot;base_link&quot;&gt;
+    &lt;inertial&gt;
+      &lt;mass value=&quot;50&quot; /&gt;
+      &lt;origin xyz=&quot;0 0 -1.25&quot; /&gt;
+      &lt;inertia ixx=&quot;50.0&quot; ixy=&quot;0.0&quot; ixz=&quot;0.0&quot;
+        iyy=&quot;50.0&quot; iyz=&quot;0.0&quot;
+        izz=&quot;50.0&quot; /&gt;
+    &lt;/inertial&gt;
+    &lt;visual&gt;
+      &lt;geometry&gt;
+        &lt;box size=&quot;0.5 0.5 1.0&quot; /&gt; &lt;!-- does not need to match collision --&gt;
+      &lt;/geometry&gt;
+    &lt;/visual&gt;
+    &lt;collision&gt;
+      &lt;origin xyz=&quot;0 0 -1.0&quot; /&gt;
+      &lt;geometry&gt;
+        &lt;cylinder length=&quot;0.5&quot; radius=&quot;0.25&quot; /&gt;
+      &lt;/geometry&gt;
+    &lt;/collision&gt;
+  &lt;/link&gt;
+
+  &lt;gazebo&gt;
+    &lt;plugin name=&quot;object_controller&quot; filename=&quot;libgazebo_ros_planar_move.so&quot;&gt;
+      &lt;commandTopic&gt;cmd_vel&lt;/commandTopic&gt;
+      &lt;odometryTopic&gt;odom&lt;/odometryTopic&gt;
+      &lt;odometryFrame&gt;odom&lt;/odometryFrame&gt;
+      &lt;odometryRate&gt;20.0&lt;/odometryRate&gt;
+      &lt;robotBaseFrame&gt;base_footprint&lt;/robotBaseFrame&gt;
+    &lt;/plugin&gt;
+  &lt;/gazebo&gt;
+
+&lt;/robot&gt;
+</code></pre></div> <h2 id=template>Template<a class=headerlink href=#template title="Permanent link">&para;</a></h2> <p><strong>Description:</strong> an example c++ plugin template for anyone who wants to write their own plugin.</p> <h1 id=issue-report-contribution>Issue report, contribution<a class=headerlink href=#issue-report-contribution title="Permanent link">&para;</a></h1> <p>Gazebo-ROS plugins are stored in a ROS package. See <a href=http://wiki.ros.org/gazebo_plugins>gazebo_plugins wiki page</a> about how you can contribute.</p> <h1 id=3rd-party-plugins>3<sup>rd</sup> party plugins<a class=headerlink href=#3rd-party-plugins title="Permanent link">&para;</a></h1> <p>In addition to the plugins explained above, there are also a number of 3<sup>rd</sup> party Gazebo-ROS plugins. Some of them are found on ros.org (<a href="https://www.google.com/search?client=ubuntu&channel=fs&q=site%3Aros.org+*_gazebo_plugins&ie=utf-8&oe=utf-8">example of search keyword</a>). If a 3<sup>rd</sup> party plugin is useful and generic enough, please consider pulling it into the official <a href=http://wiki.ros.org/gazebo_plugins>gazebo_plugins package (wiki page)</a> by opening a suggestion at the issue tracker of each repository.</p> <h1 id=next-steps>Next Steps<a class=headerlink href=#next-steps title="Permanent link">&para;</a></h1> <hr> <p>原网址: <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">访问</a></p> <p>创建时间: 2021-04-03 10:06:31</p> <p>目录: default</p> <p>标签: 无</p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>

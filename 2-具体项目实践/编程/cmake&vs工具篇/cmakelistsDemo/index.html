@@ -1,0 +1,242 @@
+<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E7%BC%96%E7%A8%8B/cmake%26vs%E5%B7%A5%E5%85%B7%E7%AF%87/cmakelistsDemo/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>CMAKELISTS DEMO - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#cmakelists-demo class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> CMAKELISTS DEMO </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=cmakelists-demo>CMAKELISTS DEMO<a class=headerlink href=#cmakelists-demo title="Permanent link">&para;</a></h1> <div class=highlight><pre><span></span><code>PROJECT(SuiteSparseProject)
+
+cmake_minimum_required(VERSION 2.8.10)
+
+include(checkGetSuiteSparse.cmake)
+
+SET(LIBRARY_OUTPUT_PATH ${${PROJECT_NAME}_BINARY_DIR}/lib CACHE PATH &quot;Output directory for libraries&quot; )
+SET(EXECUTABLE_OUTPUT_PATH ${${PROJECT_NAME}_BINARY_DIR}/bin CACHE PATH &quot;Output directory for applications&quot; )
+
+# Override &quot;CMAKE_INSTALL_PREFIX&quot;, at least in Windows:
+IF(WIN32)
+    SET(SUITESPARSE_INSTALL_PREFIX &quot;${${PROJECT_NAME}_BINARY_DIR}/install&quot; CACHE PATH &quot;Prefix prepended to install directories&quot;)
+    SET(CMAKE_INSTALL_PREFIX &quot;${SUITESPARSE_INSTALL_PREFIX}&quot; CACHE INTERNAL &quot;Prefix prepended to install directories&quot; FORCE)
+ENDIF()
+
+# Fix GKlib path:
+IF(NOT WIN32)
+    SET(GKLIB_PATH &quot;${${PROJECT_NAME}_SOURCE_DIR}/metis/GKlib&quot; CACHE INTERNAL &quot;Path to GKlib (for METIS)&quot; FORCE)
+ENDIF()
+
+## get POSTFIX for lib install dir
+if(CMAKE_SIZEOF_VOID_P MATCHES &quot;8&quot;)
+  set(LIB_POSTFIX &quot;64&quot; CACHE STRING &quot;suffix for 32/64 inst dir placement&quot;)
+else()
+  set(LIB_POSTFIX &quot;&quot; CACHE STRING &quot;suffix for 32/64 inst dir placement&quot;)
+endif()
+mark_as_advanced(LIB_POSTFIX)
+
+# We want libraries to be named &quot;libXXX&quot; and &quot;libXXXd&quot; in all compilers:
+# ------------------------------------------------------------------------
+set(CMAKE_DEBUG_POSTFIX  &quot;d&quot;)
+IF(MSVC)
+    set(SP_LIB_PREFIX &quot;lib&quot;)  # Libs are: &quot;libXXX&quot;
+ENDIF(MSVC)
+
+## check if we can build metis  
+SET(BUILD_METIS_DEFAULT ON) 
+IF(NOT EXISTS &quot;${CMAKE_CURRENT_SOURCE_DIR}/metis/CMakeLists.txt&quot;)
+    SET(BUILD_METIS_DEFAULT OFF)
+ENDIF(NOT EXISTS &quot;${CMAKE_CURRENT_SOURCE_DIR}/metis/CMakeLists.txt&quot;)
+
+SET(WITH_CUDA OFF CACHE BOOL &quot;Build with CUDA support&quot;)
+
+SET(BUILD_METIS ${BUILD_METIS_DEFAULT} CACHE BOOL &quot;Build METIS for partitioning?&quot;)
+SET(METIS_DIR ${${PROJECT_NAME}_SOURCE_DIR}/metis CACHE PATH &quot;Source directory of METIS&quot;)
+
+if(BUILD_METIS)
+    ## prepare the installation :
+    ## using metis target here is not possible because this target is added in another branch of the CMake structure
+    ## TRICK: need to dynamically modify the metis CMakeLists.txt file before it going to parsed... 
+    ## (very ugly/poor for a metis project get from SCM (git/svn/cvs) but it&#39;s works ;) and it doesn&#39;t matter if metis was get from .zip)
+    if(EXISTS &quot;${METIS_DIR}/libmetis/CMakeLists.txt&quot;)
+        file(READ &quot;${METIS_DIR}/libmetis/CMakeLists.txt&quot; contentFile)
+        string(REGEX MATCH &quot;EXPORT  SuiteSparse&quot; alreadyModified ${contentFile}) ## use a string pattern to check if we have to do the modif
+        if(NOT alreadyModified)
+            file(APPEND &quot;${METIS_DIR}/libmetis/CMakeLists.txt&quot;
+            &quot;
+                set_target_properties(metis PROPERTIES PUBLIC_HEADER \&quot;../include/metis.h\&quot;)
+                install(TARGETS metis ## this line is also the string pattern to check if the modification had already done
+                        EXPORT  SuiteSparse
+                        RUNTIME DESTINATION bin
+                        LIBRARY DESTINATION lib${LIB_POSTFIX}
+                        ARCHIVE DESTINATION lib${LIB_POSTFIX}
+                        PUBLIC_HEADER DESTINATION include
+                )
+            &quot;
+            )
+        endif()
+    endif()
+    add_subdirectory(metis) ## important part for building metis from its src files
+endif(BUILD_METIS)
+
+
+## For EXPORT only :
+## Previous version of cmake (&gt;2.8.12) doesn&#39;t auto take into account external lib (here I mean blas and lapack) we need to link to for our current target we want to export.
+## Or at least we need to investigate how to do with previous version.
+## This may cause some trouble in case you want to build in static mode and then use it into another custom project.
+## You will need to manually link your target into your custom project to the correct dependencies link interfaces.
+if(&quot;${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}&quot; GREATER 2.8.11) ## (policies introduced both in 2.8.12)
+    set(EXPORT_USE_INTERFACE_LINK_LIBRARIES ON CACHE BOOL &quot;&quot;)
+    mark_as_advanced(EXPORT_USE_INTERFACE_LINK_LIBRARIES)
+    if(EXPORT_USE_INTERFACE_LINK_LIBRARIES)
+        cmake_policy(SET CMP0023 NEW) ## just for respecting the new target_link_libraries(...) signature procedure
+        cmake_policy(SET CMP0022 NEW) ## use INTERFACE_LINK_LIBRARIES property for in-build targets and ignore old properties (IMPORTED_)?LINK_INTERFACE_LIBRARIES(_&lt;CONFIG&gt;)?
+        ## Here, next version of cmake 2.8.12 auto take into account the link interface dependencies (see generated cmake/SuiteSparse-config*.cmake into your install dir)
+    endif()
+endif()
+
+
+## install_suitesparse_project(targetName headersList)  
+## factorise the way we will install all projects (part of the suitesparse project)
+## &lt;targetName&gt; is the target of the current project you build
+## &lt;headersList&gt; is the list of all public headers the project use and have to be known by other projects
+##  example of use:
+##      file(GLOB LIBHDRS &quot;Include/*.h&quot;)
+##      add_library(&lt;myTarget&gt; ...)
+##      install_suitesparse_project(&lt;myTarget&gt; &quot;${LIBHDRS}&quot;)
+macro(install_suitesparse_project targetName headersList)
+    set_target_properties(${targetName} PROPERTIES PUBLIC_HEADER &quot;${headersList}&quot;)
+    install(TARGETS ${targetName}
+            EXPORT  SuiteSparse
+            RUNTIME DESTINATION bin
+            LIBRARY DESTINATION lib${LIB_POSTFIX}
+            ARCHIVE DESTINATION lib${LIB_POSTFIX}
+            PUBLIC_HEADER DESTINATION include/suitesparse
+    )
+endmacro()
+
+## declare_suitesparse_library(targetName srcsList headersList)
+##  Example of use: See SuiteSparse/*/CMakeLists.txt
+macro(declare_suitesparse_library targetName srcsList headersList)
+
+    ## following args are optional
+    include(CMakeParseArguments)
+    cmake_parse_arguments(dsl &quot;&quot; &quot;&quot; &quot;TARGET_PRIVATE_LINK;TARGET_PUBLIC_LINK&quot; ${ARGN} )
+
+    if(NOT dsl_TARGET_PRIVATE_LINK)
+        set(dsl_TARGET_PRIVATE_LINK &quot;&quot;)
+    endif()
+    if(NOT dsl_TARGET_PUBLIC_LINK)
+        set(dsl_TARGET_PUBLIC_LINK &quot;&quot;)
+    endif()
+    if(WITH_CUDA)
+        find_package(CUDA)
+    endif()
+    IF(${CUDA_FOUND})
+        INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
+        INCLUDE_DIRECTORIES(${SuiteSparse_GPUQREngine_INCLUDE})
+        INCLUDE_DIRECTORIES(${SuiteSparse_GPURuntime_INCLUDE})
+        CUDA_ADD_LIBRARY(${targetName} ${srcsList} ${headersList})
+    ELSE(${CUDA_FOUND})
+        ADD_LIBRARY(${targetName} ${srcsList} ${headersList})
+    ENDIF(${CUDA_FOUND})
+    SET_TARGET_PROPERTIES(${targetName} PROPERTIES 
+        OUTPUT_NAME ${SP_LIB_PREFIX}${targetName}
+    )
+
+    target_link_libraries(${targetName} 
+             ${dsl_TARGET_PUBLIC_LINK} suitesparseconfig ## suitesparseconfig is used for every projects (embedded into cmake build)
+         ${dsl_TARGET_PRIVATE_LINK} ## external required libs
+    )
+
+    install_suitesparse_project(${targetName} &quot;${headersList}&quot;)
+endmacro()
+
+# Example of usage: 
+#  REMOVE_MATCHING_FILES_FROM_LIST(&quot;.*_LIN.cpp&quot; my_srcs)
+MACRO(REMOVE_MATCHING_FILES_FROM_LIST match_expr lst_files)
+    SET(lst_files_aux &quot;&quot;)
+    FOREACH(FIL ${${lst_files}})
+        IF(NOT ${FIL} MATCHES &quot;${match_expr}&quot;)
+            SET(lst_files_aux &quot;${lst_files_aux}&quot; &quot;${FIL}&quot;)
+        ENDIF(NOT ${FIL} MATCHES &quot;${match_expr}&quot;)
+    ENDFOREACH(FIL)
+    SET(${lst_files} ${lst_files_aux})
+ENDMACRO(REMOVE_MATCHING_FILES_FROM_LIST)
+
+
+## check if the SHARED variable has already been defined (by the metis project) and use it for our projects
+## BUILD_SHARED_LIBS specific variable allow cmake to know what kind of lib (STATIC or SHARED) it have to build
+if(DEFINED SHARED) 
+    set(BUILD_SHARED_LIBS ${SHARED})
+else()
+    set(SHARED FALSE CACHE BOOL &quot;Build shared libraries (.dll/.so) instead of static ones (.lib/.a)&quot;)
+    set(BUILD_SHARED_LIBS OFF)
+endif()
+
+if(WITH_CUDA)
+    FIND_PACKAGE(cuda)
+    IF(${CUDA_FOUND})
+        ADD_DEFINITIONS(-DGPU_BLAS)
+    ENDIF(${CUDA_FOUND})
+endif()
+
+## Need to use SuiteSparse_LINKER_LAPACK_BLAS_LIBS in our subproject in case of SHARED flag is set to ON
+SET(SUITESPARSE_USE_CUSTOM_BLAS_LAPACK_LIBS OFF CACHE BOOL &quot;Check if you have custom LAPACK/BLAS libraries (AMD,...)&quot;)
+IF (SUITESPARSE_USE_CUSTOM_BLAS_LAPACK_LIBS)
+    SET(SUITESPARSE_CUSTOM_BLAS_LIB &quot;&quot; CACHE FILE &quot;Path to custom library file for BLAS&quot;)
+    SET(SUITESPARSE_CUSTOM_LAPACK_LIB &quot;&quot; CACHE FILE &quot;Path to custom library file for LAPACK&quot;)
+    IF (NOT EXISTS &quot;${SUITESPARSE_CUSTOM_BLAS_LIB}&quot; OR NOT EXISTS &quot;${SUITESPARSE_CUSTOM_LAPACK_LIB}&quot;)
+        MESSAGE(&quot;*Error*: Correctly set SUITESPARSE_CUSTOM_BLAS_LIB and SUITESPARSE_CUSTOM_LAPACK_LIB or uncheck SUITESPARSE_USE_CUSTOM_BLAS_LAPACK_LIBS&quot;)
+    ELSE()
+        SET(SuiteSparse_LINKER_LAPACK_BLAS_LIBS ${SUITESPARSE_CUSTOM_BLAS_LIB} ${SUITESPARSE_CUSTOM_LAPACK_LIB})
+    ENDIF()
+ELSE()
+    IF (UNIX)
+        SET(SuiteSparse_LINKER_LAPACK_BLAS_LIBS lapack blas rt)
+    ELSE()
+        IF(CMAKE_SIZEOF_VOID_P EQUAL 8)  # Size in bytes!
+            set(PATH_WORD_SIZE &quot;x64&quot;)
+        ELSE(CMAKE_SIZEOF_VOID_P EQUAL 8)  # Size in bytes!
+            set(PATH_WORD_SIZE &quot;x32&quot;)
+        ENDIF(CMAKE_SIZEOF_VOID_P EQUAL 8)
+
+        add_library(blas SHARED IMPORTED)
+        set_property(TARGET blas PROPERTY IMPORTED_LOCATION ${SuiteSparseProject_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/libblas.dll)
+        set_property(TARGET blas PROPERTY IMPORTED_IMPLIB   ${SuiteSparseProject_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/libblas.lib)
+
+        add_library(lapack SHARED IMPORTED)
+        set_property(TARGET lapack PROPERTY IMPORTED_LOCATION   ${SuiteSparseProject_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/liblapack.dll)
+        set_property(TARGET lapack PROPERTY IMPORTED_IMPLIB     ${SuiteSparseProject_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/liblapack.lib)
+
+        SET(SuiteSparse_LINKER_LAPACK_BLAS_LIBS blas lapack)
+
+        ## install lapack and blas dependencies
+        file(GLOB lapack_blas_windows_libs  &quot;${CMAKE_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/*.lib&quot;)
+        file(GLOB lapack_blas_windows_dll   &quot;${CMAKE_SOURCE_DIR}/lapack_windows/${PATH_WORD_SIZE}/*.dll&quot;)
+        if(lapack_blas_windows_dll AND lapack_blas_windows_libs)
+            set(SuiteSparse_LAPACK_BLAS_LIB_DIR &quot;lib${LIB_POSTFIX}/lapack_blas_windows&quot;) ## used in UseSuiteSparse*.cmake
+            install(FILES       ${lapack_blas_windows_libs} 
+                                ${lapack_blas_windows_dll}
+                    DESTINATION ${SuiteSparse_LAPACK_BLAS_LIB_DIR}
+            )
+        endif()
+    ENDIF()
+ENDIF()
+
+IF(BUILD_METIS)
+    set(SuiteSparse_LINKER_METIS_LIBS &quot;metis&quot;)
+else()
+    set(SuiteSparse_LINKER_METIS_LIBS &quot;&quot;)
+ENDIF()
+
+add_subdirectory(SuiteSparse)
+
+## For find SuiteSparse from the install dir
+install(FILES       SuiteSparseConfigForInstall.cmake
+        DESTINATION .
+        RENAME      SuiteSparseConfig.cmake ## This one will be the entry point for finding suitesparse from aother project using find_package()
+)
+configure_file(UseSuiteSparseForInstall.cmake.in UseSuiteSparseForInstall.cmake @ONLY)
+install(FILES       &quot;${CMAKE_BINARY_DIR}/UseSuiteSparseForInstall.cmake&quot;
+        DESTINATION .
+        RENAME      UseSuiteSparse${LIB_POSTFIX}.cmake
+)
+
+## do the EXPORT for allowing other project to easily use suitesparse with cmake
+install(EXPORT      SuiteSparse
+        DESTINATION cmake
+        FILE        SuiteSparse-config${LIB_POSTFIX}.cmake
+)
+</code></pre></div> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
