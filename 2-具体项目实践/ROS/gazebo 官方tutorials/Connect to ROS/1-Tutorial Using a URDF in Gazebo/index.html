@@ -1,535 +1,1409 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/gazebo%20%E5%AE%98%E6%96%B9tutorials/Connect%20to%20ROS/1-Tutorial%20Using%20a%20URDF%20in%20Gazebo/ rel=canonical><link rel=icon href=../../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>1 Tutorial Using a URDF in Gazebo - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#tutorial-using-a-urdf-in-gazebo class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 1 Tutorial Using a URDF in Gazebo </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#_1 class=md-nav__link> 背景 </a> </li> <li class=md-nav__item> <a href=#rrbot class=md-nav__link> RRBot 示例 </a> <nav class=md-nav aria-label="RRBot 示例"> <ul class=md-nav__list> <li class=md-nav__item> <a href=#rrbot_1 class=md-nav__link> 下载 RRBot </a> </li> <li class=md-nav__item> <a href=#rvizgazebo class=md-nav__link> Rviz里和Gazebo里查看模型 </a> </li> <li class=md-nav__item> <a href=#launch class=md-nav__link> launch文件解析 </a> <nav class=md-nav aria-label=launch文件解析> <ul class=md-nav__list> <li class=md-nav__item> <a href=#rrbot_rvizlaunch class=md-nav__link> rrbot_rviz.launch </a> </li> <li class=md-nav__item> <a href=#rrbot_worldlaunch class=md-nav__link> rrbot_world.launch </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#rrbotxacro class=md-nav__link> rrbot.xacro文件解析 </a> </li> <li class=md-nav__item> <a href=#xacrolink class=md-nav__link> xacro文件中link标签的详细解析 </a> </li> <li class=md-nav__item> <a href=#material class=md-nav__link> material 材质定义 </a> </li> <li class=md-nav__item> <a href=#joints class=md-nav__link> 关节Joints详细解读 </a> </li> <li class=md-nav__item> <a href=#rrbotgazebo class=md-nav__link> rrbot.gazebo解读 </a> </li> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 遗留问题 </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=tutorial-using-a-urdf-in-gazebo>Tutorial: Using a URDF in Gazebo<a class=headerlink href=#tutorial-using-a-urdf-in-gazebo title="Permanent link">&para;</a></h1> <p><a href=http://www.ros.org/wiki/urdf>Unified Robotic Description Format</a> (URDF)为XML格式，用于在ROS中描述机器人。</p> <p>Gazebo可以自动将URDF转换成SDF</p> <h2 id=_1>背景<a class=headerlink href=#_1 title="Permanent link">&para;</a></h2> <p>URDF格式 - 可以描述质点运动和动力学特性， - 不能描述机器人在世界里的pose - 不能描述oint loops (parallel linkages), and it lacks friction and other properties - 不能描述非机器人，比如光线、高程图等。</p> <p>为了克服URDF格式的缺点，创建了<a href=http://sdformat.org/ >Simulation Description Format</a> (SDF)格式用于Gazebo。 SDF格式描述了元素涵盖世界和机器人，格式为XML.</p> <h2 id=rrbot>RRBot 示例<a class=headerlink href=#rrbot title="Permanent link">&para;</a></h2> <p>一般的步骤是首先在<a href=http://www.ros.org/wiki/rviz>Rviz</a>下测试URDF模型,然后再在Gazebo中对机器人模型进行配置.</p> <p>参考:<a href=http://www.ros.org/wiki/urdf/Tutorials>ROS URDF Tutorials</a>. </p> <h3 id=rrbot_1>下载 RRBot<a class=headerlink href=#rrbot_1 title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>cd ~/catkin_ws/src/
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/gazebo%20%E5%AE%98%E6%96%B9tutorials/Connect%20to%20ROS/1-Tutorial%20Using%20a%20URDF%20in%20Gazebo/">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>1 Tutorial Using a URDF in Gazebo - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#tutorial-using-a-urdf-in-gazebo" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              1 Tutorial Using a URDF in Gazebo
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    背景
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rrbot" class="md-nav__link">
+    RRBot 示例
+  </a>
+  
+    <nav class="md-nav" aria-label="RRBot 示例">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rrbot_1" class="md-nav__link">
+    下载 RRBot
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rvizgazebo" class="md-nav__link">
+    Rviz里和Gazebo里查看模型
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#launch" class="md-nav__link">
+    launch文件解析
+  </a>
+  
+    <nav class="md-nav" aria-label="launch文件解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#rrbot_rvizlaunch" class="md-nav__link">
+    rrbot_rviz.launch
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rrbot_worldlaunch" class="md-nav__link">
+    rrbot_world.launch
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rrbotxacro" class="md-nav__link">
+    rrbot.xacro文件解析
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#xacrolink" class="md-nav__link">
+    xacro文件中link标签的详细解析
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#material" class="md-nav__link">
+    material 材质定义
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#joints" class="md-nav__link">
+    关节Joints详细解读
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rrbotgazebo" class="md-nav__link">
+    rrbot.gazebo解读
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    遗留问题
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="tutorial-using-a-urdf-in-gazebo">Tutorial: Using a URDF in Gazebo<a class="headerlink" href="#tutorial-using-a-urdf-in-gazebo" title="Permanent link">&para;</a></h1>
+<p><a href="http://www.ros.org/wiki/urdf">Unified Robotic Description Format</a> (URDF)为XML格式，用于在ROS中描述机器人。</p>
+<p>Gazebo可以自动将URDF转换成SDF</p>
+<h2 id="_1">背景<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>URDF格式
+- 可以描述质点运动和动力学特性，
+- 不能描述机器人在世界里的pose
+- 不能描述oint loops (parallel linkages), and it lacks friction and other properties
+- 不能描述非机器人，比如光线、高程图等。</p>
+<p>为了克服URDF格式的缺点，创建了<a href="http://sdformat.org/">Simulation Description Format</a> (SDF)格式用于Gazebo。 SDF格式描述了元素涵盖世界和机器人，格式为XML.</p>
+<h2 id="rrbot">RRBot 示例<a class="headerlink" href="#rrbot" title="Permanent link">&para;</a></h2>
+<p>一般的步骤是首先在<a href="http://www.ros.org/wiki/rviz">Rviz</a>下测试URDF模型,然后再在Gazebo中对机器人模型进行配置.</p>
+<p>参考:<a href="http://www.ros.org/wiki/urdf/Tutorials">ROS URDF Tutorials</a>. </p>
+<h3 id="rrbot_1">下载 RRBot<a class="headerlink" href="#rrbot_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>cd ~/catkin_ws/src/
 git clone https://github.com/ros-simulation/gazebo_ros_demos.git
 cd ..
 catkin_make
-</code></pre></div> <p>其他参考： <a href="http://gazebosim.org/tutorials?tut=ros_overview">ROS Overview Tutorials</a>.</p> <h3 id=rvizgazebo>Rviz里和Gazebo里查看模型<a class=headerlink href=#rvizgazebo title="Permanent link">&para;</a></h3> <p><strong>在Rviz下和Gazbo下查看的命令如下:</strong></p> <div class=highlight><pre><span></span><code>roslaunch rrbot_description rrbot_rviz.launch
+</code></pre></div>
+<p>其他参考： <a href="http://gazebosim.org/tutorials?tut=ros_overview">ROS Overview Tutorials</a>.</p>
+<h3 id="rvizgazebo">Rviz里和Gazebo里查看模型<a class="headerlink" href="#rvizgazebo" title="Permanent link">&para;</a></h3>
+<p><strong>在Rviz下和Gazbo下查看的命令如下:</strong></p>
+<div class="highlight"><pre><span></span><code>roslaunch rrbot_description rrbot_rviz.launch
 roslaunch rrbot_gazebo rrbot_world.launch
-</code></pre></div> <p><strong>TIPS:</strong> - 可能需要安装<code>sudo apt install ros-melodic-joint-state-publisher-gui</code> - 如果看不到，则试着强制关掉其他进程<code>killall roscore</code> 再试试 (这个很有效) - <a href="http://gazebosim.org/tutorials?tut=ros_control">gazebo_ros_control</a> 教程里给出了如何利用Rviz来监视机器人利用<code>/joint_states</code>发布的状态。在本例中，Rviz里的RRbot接受虚拟的<code>joint_states_publisher</code>节点发布的<code>/joint_states</code></p> <p>Gazebo下的截图如下：![[Pasted image 20210331112544.png]]</p> <h3 id=launch>launch文件解析<a class=headerlink href=#launch title="Permanent link">&para;</a></h3> <h4 id=rrbot_rvizlaunch><code>rrbot_rviz.launch</code><a class=headerlink href=#rrbot_rvizlaunch title="Permanent link">&para;</a></h4> <div class=highlight><pre><span></span><code><span class=nt>&lt;launch&gt;</span>
-  <span class=nt>&lt;param</span> <span class=na>name=</span><span class=s>&quot;robot_description&quot;</span>
-    <span class=na>command=</span><span class=s>&quot;$(find xacro)/xacro --inorder &#39;$(find rrbot_description)/urdf/rrbot.xacro&#39;&quot;</span> <span class=nt>/&gt;</span>
+</code></pre></div>
+<p><strong>TIPS:</strong>
+- 可能需要安装<code>sudo apt install ros-melodic-joint-state-publisher-gui</code>
+- 如果看不到，则试着强制关掉其他进程<code>killall roscore</code> 再试试 (这个很有效)
+-  <a href="http://gazebosim.org/tutorials?tut=ros_control">gazebo_ros_control</a> 教程里给出了如何利用Rviz来监视机器人利用<code>/joint_states</code>发布的状态。在本例中，Rviz里的RRbot接受虚拟的<code>joint_states_publisher</code>节点发布的<code>/joint_states</code></p>
+<p>Gazebo下的截图如下：![[Pasted image 20210331112544.png]]</p>
+<h3 id="launch">launch文件解析<a class="headerlink" href="#launch" title="Permanent link">&para;</a></h3>
+<h4 id="rrbot_rvizlaunch"><code>rrbot_rviz.launch</code><a class="headerlink" href="#rrbot_rvizlaunch" title="Permanent link">&para;</a></h4>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;launch&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;robot_description&quot;</span>
+    <span class="na">command=</span><span class="s">&quot;$(find xacro)/xacro --inorder &#39;$(find rrbot_description)/urdf/rrbot.xacro&#39;&quot;</span> <span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- send fake joint values --&gt;</span>
-  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;joint_state_publisher&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;param</span> <span class=na>name=</span><span class=s>&quot;use_gui&quot;</span> <span class=na>value=</span><span class=s>&quot;TRUE&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/node&gt;</span>
+  <span class="c">&lt;!-- send fake joint values --&gt;</span>
+  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;joint_state_publisher&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;use_gui&quot;</span> <span class="na">value=</span><span class="s">&quot;TRUE&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/node&gt;</span>
 
-  <span class=c>&lt;!-- Combine joint values --&gt;</span>
-  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;robot_state_publisher&quot;</span><span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Combine joint values --&gt;</span>
+  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;robot_state_publisher&quot;</span><span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- Show in Rviz   --&gt;</span>
-  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;rviz&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rviz&quot;</span> <span class=na>type=</span><span class=s>&quot;rviz&quot;</span> <span class=na>args=</span><span class=s>&quot;-d $(find rrbot_description)/launch/rrbot.rviz&quot;</span><span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Show in Rviz   --&gt;</span>
+  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;rviz&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rviz&quot;</span> <span class="na">type=</span><span class="s">&quot;rviz&quot;</span> <span class="na">args=</span><span class="s">&quot;-d $(find rrbot_description)/launch/rrbot.rviz&quot;</span><span class="nt">/&gt;</span>
 
-<span class=nt>&lt;/launch&gt;</span>
-</code></pre></div> <p>主要功能见最后一个运行节点,运行rviz包的rviz节点,调用的是<code>rrbot.rviz</code>文件, 其中该文件中的参数<code>robot_description</code>里给出了机器人的模型,该参数是传递给<code>rrbot.rviz</code></p> <h4 id=rrbot_worldlaunch><code>rrbot_world.launch</code><a class=headerlink href=#rrbot_worldlaunch title="Permanent link">&para;</a></h4> <p>这个是Gazebo里的启动文件, 内容如下: <div class=highlight><pre><span></span><code><span class=nt>&lt;launch&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</code></pre></div>
+<p>主要功能见最后一个运行节点,运行rviz包的rviz节点,调用的是<code>rrbot.rviz</code>文件, 其中该文件中的参数<code>robot_description</code>里给出了机器人的模型,该参数是传递给<code>rrbot.rviz</code></p>
+<h4 id="rrbot_worldlaunch"><code>rrbot_world.launch</code><a class="headerlink" href="#rrbot_worldlaunch" title="Permanent link">&para;</a></h4>
+<p>这个是Gazebo里的启动文件, 内容如下:
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;launch&gt;</span>
 
-  <span class=c>&lt;!-- these are the arguments you can pass this launch file, for example paused:=true --&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;use_sim_time&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;headless&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- these are the arguments you can pass this launch file, for example paused:=true --&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;use_sim_time&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;headless&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched --&gt;</span>
-  <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rrbot_gazebo)/worlds/rrbot.world&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg debug)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg gui)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg paused)&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;use_sim_time&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg use_sim_time)&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;headless&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg headless)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/include&gt;</span>
+  <span class="c">&lt;!-- We resume the logic in empty_world.launch, changing only the name of the world to be launched --&gt;</span>
+  <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rrbot_gazebo)/worlds/rrbot.world&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg debug)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg gui)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg paused)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;use_sim_time&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg use_sim_time)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;headless&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg headless)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/include&gt;</span>
 
-  <span class=c>&lt;!-- Load the URDF into the ROS Parameter Server --&gt;</span>
-  <span class=nt>&lt;param</span> <span class=na>name=</span><span class=s>&quot;robot_description&quot;</span>
-    <span class=na>command=</span><span class=s>&quot;$(find xacro)/xacro --inorder &#39;$(find rrbot_description)/urdf/rrbot.xacro&#39;&quot;</span> <span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Load the URDF into the ROS Parameter Server --&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;robot_description&quot;</span>
+    <span class="na">command=</span><span class="s">&quot;$(find xacro)/xacro --inorder &#39;$(find rrbot_description)/urdf/rrbot.xacro&#39;&quot;</span> <span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot --&gt;</span>
-  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;urdf_spawner&quot;</span> <span class=na>pkg=</span><span class=s>&quot;gazebo_ros&quot;</span> <span class=na>type=</span><span class=s>&quot;spawn_model&quot;</span> <span class=na>respawn=</span><span class=s>&quot;false&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span>
-    <span class=na>args=</span><span class=s>&quot;-urdf -model rrbot -param robot_description&quot;</span><span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot --&gt;</span>
+  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;urdf_spawner&quot;</span> <span class="na">pkg=</span><span class="s">&quot;gazebo_ros&quot;</span> <span class="na">type=</span><span class="s">&quot;spawn_model&quot;</span> <span class="na">respawn=</span><span class="s">&quot;false&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span>
+    <span class="na">args=</span><span class="s">&quot;-urdf -model rrbot -param robot_description&quot;</span><span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- ros_control rrbot launch file --&gt;</span>
-  <span class=c>&lt;!--include file=&quot;$(find rrbot_control)/launch/rrbot_control.launch&quot; /--&gt;</span>
+  <span class="c">&lt;!-- ros_control rrbot launch file --&gt;</span>
+  <span class="c">&lt;!--include file=&quot;$(find rrbot_control)/launch/rrbot_control.launch&quot; /--&gt;</span>
 
-<span class=nt>&lt;/launch&gt;</span>
-</code></pre></div> 其中 - 世界模型为: <code>rrbot.world</code> - 运行spwan_model节点生成机器人, 该机器人模型由<code>robot_description</code>给出.</p> <h3 id=rrbotxacro><code>rrbot.xacro</code>文件解析<a class=headerlink href=#rrbotxacro title="Permanent link">&para;</a></h3> <p>^23c4ed</p> <p><a href=http://ros.org/wiki/xacro>Xacro</a></p> <div class=highlight><pre><span></span><code><span class=cp>&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class=c>&lt;!-- Revolute-Revolute Manipulator --&gt;</span>
-<span class=nt>&lt;robot</span> <span class=na>name=</span><span class=s>&quot;rrbot&quot;</span> <span class=na>xmlns:xacro=</span><span class=s>&quot;http://www.ros.org/wiki/xacro&quot;</span><span class=nt>&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</code></pre></div>
+其中
+- 世界模型为: <code>rrbot.world</code>
+- 运行spwan_model节点生成机器人, 该机器人模型由<code>robot_description</code>给出.</p>
+<h3 id="rrbotxacro"><code>rrbot.xacro</code>文件解析<a class="headerlink" href="#rrbotxacro" title="Permanent link">&para;</a></h3>
+<p>^23c4ed</p>
+<p><a href="http://ros.org/wiki/xacro">Xacro</a></p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="c">&lt;!-- Revolute-Revolute Manipulator --&gt;</span>
+<span class="nt">&lt;robot</span> <span class="na">name=</span><span class="s">&quot;rrbot&quot;</span> <span class="na">xmlns:xacro=</span><span class="s">&quot;http://www.ros.org/wiki/xacro&quot;</span><span class="nt">&gt;</span>
 
-  <span class=c>&lt;!-- Constants for robot dimensions --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;PI&quot;</span> <span class=na>value=</span><span class=s>&quot;3.1415926535897931&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;mass&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- arbitrary value for mass --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;width&quot;</span> <span class=na>value=</span><span class=s>&quot;0.1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Square dimensions (widthxwidth) of beams --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height1&quot;</span> <span class=na>value=</span><span class=s>&quot;2&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 1 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height2&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 2 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height3&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 3 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;camera_link&quot;</span> <span class=na>value=</span><span class=s>&quot;0.05&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Size of square &#39;camera&#39; box --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;axel_offset&quot;</span> <span class=na>value=</span><span class=s>&quot;0.05&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Space btw top of beam and the each joint --&gt;</span>
+  <span class="c">&lt;!-- Constants for robot dimensions --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;PI&quot;</span> <span class="na">value=</span><span class="s">&quot;3.1415926535897931&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;mass&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- arbitrary value for mass --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;width&quot;</span> <span class="na">value=</span><span class="s">&quot;0.1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Square dimensions (widthxwidth) of beams --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height1&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 1 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height2&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 2 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height3&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 3 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;camera_link&quot;</span> <span class="na">value=</span><span class="s">&quot;0.05&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Size of square &#39;camera&#39; box --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;axel_offset&quot;</span> <span class="na">value=</span><span class="s">&quot;0.05&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Space btw top of beam and the each joint --&gt;</span>
 
-  <span class=c>&lt;!-- Import all Gazebo-customization elements, including Gazebo colors --&gt;</span>
-  <span class=nt>&lt;xacro:include</span> <span class=na>filename=</span><span class=s>&quot;$(find rrbot_description)/urdf/rrbot.gazebo&quot;</span> <span class=nt>/&gt;</span>
-  <span class=c>&lt;!-- Import Rviz colors --&gt;</span>
-  <span class=nt>&lt;xacro:include</span> <span class=na>filename=</span><span class=s>&quot;$(find rrbot_description)/urdf/materials.xacro&quot;</span> <span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Import all Gazebo-customization elements, including Gazebo colors --&gt;</span>
+  <span class="nt">&lt;xacro:include</span> <span class="na">filename=</span><span class="s">&quot;$(find rrbot_description)/urdf/rrbot.gazebo&quot;</span> <span class="nt">/&gt;</span>
+  <span class="c">&lt;!-- Import Rviz colors --&gt;</span>
+  <span class="nt">&lt;xacro:include</span> <span class="na">filename=</span><span class="s">&quot;$(find rrbot_description)/urdf/materials.xacro&quot;</span> <span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- Used for fixing robot to Gazebo &#39;base_link&#39; --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;world&quot;</span><span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- Used for fixing robot to Gazebo &#39;base_link&#39; --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;world&quot;</span><span class="nt">/&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;fixed&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;world&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link1&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;fixed&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;world&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link1&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=c>&lt;!-- Base Link --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;link1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="c">&lt;!-- Base Link --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;link1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;orange&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;orange&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;${mass}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span>
-      <span class=na>ixx=</span><span class=s>&quot;${mass / 12.0 * (width*width + height1*height1)}&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0.0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>iyy=</span><span class=s>&quot;${mass / 12.0 * (height1*height1 + width*width)}&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>izz=</span><span class=s>&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;${mass}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span>
+      <span class="na">ixx=</span><span class="s">&quot;${mass / 12.0 * (width*width + height1*height1)}&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0.0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">iyy=</span><span class="s">&quot;${mass / 12.0 * (height1*height1 + width*width)}&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">izz=</span><span class="s">&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint1&quot;</span> <span class=na>type=</span><span class=s>&quot;continuous&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link1&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link2&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;dynamics</span> <span class=na>damping=</span><span class=s>&quot;0.7&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint1&quot;</span> <span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link1&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;dynamics</span> <span class="na">damping=</span><span class="s">&quot;0.7&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=c>&lt;!-- Middle Link --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;link2&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height2}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="c">&lt;!-- Middle Link --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;link2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height2}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height2}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;black&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height2}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;black&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;${mass}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span>
-      <span class=na>ixx=</span><span class=s>&quot;${mass / 12.0 * (width*width + height2*height2)}&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0.0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>iyy=</span><span class=s>&quot;${mass / 12.0 * (height2*height2 + width*width)}&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>izz=</span><span class=s>&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height2/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;${mass}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span>
+      <span class="na">ixx=</span><span class="s">&quot;${mass / 12.0 * (width*width + height2*height2)}&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0.0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">iyy=</span><span class="s">&quot;${mass / 12.0 * (height2*height2 + width*width)}&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">izz=</span><span class="s">&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint2&quot;</span> <span class=na>type=</span><span class=s>&quot;continuous&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link2&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 ${width} ${height2 - axel_offset*2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;dynamics</span> <span class=na>damping=</span><span class=s>&quot;0.7&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint2&quot;</span> <span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link3&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 ${width} ${height2 - axel_offset*2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;dynamics</span> <span class="na">damping=</span><span class="s">&quot;0.7&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=c>&lt;!-- Top Link --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;link3&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height3}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="c">&lt;!-- Top Link --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;link3&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height3}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height3}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;orange&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height3}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;orange&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;${mass}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span>
-      <span class=na>ixx=</span><span class=s>&quot;${mass / 12.0 * (width*width + height3*height3)}&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0.0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>iyy=</span><span class=s>&quot;${mass / 12.0 * (height3*height3 + width*width)}&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>izz=</span><span class=s>&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height3/2 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;${mass}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span>
+      <span class="na">ixx=</span><span class="s">&quot;${mass / 12.0 * (width*width + height3*height3)}&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0.0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">iyy=</span><span class="s">&quot;${mass / 12.0 * (height3*height3 + width*width)}&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">izz=</span><span class="s">&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;hokuyo_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height3 - axel_offset/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;hokuyo_joint&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height3 - axel_offset/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link3&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;hokuyo_link&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=c>&lt;!-- Hokuyo Laser --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;0.1 0.1 0.1&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="c">&lt;!-- Hokuyo Laser --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;hokuyo_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;0.1 0.1 0.1&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-        <span class=nt>&lt;mesh</span> <span class=na>filename=</span><span class=s>&quot;package://rrbot_description/meshes/hokuyo.dae&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+        <span class="nt">&lt;mesh</span> <span class="na">filename=</span><span class="s">&quot;package://rrbot_description/meshes/hokuyo.dae&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1e-5&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span> <span class=na>ixx=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0&quot;</span> <span class=na>iyy=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0&quot;</span> <span class=na>izz=</span><span class=s>&quot;1e-6&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;1e-5&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span> <span class="na">ixx=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0&quot;</span> <span class="na">iyy=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0&quot;</span> <span class="na">izz=</span><span class="s">&quot;1e-6&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;camera_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;${camera_link} 0 ${height3 - axel_offset*2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;camera_joint&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;${camera_link} 0 ${height3 - axel_offset*2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link3&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=c>&lt;!-- Camera --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="c">&lt;!-- Camera --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;red&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${camera_link} ${camera_link} ${camera_link}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;red&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1e-5&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span> <span class=na>ixx=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0&quot;</span> <span class=na>iyy=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0&quot;</span> <span class=na>izz=</span><span class=s>&quot;1e-6&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;1e-5&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span> <span class="na">ixx=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0&quot;</span> <span class="na">iyy=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0&quot;</span> <span class="na">izz=</span><span class="s">&quot;1e-6&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=c>&lt;!-- generate an optical frame http://www.ros.org/reps/rep-0103.html#suffix-frames</span>
-<span class=c>      so that ros and opencv can operate on the camera frame correctly --&gt;</span>
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;camera_optical_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=c>&lt;!-- these values have to be these values otherwise the gazebo camera image</span>
-<span class=c>        won&#39;t be aligned properly with the frame it is supposedly originating from --&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;${-pi/2} 0 ${-pi/2}&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;camera_link_optical&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
+  <span class="c">&lt;!-- generate an optical frame http://www.ros.org/reps/rep-0103.html#suffix-frames</span>
+<span class="c">      so that ros and opencv can operate on the camera frame correctly --&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;camera_optical_joint&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="c">&lt;!-- these values have to be these values otherwise the gazebo camera image</span>
+<span class="c">        won&#39;t be aligned properly with the frame it is supposedly originating from --&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;${-pi/2} 0 ${-pi/2}&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;camera_link_optical&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
 
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;camera_link_optical&quot;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;camera_link_optical&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;transmission</span> <span class=na>name=</span><span class=s>&quot;tran1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class=nt>&lt;/type&gt;</span>
-    <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint1&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-    <span class=nt>&lt;/joint&gt;</span>
-    <span class=nt>&lt;actuator</span> <span class=na>name=</span><span class=s>&quot;motor1&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-      <span class=nt>&lt;mechanicalReduction&gt;</span>1<span class=nt>&lt;/mechanicalReduction&gt;</span>
-    <span class=nt>&lt;/actuator&gt;</span>
-  <span class=nt>&lt;/transmission&gt;</span>
+  <span class="nt">&lt;transmission</span> <span class="na">name=</span><span class="s">&quot;tran1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class="nt">&lt;/type&gt;</span>
+    <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+    <span class="nt">&lt;/joint&gt;</span>
+    <span class="nt">&lt;actuator</span> <span class="na">name=</span><span class="s">&quot;motor1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+      <span class="nt">&lt;mechanicalReduction&gt;</span>1<span class="nt">&lt;/mechanicalReduction&gt;</span>
+    <span class="nt">&lt;/actuator&gt;</span>
+  <span class="nt">&lt;/transmission&gt;</span>
 
-  <span class=nt>&lt;transmission</span> <span class=na>name=</span><span class=s>&quot;tran2&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class=nt>&lt;/type&gt;</span>
-    <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint2&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-    <span class=nt>&lt;/joint&gt;</span>
-    <span class=nt>&lt;actuator</span> <span class=na>name=</span><span class=s>&quot;motor2&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-      <span class=nt>&lt;mechanicalReduction&gt;</span>1<span class=nt>&lt;/mechanicalReduction&gt;</span>
-    <span class=nt>&lt;/actuator&gt;</span>
-  <span class=nt>&lt;/transmission&gt;</span>
+  <span class="nt">&lt;transmission</span> <span class="na">name=</span><span class="s">&quot;tran2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class="nt">&lt;/type&gt;</span>
+    <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint2&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+    <span class="nt">&lt;/joint&gt;</span>
+    <span class="nt">&lt;actuator</span> <span class="na">name=</span><span class="s">&quot;motor2&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+      <span class="nt">&lt;mechanicalReduction&gt;</span>1<span class="nt">&lt;/mechanicalReduction&gt;</span>
+    <span class="nt">&lt;/actuator&gt;</span>
+  <span class="nt">&lt;/transmission&gt;</span>
 
-<span class=nt>&lt;/robot&gt;</span>
-</code></pre></div> <ul> <li>首先给出机器人的名字和命名空间 <div class=highlight><pre><span></span><code>&lt;robot name=&quot;rrbot&quot; xmlns:xacro=&quot;http://www.ros.org/wiki/xacro&quot;&gt;
-</code></pre></div></li> <li>设置一些常数 <div class=highlight><pre><span></span><code><span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;PI&quot;</span> <span class=na>value=</span><span class=s>&quot;3.1415926535897931&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;mass&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- arbitrary value for mass --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;width&quot;</span> <span class=na>value=</span><span class=s>&quot;0.1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Square dimensions (widthxwidth) of beams --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height1&quot;</span> <span class=na>value=</span><span class=s>&quot;2&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 1 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height2&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 2 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;height3&quot;</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Link 3 --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;camera_link&quot;</span> <span class=na>value=</span><span class=s>&quot;0.05&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Size of square &#39;camera&#39; box --&gt;</span>
-  <span class=nt>&lt;xacro:property</span> <span class=na>name=</span><span class=s>&quot;axel_offset&quot;</span> <span class=na>value=</span><span class=s>&quot;0.05&quot;</span> <span class=nt>/&gt;</span> <span class=c>&lt;!-- Space btw top of beam and the each joint </span>
-</code></pre></div></li> <li>调用一个gazebo格式和一个xacro格式的文件 <div class=highlight><pre><span></span><code><span class=nt>&lt;xacro:include</span> <span class=na>filename=</span><span class=s>&quot;$(find rrbot_description)/urdf/rrbot.gazebo&quot;</span> <span class=nt>/&gt;</span>
-  <span class=c>&lt;!-- Import Rviz colors --&gt;</span>
-<span class=nt>&lt;xacro:include</span> <span class=na>filename=</span><span class=s>&quot;$(find rrbot_description)/urdf/materials.xacro&quot;</span> <span class=nt>/&gt;</span>
-</code></pre></div><ul> <li><a href=https://github.com/ros-simulation/gazebo_ros_demos/blob/kinetic-devel/rrbot_description/urdf/rrbot.gazebo>rrbot.gazebo</a> a Gazebo specific file that includes most of our Gazebo-specific XML elements including the tags</li> <li><a href=https://github.com/ros-simulation/gazebo_ros_demos/blob/kinetic-devel/rrbot_description/urdf/materials.xacro>materials.xacro</a> Rviz 的颜色文件，用于存储rgba值</li> <li>也就是说一个用于Gazebo, 一个用于Rviz</li> </ul> </li> <li> <p>创建一个world的母link和joint将world和机器人连接</p> <p><div class=highlight><pre><span></span><code><span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;world&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;fixed&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;world&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link1&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
-</code></pre></div> <strong>TIPS</strong>: 如果是运动的，则不需要此操作 - 对<code>link1</code>进行定义 <div class=highlight><pre><span></span><code>  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;link1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+<span class="nt">&lt;/robot&gt;</span>
+</code></pre></div>
+<ul>
+<li>首先给出机器人的名字和命名空间
+    <div class="highlight"><pre><span></span><code>&lt;robot name=&quot;rrbot&quot; xmlns:xacro=&quot;http://www.ros.org/wiki/xacro&quot;&gt;
+</code></pre></div></li>
+<li>设置一些常数
+    <div class="highlight"><pre><span></span><code><span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;PI&quot;</span> <span class="na">value=</span><span class="s">&quot;3.1415926535897931&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;mass&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- arbitrary value for mass --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;width&quot;</span> <span class="na">value=</span><span class="s">&quot;0.1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Square dimensions (widthxwidth) of beams --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height1&quot;</span> <span class="na">value=</span><span class="s">&quot;2&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 1 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height2&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 2 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;height3&quot;</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Link 3 --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;camera_link&quot;</span> <span class="na">value=</span><span class="s">&quot;0.05&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Size of square &#39;camera&#39; box --&gt;</span>
+  <span class="nt">&lt;xacro:property</span> <span class="na">name=</span><span class="s">&quot;axel_offset&quot;</span> <span class="na">value=</span><span class="s">&quot;0.05&quot;</span> <span class="nt">/&gt;</span> <span class="c">&lt;!-- Space btw top of beam and the each joint </span>
+</code></pre></div></li>
+<li>调用一个gazebo格式和一个xacro格式的文件
+    <div class="highlight"><pre><span></span><code><span class="nt">&lt;xacro:include</span> <span class="na">filename=</span><span class="s">&quot;$(find rrbot_description)/urdf/rrbot.gazebo&quot;</span> <span class="nt">/&gt;</span>
+  <span class="c">&lt;!-- Import Rviz colors --&gt;</span>
+<span class="nt">&lt;xacro:include</span> <span class="na">filename=</span><span class="s">&quot;$(find rrbot_description)/urdf/materials.xacro&quot;</span> <span class="nt">/&gt;</span>
+</code></pre></div><ul>
+<li><a href="https://github.com/ros-simulation/gazebo_ros_demos/blob/kinetic-devel/rrbot_description/urdf/rrbot.gazebo">rrbot.gazebo</a> a Gazebo specific file that includes most of our Gazebo-specific XML elements including the tags</li>
+<li><a href="https://github.com/ros-simulation/gazebo_ros_demos/blob/kinetic-devel/rrbot_description/urdf/materials.xacro">materials.xacro</a> Rviz 的颜色文件，用于存储rgba值</li>
+<li>也就是说一个用于Gazebo, 一个用于Rviz</li>
+</ul>
+</li>
+<li>
+<p>创建一个world的母link和joint将world和机器人连接</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;world&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;fixed&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;world&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link1&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
+</code></pre></div>
+<strong>TIPS</strong>: 如果是运动的，则不需要此操作
+-  对<code>link1</code>进行定义
+<div class="highlight"><pre><span></span><code>  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;link1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;orange&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;orange&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;${mass}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span>
-      <span class=na>ixx=</span><span class=s>&quot;${mass / 12.0 * (width*width + height1*height1)}&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0.0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>iyy=</span><span class=s>&quot;${mass / 12.0 * (height1*height1 + width*width)}&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0.0&quot;</span>
-      <span class=na>izz=</span><span class=s>&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
-</code></pre></div> 关于<code>link</code>的详细解读,见[[1-Tutorial Using a URDF in Gazebo#^efb6c3|xacro文件中link标签的详细解析]] - 定义<code>joint1</code>用于连接link1和link2 <div class=highlight><pre><span></span><code><span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint1&quot;</span> <span class=na>type=</span><span class=s>&quot;continuous&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link1&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link2&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;dynamics</span> <span class=na>damping=</span><span class=s>&quot;0.7&quot;</span><span class=nt>/&gt;</span>
-<span class=nt>&lt;/joint&gt;</span>
-</code></pre></div> 关于joint的详细解析见[[1-Tutorial Using a URDF in Gazebo#^56ef76]] - 其他的几个link - <code>hokuyo_link</code>激光测距link的定义 <div class=highlight><pre><span></span><code><span class=c>&lt;!-- Hokuyo Laser --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-    <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;0.1 0.1 0.1&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;${mass}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span>
+      <span class="na">ixx=</span><span class="s">&quot;${mass / 12.0 * (width*width + height1*height1)}&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0.0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">iyy=</span><span class="s">&quot;${mass / 12.0 * (height1*height1 + width*width)}&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0.0&quot;</span>
+      <span class="na">izz=</span><span class="s">&quot;${mass / 12.0 * (width*width + width*width)}&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
+</code></pre></div>
+关于<code>link</code>的详细解读,见[[1-Tutorial Using a URDF in Gazebo#^efb6c3|xacro文件中link标签的详细解析]]
+-  定义<code>joint1</code>用于连接link1和link2
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint1&quot;</span> <span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link1&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link2&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;dynamics</span> <span class="na">damping=</span><span class="s">&quot;0.7&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/joint&gt;</span>
+</code></pre></div>
+关于joint的详细解析见[[1-Tutorial Using a URDF in Gazebo#^56ef76]]
+-  其他的几个link
+-  <code>hokuyo_link</code>激光测距link的定义
+<div class="highlight"><pre><span></span><code><span class="c">&lt;!-- Hokuyo Laser --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;hokuyo_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+    <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;0.1 0.1 0.1&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-        <span class=nt>&lt;mesh</span> <span class=na>filename=</span><span class=s>&quot;package://rrbot_description/meshes/hokuyo.dae&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+        <span class="nt">&lt;mesh</span> <span class="na">filename=</span><span class="s">&quot;package://rrbot_description/meshes/hokuyo.dae&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1e-5&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 0&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span> <span class=na>ixx=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0&quot;</span> <span class=na>iyy=</span><span class=s>&quot;1e-6&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0&quot;</span> <span class=na>izz=</span><span class=s>&quot;1e-6&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;1e-5&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 0&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span> <span class="na">ixx=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0&quot;</span> <span class="na">iyy=</span><span class="s">&quot;1e-6&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0&quot;</span> <span class="na">izz=</span><span class="s">&quot;1e-6&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
 
-  <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;camera_joint&quot;</span> <span class=na>type=</span><span class=s>&quot;fixed&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;${camera_link} 0 ${height3 - axel_offset*2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link3&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/joint&gt;</span>
-</code></pre></div> 其中mesh标签里用了相应的<code>hokuyo.dae</code>文件. 和Rviz一样，Gazebo支持 STL 和 Collada 文件（.dae）。但是推荐用后者，因为它支持颜色、纹理。 - <code>transmission</code>元素</p> </li> </ul> <div class=highlight><pre><span></span><code><span class=nt>&lt;transmission</span> <span class=na>name=</span><span class=s>&quot;tran1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class=nt>&lt;/type&gt;</span>
-    <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint1&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-    <span class=nt>&lt;/joint&gt;</span>
-    <span class=nt>&lt;actuator</span> <span class=na>name=</span><span class=s>&quot;motor1&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class=nt>&lt;/hardwareInterface&gt;</span>
-      <span class=nt>&lt;mechanicalReduction&gt;</span>1<span class=nt>&lt;/mechanicalReduction&gt;</span>
-    <span class=nt>&lt;/actuator&gt;</span>
-<span class=nt>&lt;/transmission&gt;</span>
-</code></pre></div> <h3 id=xacrolink><code>xacro</code>文件中link标签的详细解析<a class=headerlink href=#xacrolink title="Permanent link">&para;</a></h3> <p>^efb6c3</p> <p>首先需要熟悉URDF <a href=http://www.ros.org/wiki/urdf/XML/link>link</a> 元素。示例如下：</p> <div class=highlight><pre><span></span><code>  <span class=c>&lt;!-- Base Link --&gt;</span>
-  <span class=nt>&lt;link</span> <span class=na>name=</span><span class=s>&quot;link1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;collision&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-        <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-    <span class=nt>&lt;/collision&gt;</span>
+  <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;camera_joint&quot;</span> <span class="na">type=</span><span class="s">&quot;fixed&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;${camera_link} 0 ${height3 - axel_offset*2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link3&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/joint&gt;</span>
+</code></pre></div>
+其中mesh标签里用了相应的<code>hokuyo.dae</code>文件. 和Rviz一样，Gazebo支持 STL 和 Collada 文件（.dae）。但是推荐用后者，因为它支持颜色、纹理。
+-  <code>transmission</code>元素</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;transmission</span> <span class="na">name=</span><span class="s">&quot;tran1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;type&gt;</span>transmission_interface/SimpleTransmission<span class="nt">&lt;/type&gt;</span>
+    <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+    <span class="nt">&lt;/joint&gt;</span>
+    <span class="nt">&lt;actuator</span> <span class="na">name=</span><span class="s">&quot;motor1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;hardwareInterface&gt;</span>hardware_interface/EffortJointInterface<span class="nt">&lt;/hardwareInterface&gt;</span>
+      <span class="nt">&lt;mechanicalReduction&gt;</span>1<span class="nt">&lt;/mechanicalReduction&gt;</span>
+    <span class="nt">&lt;/actuator&gt;</span>
+<span class="nt">&lt;/transmission&gt;</span>
+</code></pre></div>
+<h3 id="xacrolink"><code>xacro</code>文件中link标签的详细解析<a class="headerlink" href="#xacrolink" title="Permanent link">&para;</a></h3>
+<p>^efb6c3</p>
+<p>首先需要熟悉URDF <a href="http://www.ros.org/wiki/urdf/XML/link">link</a> 元素。示例如下：</p>
+<div class="highlight"><pre><span></span><code>  <span class="c">&lt;!-- Base Link --&gt;</span>
+  <span class="nt">&lt;link</span> <span class="na">name=</span><span class="s">&quot;link1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;collision&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+        <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+    <span class="nt">&lt;/collision&gt;</span>
 
-    <span class=nt>&lt;visual&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 ${height1/2}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;geometry&gt;</span>
-        <span class=nt>&lt;box</span> <span class=na>size=</span><span class=s>&quot;${width} ${width} ${height1}&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;/geometry&gt;</span>
-      <span class=nt>&lt;material</span> <span class=na>name=</span><span class=s>&quot;orange&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/visual&gt;</span>
+    <span class="nt">&lt;visual&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 ${height1/2}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;geometry&gt;</span>
+        <span class="nt">&lt;box</span> <span class="na">size=</span><span class="s">&quot;${width} ${width} ${height1}&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;/geometry&gt;</span>
+      <span class="nt">&lt;material</span> <span class="na">name=</span><span class="s">&quot;orange&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/visual&gt;</span>
 
-    <span class=nt>&lt;inertial&gt;</span>
-      <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 0 1&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;mass</span> <span class=na>value=</span><span class=s>&quot;1&quot;</span><span class=nt>/&gt;</span>
-      <span class=nt>&lt;inertia</span>
-        <span class=na>ixx=</span><span class=s>&quot;1.0&quot;</span> <span class=na>ixy=</span><span class=s>&quot;0.0&quot;</span> <span class=na>ixz=</span><span class=s>&quot;0.0&quot;</span>
-        <span class=na>iyy=</span><span class=s>&quot;1.0&quot;</span> <span class=na>iyz=</span><span class=s>&quot;0.0&quot;</span>
-        <span class=na>izz=</span><span class=s>&quot;1.0&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/inertial&gt;</span>
-  <span class=nt>&lt;/link&gt;</span>
-</code></pre></div> <p>几点说明 - <code>&lt;collision&gt;</code> 和 <code>&lt;visual&gt;</code> 元素的内容基本是一样的, 这是因为使得模型既在Gazebo中能显示又能在Rviz中显示. 对于Gazebo来说, 如果不指定<code>&lt;collision&gt;</code>,则默认为不可见的. - <code>&lt;visual&gt;</code> 还指定了材质, <code>&lt;material name="orange"/&gt;</code>, <code>orange</code>用于rviz的定义见<a href=https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/materials.xacro#L20-L22>materials.xacro</a>; <code>orange</code>用于Gazebo的定义见<code>rrbot.gazebo</code>, 详细解读见[[1-Tutorial Using a URDF in Gazebo#^813610|material 材质定义]] - Gazebo里的单位为m和kg <a href=http://www.ros.org/reps/rep-0103.html>REP 103: Standard Units of measure and Coordinate Conventions</a> - <code>&lt;inertial&gt;</code>给出了质量特性, 这个是用于Gazebo(我的理解)物理引擎<a href=http://www.ros.org/wiki/urdf/XML/link>URDF link element</a> , 一些设置可以在Gazebo-View菜单里选择''Wireframe'' 和 ''Center of Mass''查看是否选择正确。一般可以利用Solidworks等CAD对惯量进行近似;;</p> <h3 id=material>material 材质定义<a class=headerlink href=#material title="Permanent link">&para;</a></h3> <p>^813610</p> <p>利用如下的命令指定颜色，</p> <div class=highlight><pre><span></span><code>&lt;material name=&quot;orange&quot;/&gt;
-</code></pre></div> <p>orange颜色在单独的文件里定义，比如<a href=https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/materials.xacro#L20-L22>materials.xacro</a>:</p> <div class=highlight><pre><span></span><code>  &lt;material name=&quot;orange&quot;&gt;
+    <span class="nt">&lt;inertial&gt;</span>
+      <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 0 1&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;mass</span> <span class="na">value=</span><span class="s">&quot;1&quot;</span><span class="nt">/&gt;</span>
+      <span class="nt">&lt;inertia</span>
+        <span class="na">ixx=</span><span class="s">&quot;1.0&quot;</span> <span class="na">ixy=</span><span class="s">&quot;0.0&quot;</span> <span class="na">ixz=</span><span class="s">&quot;0.0&quot;</span>
+        <span class="na">iyy=</span><span class="s">&quot;1.0&quot;</span> <span class="na">iyz=</span><span class="s">&quot;0.0&quot;</span>
+        <span class="na">izz=</span><span class="s">&quot;1.0&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/inertial&gt;</span>
+  <span class="nt">&lt;/link&gt;</span>
+</code></pre></div>
+<p>几点说明
+- <code>&lt;collision&gt;</code> 和 <code>&lt;visual&gt;</code> 元素的内容基本是一样的, 这是因为使得模型既在Gazebo中能显示又能在Rviz中显示. 对于Gazebo来说, 如果不指定<code>&lt;collision&gt;</code>,则默认为不可见的.
+-  <code>&lt;visual&gt;</code> 还指定了材质, <code>&lt;material name="orange"/&gt;</code>,  <code>orange</code>用于rviz的定义见<a href="https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/materials.xacro#L20-L22">materials.xacro</a>;  <code>orange</code>用于Gazebo的定义见<code>rrbot.gazebo</code>, 详细解读见[[1-Tutorial Using a URDF in Gazebo#^813610|material 材质定义]]
+-  Gazebo里的单位为m和kg <a href="http://www.ros.org/reps/rep-0103.html">REP 103: Standard Units of measure and Coordinate Conventions</a>
+-  <code>&lt;inertial&gt;</code>给出了质量特性, 这个是用于Gazebo(我的理解)物理引擎<a href="http://www.ros.org/wiki/urdf/XML/link">URDF link element</a> ,  一些设置可以在Gazebo-View菜单里选择''Wireframe'' 和 ''Center of Mass''查看是否选择正确。一般可以利用Solidworks等CAD对惯量进行近似;;</p>
+<h3 id="material">material 材质定义<a class="headerlink" href="#material" title="Permanent link">&para;</a></h3>
+<p>^813610</p>
+<p>利用如下的命令指定颜色，</p>
+<div class="highlight"><pre><span></span><code>&lt;material name=&quot;orange&quot;/&gt;
+</code></pre></div>
+<p>orange颜色在单独的文件里定义，比如<a href="https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/materials.xacro#L20-L22">materials.xacro</a>:</p>
+<div class="highlight"><pre><span></span><code>  &lt;material name=&quot;orange&quot;&gt;
     &lt;color rgba=&quot;${255/255} ${108/255} ${10/255} 1.0&quot;/&gt;
   &lt;/material&gt;
-</code></pre></div> <p>这种方法在Gazebo里不适用，在Gazebo里需要采用如下的标签：</p> <div class=highlight><pre><span></span><code>  &lt;gazebo reference=&quot;link1&quot;&gt;
+</code></pre></div>
+<p>这种方法在Gazebo里不适用，在Gazebo里需要采用如下的标签：</p>
+<div class="highlight"><pre><span></span><code>  &lt;gazebo reference=&quot;link1&quot;&gt;
     &lt;material&gt;Gazebo/Orange&lt;/material&gt;
   &lt;/gazebo&gt;
-</code></pre></div> <p>RRBot示例中调用 <a href=https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/rrbot.gazebo>rrbot.gazebo</a>文件，在该文件中给出了相应的和Gazebo相关的标签，比如 <code>&lt;link&gt;</code> and <code>&lt;material&gt;</code> .</p> <ul> <li>Gazebo的默认可用材质见 <a href=https://github.com/osrf/gazebo/blob/master/media/materials/scripts/gazebo.material>gazebo/media/materials/scripts/gazebo.material</a>.</li> <li>如果要自己创建材质， 见：</li> <li><a href="http://sdformat.org/spec?ver=1.5&elem=material">The <code>&lt;material&gt;</code> SDF documentation</a></li> <li><a href=http://www.ogre3d.org/tikiwiki/Materials>OGRE materials documentation</a></li> </ul> <h3 id=joints>关节Joints详细解读<a class=headerlink href=#joints title="Permanent link">&para;</a></h3> <p>^56ef76</p> <p>下面给出joint1的定义 <div class=highlight><pre><span></span><code>    <span class=nt>&lt;joint</span> <span class=na>name=</span><span class=s>&quot;joint1&quot;</span> <span class=na>type=</span><span class=s>&quot;continuous&quot;</span><span class=nt>&gt;</span>
-        <span class=nt>&lt;parent</span> <span class=na>link=</span><span class=s>&quot;link1&quot;</span><span class=nt>/&gt;</span>
-        <span class=nt>&lt;child</span> <span class=na>link=</span><span class=s>&quot;link2&quot;</span><span class=nt>/&gt;</span>
-        <span class=nt>&lt;origin</span> <span class=na>xyz=</span><span class=s>&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class=na>rpy=</span><span class=s>&quot;0 0 0&quot;</span><span class=nt>/&gt;</span>
-        <span class=nt>&lt;axis</span> <span class=na>xyz=</span><span class=s>&quot;0 1 0&quot;</span><span class=nt>/&gt;</span>
-        <span class=nt>&lt;dynamics</span> <span class=na>damping=</span><span class=s>&quot;0.7&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/joint&gt;</span>
-</code></pre></div></p> <p>首先需要熟悉 <a href=http://www.ros.org/wiki/urdf/XML/joint>URDF joint documentation</a>. 对于Gazebo来说，需要特别注意如下的几点：</p> <ul> <li><code>&lt;origin&gt;</code>, <code>&lt;parent&gt;</code> 和 <code>&lt;child&gt;</code> 是必须的</li> <li>省去了<code>&lt;calibration&gt;</code> 和 <code>&lt;safety_controller&gt;</code> </li> <li>在 <code>&lt;dynamics&gt;</code> 标签里，gazebo4只用了 <code>damping</code> 属性， Gazebo5 及以上版本还用了 <code>friction</code> 属性</li> <li>在 <code>&lt;limit&gt;</code> 的属性是可选项</li> <li><code>dynamics damping=0.7 N\*m\*s/rad</code></li> </ul> <h3 id=rrbotgazebo><code>rrbot.gazebo</code>解读<a class=headerlink href=#rrbotgazebo title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=cp>&lt;?xml version=&quot;1.0&quot;?&gt;</span>
-<span class=nt>&lt;robot&gt;</span>
+</code></pre></div>
+<p>RRBot示例中调用 <a href="https://github.com/ros-simulation/gazebo_ros_demos/blob/master/rrbot_description/urdf/rrbot.gazebo">rrbot.gazebo</a>文件，在该文件中给出了相应的和Gazebo相关的标签，比如 <code>&lt;link&gt;</code> and <code>&lt;material&gt;</code> .</p>
+<ul>
+<li>Gazebo的默认可用材质见 <a href="https://github.com/osrf/gazebo/blob/master/media/materials/scripts/gazebo.material">gazebo/media/materials/scripts/gazebo.material</a>.</li>
+<li>如果要自己创建材质， 见：</li>
+<li><a href="http://sdformat.org/spec?ver=1.5&amp;elem=material">The <code>&lt;material&gt;</code> SDF documentation</a></li>
+<li><a href="http://www.ogre3d.org/tikiwiki/Materials">OGRE materials documentation</a></li>
+</ul>
+<h3 id="joints">关节Joints详细解读<a class="headerlink" href="#joints" title="Permanent link">&para;</a></h3>
+<p>^56ef76</p>
+<p>下面给出joint1的定义
+<div class="highlight"><pre><span></span><code>    <span class="nt">&lt;joint</span> <span class="na">name=</span><span class="s">&quot;joint1&quot;</span> <span class="na">type=</span><span class="s">&quot;continuous&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;parent</span> <span class="na">link=</span><span class="s">&quot;link1&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;child</span> <span class="na">link=</span><span class="s">&quot;link2&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;origin</span> <span class="na">xyz=</span><span class="s">&quot;0 ${width} ${height1 - axel_offset}&quot;</span> <span class="na">rpy=</span><span class="s">&quot;0 0 0&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;axis</span> <span class="na">xyz=</span><span class="s">&quot;0 1 0&quot;</span><span class="nt">/&gt;</span>
+        <span class="nt">&lt;dynamics</span> <span class="na">damping=</span><span class="s">&quot;0.7&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/joint&gt;</span>
+</code></pre></div></p>
+<p>首先需要熟悉 <a href="http://www.ros.org/wiki/urdf/XML/joint">URDF joint documentation</a>. 对于Gazebo来说，需要特别注意如下的几点：</p>
+<ul>
+<li><code>&lt;origin&gt;</code>, <code>&lt;parent&gt;</code> 和 <code>&lt;child&gt;</code> 是必须的</li>
+<li>省去了<code>&lt;calibration&gt;</code> 和 <code>&lt;safety_controller&gt;</code> </li>
+<li>在 <code>&lt;dynamics&gt;</code> 标签里，gazebo4只用了 <code>damping</code> 属性， Gazebo5 及以上版本还用了 <code>friction</code> 属性</li>
+<li>在 <code>&lt;limit&gt;</code> 的属性是可选项</li>
+<li><code>dynamics damping=0.7 N\*m\*s/rad</code></li>
+</ul>
+<h3 id="rrbotgazebo"><code>rrbot.gazebo</code>解读<a class="headerlink" href="#rrbotgazebo" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+<span class="nt">&lt;robot&gt;</span>
 
-  <span class=c>&lt;!-- ros_control plugin --&gt;</span>
-  <span class=nt>&lt;gazebo&gt;</span>
-    <span class=nt>&lt;plugin</span> <span class=na>name=</span><span class=s>&quot;gazebo_ros_control&quot;</span> <span class=na>filename=</span><span class=s>&quot;libgazebo_ros_control.so&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;robotNamespace&gt;</span>/rrbot<span class=nt>&lt;/robotNamespace&gt;</span>
-      <span class=nt>&lt;robotSimType&gt;</span>gazebo_ros_control/DefaultRobotHWSim<span class=nt>&lt;/robotSimType&gt;</span>
-    <span class=nt>&lt;/plugin&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- ros_control plugin --&gt;</span>
+  <span class="nt">&lt;gazebo&gt;</span>
+    <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;gazebo_ros_control&quot;</span> <span class="na">filename=</span><span class="s">&quot;libgazebo_ros_control.so&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;robotNamespace&gt;</span>/rrbot<span class="nt">&lt;/robotNamespace&gt;</span>
+      <span class="nt">&lt;robotSimType&gt;</span>gazebo_ros_control/DefaultRobotHWSim<span class="nt">&lt;/robotSimType&gt;</span>
+    <span class="nt">&lt;/plugin&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- Link1 --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;link1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;material&gt;</span>Gazebo/Orange<span class=nt>&lt;/material&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- Link1 --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;link1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;material&gt;</span>Gazebo/Orange<span class="nt">&lt;/material&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- Link2 --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;link2&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;mu1&gt;</span>0.2<span class=nt>&lt;/mu1&gt;</span>
-    <span class=nt>&lt;mu2&gt;</span>0.2<span class=nt>&lt;/mu2&gt;</span>
-    <span class=nt>&lt;material&gt;</span>Gazebo/Black<span class=nt>&lt;/material&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- Link2 --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;link2&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;mu1&gt;</span>0.2<span class="nt">&lt;/mu1&gt;</span>
+    <span class="nt">&lt;mu2&gt;</span>0.2<span class="nt">&lt;/mu2&gt;</span>
+    <span class="nt">&lt;material&gt;</span>Gazebo/Black<span class="nt">&lt;/material&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- Link3 --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;link3&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;mu1&gt;</span>0.2<span class=nt>&lt;/mu1&gt;</span>
-    <span class=nt>&lt;mu2&gt;</span>0.2<span class=nt>&lt;/mu2&gt;</span>
-    <span class=nt>&lt;material&gt;</span>Gazebo/Orange<span class=nt>&lt;/material&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- Link3 --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;link3&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;mu1&gt;</span>0.2<span class="nt">&lt;/mu1&gt;</span>
+    <span class="nt">&lt;mu2&gt;</span>0.2<span class="nt">&lt;/mu2&gt;</span>
+    <span class="nt">&lt;material&gt;</span>Gazebo/Orange<span class="nt">&lt;/material&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- camera_link --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;mu1&gt;</span>0.2<span class=nt>&lt;/mu1&gt;</span>
-    <span class=nt>&lt;mu2&gt;</span>0.2<span class=nt>&lt;/mu2&gt;</span>
-    <span class=nt>&lt;material&gt;</span>Gazebo/Red<span class=nt>&lt;/material&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- camera_link --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;mu1&gt;</span>0.2<span class="nt">&lt;/mu1&gt;</span>
+    <span class="nt">&lt;mu2&gt;</span>0.2<span class="nt">&lt;/mu2&gt;</span>
+    <span class="nt">&lt;material&gt;</span>Gazebo/Red<span class="nt">&lt;/material&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- hokuyo --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;hokuyo_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;sensor</span> <span class=na>type=</span><span class=s>&quot;gpu_ray&quot;</span> <span class=na>name=</span><span class=s>&quot;head_hokuyo_sensor&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;pose&gt;</span>0 0 0 0 0 0<span class=nt>&lt;/pose&gt;</span>
-      <span class=nt>&lt;visualize&gt;</span>false<span class=nt>&lt;/visualize&gt;</span>
-      <span class=nt>&lt;update_rate&gt;</span>40<span class=nt>&lt;/update_rate&gt;</span>
-      <span class=nt>&lt;ray&gt;</span>
-        <span class=nt>&lt;scan&gt;</span>
-          <span class=nt>&lt;horizontal&gt;</span>
-            <span class=nt>&lt;samples&gt;</span>720<span class=nt>&lt;/samples&gt;</span>
-            <span class=nt>&lt;resolution&gt;</span>1<span class=nt>&lt;/resolution&gt;</span>
-            <span class=nt>&lt;min_angle&gt;</span>-1.570796<span class=nt>&lt;/min_angle&gt;</span>
-            <span class=nt>&lt;max_angle&gt;</span>1.570796<span class=nt>&lt;/max_angle&gt;</span>
-          <span class=nt>&lt;/horizontal&gt;</span>
-        <span class=nt>&lt;/scan&gt;</span>
-        <span class=nt>&lt;range&gt;</span>
-          <span class=nt>&lt;min&gt;</span>0.10<span class=nt>&lt;/min&gt;</span>
-          <span class=nt>&lt;max&gt;</span>30.0<span class=nt>&lt;/max&gt;</span>
-          <span class=nt>&lt;resolution&gt;</span>0.01<span class=nt>&lt;/resolution&gt;</span>
-        <span class=nt>&lt;/range&gt;</span>
-        <span class=nt>&lt;noise&gt;</span>
-          <span class=nt>&lt;type&gt;</span>gaussian<span class=nt>&lt;/type&gt;</span>
-          <span class=c>&lt;!-- Noise parameters based on published spec for Hokuyo laser</span>
-<span class=c>               achieving &quot;+-30mm&quot; accuracy at range &lt; 10m.  A mean of 0.0m and</span>
-<span class=c>               stddev of 0.01m will put 99.7% of samples within 0.03m of the true</span>
-<span class=c>               reading. --&gt;</span>
-          <span class=nt>&lt;mean&gt;</span>0.0<span class=nt>&lt;/mean&gt;</span>
-          <span class=nt>&lt;stddev&gt;</span>0.01<span class=nt>&lt;/stddev&gt;</span>
-        <span class=nt>&lt;/noise&gt;</span>
-      <span class=nt>&lt;/ray&gt;</span>
-      <span class=nt>&lt;plugin</span> <span class=na>name=</span><span class=s>&quot;gazebo_ros_head_hokuyo_controller&quot;</span> <span class=na>filename=</span><span class=s>&quot;libgazebo_ros_gpu_laser.so&quot;</span><span class=nt>&gt;</span>
-        <span class=nt>&lt;topicName&gt;</span>/rrbot/laser/scan<span class=nt>&lt;/topicName&gt;</span>
-        <span class=nt>&lt;frameName&gt;</span>hokuyo_link<span class=nt>&lt;/frameName&gt;</span>
-      <span class=nt>&lt;/plugin&gt;</span>
-    <span class=nt>&lt;/sensor&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- hokuyo --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;hokuyo_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;sensor</span> <span class="na">type=</span><span class="s">&quot;gpu_ray&quot;</span> <span class="na">name=</span><span class="s">&quot;head_hokuyo_sensor&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;pose&gt;</span>0 0 0 0 0 0<span class="nt">&lt;/pose&gt;</span>
+      <span class="nt">&lt;visualize&gt;</span>false<span class="nt">&lt;/visualize&gt;</span>
+      <span class="nt">&lt;update_rate&gt;</span>40<span class="nt">&lt;/update_rate&gt;</span>
+      <span class="nt">&lt;ray&gt;</span>
+        <span class="nt">&lt;scan&gt;</span>
+          <span class="nt">&lt;horizontal&gt;</span>
+            <span class="nt">&lt;samples&gt;</span>720<span class="nt">&lt;/samples&gt;</span>
+            <span class="nt">&lt;resolution&gt;</span>1<span class="nt">&lt;/resolution&gt;</span>
+            <span class="nt">&lt;min_angle&gt;</span>-1.570796<span class="nt">&lt;/min_angle&gt;</span>
+            <span class="nt">&lt;max_angle&gt;</span>1.570796<span class="nt">&lt;/max_angle&gt;</span>
+          <span class="nt">&lt;/horizontal&gt;</span>
+        <span class="nt">&lt;/scan&gt;</span>
+        <span class="nt">&lt;range&gt;</span>
+          <span class="nt">&lt;min&gt;</span>0.10<span class="nt">&lt;/min&gt;</span>
+          <span class="nt">&lt;max&gt;</span>30.0<span class="nt">&lt;/max&gt;</span>
+          <span class="nt">&lt;resolution&gt;</span>0.01<span class="nt">&lt;/resolution&gt;</span>
+        <span class="nt">&lt;/range&gt;</span>
+        <span class="nt">&lt;noise&gt;</span>
+          <span class="nt">&lt;type&gt;</span>gaussian<span class="nt">&lt;/type&gt;</span>
+          <span class="c">&lt;!-- Noise parameters based on published spec for Hokuyo laser</span>
+<span class="c">               achieving &quot;+-30mm&quot; accuracy at range &lt; 10m.  A mean of 0.0m and</span>
+<span class="c">               stddev of 0.01m will put 99.7% of samples within 0.03m of the true</span>
+<span class="c">               reading. --&gt;</span>
+          <span class="nt">&lt;mean&gt;</span>0.0<span class="nt">&lt;/mean&gt;</span>
+          <span class="nt">&lt;stddev&gt;</span>0.01<span class="nt">&lt;/stddev&gt;</span>
+        <span class="nt">&lt;/noise&gt;</span>
+      <span class="nt">&lt;/ray&gt;</span>
+      <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;gazebo_ros_head_hokuyo_controller&quot;</span> <span class="na">filename=</span><span class="s">&quot;libgazebo_ros_gpu_laser.so&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;topicName&gt;</span>/rrbot/laser/scan<span class="nt">&lt;/topicName&gt;</span>
+        <span class="nt">&lt;frameName&gt;</span>hokuyo_link<span class="nt">&lt;/frameName&gt;</span>
+      <span class="nt">&lt;/plugin&gt;</span>
+    <span class="nt">&lt;/sensor&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-  <span class=c>&lt;!-- camera --&gt;</span>
-  <span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;camera_link&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;sensor</span> <span class=na>type=</span><span class=s>&quot;camera&quot;</span> <span class=na>name=</span><span class=s>&quot;camera1&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;update_rate&gt;</span>30.0<span class=nt>&lt;/update_rate&gt;</span>
-      <span class=nt>&lt;camera</span> <span class=na>name=</span><span class=s>&quot;head&quot;</span><span class=nt>&gt;</span>
-        <span class=nt>&lt;horizontal_fov&gt;</span>1.3962634<span class=nt>&lt;/horizontal_fov&gt;</span>
-        <span class=nt>&lt;image&gt;</span>
-          <span class=nt>&lt;width&gt;</span>800<span class=nt>&lt;/width&gt;</span>
-          <span class=nt>&lt;height&gt;</span>800<span class=nt>&lt;/height&gt;</span>
-          <span class=nt>&lt;format&gt;</span>R8G8B8<span class=nt>&lt;/format&gt;</span>
-        <span class=nt>&lt;/image&gt;</span>
-        <span class=nt>&lt;clip&gt;</span>
-          <span class=nt>&lt;near&gt;</span>0.02<span class=nt>&lt;/near&gt;</span>
-          <span class=nt>&lt;far&gt;</span>300<span class=nt>&lt;/far&gt;</span>
-        <span class=nt>&lt;/clip&gt;</span>
-        <span class=nt>&lt;noise&gt;</span>
-          <span class=nt>&lt;type&gt;</span>gaussian<span class=nt>&lt;/type&gt;</span>
-          <span class=c>&lt;!-- Noise is sampled independently per pixel on each frame.</span>
-<span class=c>               That pixel&#39;s noise value is added to each of its color</span>
-<span class=c>               channels, which at that point lie in the range [0,1]. --&gt;</span>
-          <span class=nt>&lt;mean&gt;</span>0.0<span class=nt>&lt;/mean&gt;</span>
-          <span class=nt>&lt;stddev&gt;</span>0.007<span class=nt>&lt;/stddev&gt;</span>
-        <span class=nt>&lt;/noise&gt;</span>
-      <span class=nt>&lt;/camera&gt;</span>
-      <span class=nt>&lt;plugin</span> <span class=na>name=</span><span class=s>&quot;camera_controller&quot;</span> <span class=na>filename=</span><span class=s>&quot;libgazebo_ros_camera.so&quot;</span><span class=nt>&gt;</span>
-        <span class=nt>&lt;alwaysOn&gt;</span>true<span class=nt>&lt;/alwaysOn&gt;</span>
-        <span class=nt>&lt;updateRate&gt;</span>0.0<span class=nt>&lt;/updateRate&gt;</span>
-        <span class=nt>&lt;cameraName&gt;</span>rrbot/camera1<span class=nt>&lt;/cameraName&gt;</span>
-        <span class=nt>&lt;imageTopicName&gt;</span>image_raw<span class=nt>&lt;/imageTopicName&gt;</span>
-        <span class=nt>&lt;cameraInfoTopicName&gt;</span>camera_info<span class=nt>&lt;/cameraInfoTopicName&gt;</span>
-        <span class=nt>&lt;frameName&gt;</span>camera_link_optical<span class=nt>&lt;/frameName&gt;</span>
-        <span class=c>&lt;!-- setting hackBaseline to anything but 0.0 will cause a misalignment</span>
-<span class=c>            between the gazebo sensor image and the frame it is supposed to</span>
-<span class=c>            be attached to --&gt;</span>
-        <span class=nt>&lt;hackBaseline&gt;</span>0.0<span class=nt>&lt;/hackBaseline&gt;</span>
-        <span class=nt>&lt;distortionK1&gt;</span>0.0<span class=nt>&lt;/distortionK1&gt;</span>
-        <span class=nt>&lt;distortionK2&gt;</span>0.0<span class=nt>&lt;/distortionK2&gt;</span>
-        <span class=nt>&lt;distortionK3&gt;</span>0.0<span class=nt>&lt;/distortionK3&gt;</span>
-        <span class=nt>&lt;distortionT1&gt;</span>0.0<span class=nt>&lt;/distortionT1&gt;</span>
-        <span class=nt>&lt;distortionT2&gt;</span>0.0<span class=nt>&lt;/distortionT2&gt;</span>
-        <span class=nt>&lt;CxPrime&gt;</span>0<span class=nt>&lt;/CxPrime&gt;</span>
-        <span class=nt>&lt;Cx&gt;</span>0.0<span class=nt>&lt;/Cx&gt;</span>
-        <span class=nt>&lt;Cy&gt;</span>0.0<span class=nt>&lt;/Cy&gt;</span>
-        <span class=nt>&lt;focalLength&gt;</span>0.0<span class=nt>&lt;/focalLength&gt;</span>
-      <span class=nt>&lt;/plugin&gt;</span>
-    <span class=nt>&lt;/sensor&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
+  <span class="c">&lt;!-- camera --&gt;</span>
+  <span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;camera_link&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;sensor</span> <span class="na">type=</span><span class="s">&quot;camera&quot;</span> <span class="na">name=</span><span class="s">&quot;camera1&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;update_rate&gt;</span>30.0<span class="nt">&lt;/update_rate&gt;</span>
+      <span class="nt">&lt;camera</span> <span class="na">name=</span><span class="s">&quot;head&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;horizontal_fov&gt;</span>1.3962634<span class="nt">&lt;/horizontal_fov&gt;</span>
+        <span class="nt">&lt;image&gt;</span>
+          <span class="nt">&lt;width&gt;</span>800<span class="nt">&lt;/width&gt;</span>
+          <span class="nt">&lt;height&gt;</span>800<span class="nt">&lt;/height&gt;</span>
+          <span class="nt">&lt;format&gt;</span>R8G8B8<span class="nt">&lt;/format&gt;</span>
+        <span class="nt">&lt;/image&gt;</span>
+        <span class="nt">&lt;clip&gt;</span>
+          <span class="nt">&lt;near&gt;</span>0.02<span class="nt">&lt;/near&gt;</span>
+          <span class="nt">&lt;far&gt;</span>300<span class="nt">&lt;/far&gt;</span>
+        <span class="nt">&lt;/clip&gt;</span>
+        <span class="nt">&lt;noise&gt;</span>
+          <span class="nt">&lt;type&gt;</span>gaussian<span class="nt">&lt;/type&gt;</span>
+          <span class="c">&lt;!-- Noise is sampled independently per pixel on each frame.</span>
+<span class="c">               That pixel&#39;s noise value is added to each of its color</span>
+<span class="c">               channels, which at that point lie in the range [0,1]. --&gt;</span>
+          <span class="nt">&lt;mean&gt;</span>0.0<span class="nt">&lt;/mean&gt;</span>
+          <span class="nt">&lt;stddev&gt;</span>0.007<span class="nt">&lt;/stddev&gt;</span>
+        <span class="nt">&lt;/noise&gt;</span>
+      <span class="nt">&lt;/camera&gt;</span>
+      <span class="nt">&lt;plugin</span> <span class="na">name=</span><span class="s">&quot;camera_controller&quot;</span> <span class="na">filename=</span><span class="s">&quot;libgazebo_ros_camera.so&quot;</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;alwaysOn&gt;</span>true<span class="nt">&lt;/alwaysOn&gt;</span>
+        <span class="nt">&lt;updateRate&gt;</span>0.0<span class="nt">&lt;/updateRate&gt;</span>
+        <span class="nt">&lt;cameraName&gt;</span>rrbot/camera1<span class="nt">&lt;/cameraName&gt;</span>
+        <span class="nt">&lt;imageTopicName&gt;</span>image_raw<span class="nt">&lt;/imageTopicName&gt;</span>
+        <span class="nt">&lt;cameraInfoTopicName&gt;</span>camera_info<span class="nt">&lt;/cameraInfoTopicName&gt;</span>
+        <span class="nt">&lt;frameName&gt;</span>camera_link_optical<span class="nt">&lt;/frameName&gt;</span>
+        <span class="c">&lt;!-- setting hackBaseline to anything but 0.0 will cause a misalignment</span>
+<span class="c">            between the gazebo sensor image and the frame it is supposed to</span>
+<span class="c">            be attached to --&gt;</span>
+        <span class="nt">&lt;hackBaseline&gt;</span>0.0<span class="nt">&lt;/hackBaseline&gt;</span>
+        <span class="nt">&lt;distortionK1&gt;</span>0.0<span class="nt">&lt;/distortionK1&gt;</span>
+        <span class="nt">&lt;distortionK2&gt;</span>0.0<span class="nt">&lt;/distortionK2&gt;</span>
+        <span class="nt">&lt;distortionK3&gt;</span>0.0<span class="nt">&lt;/distortionK3&gt;</span>
+        <span class="nt">&lt;distortionT1&gt;</span>0.0<span class="nt">&lt;/distortionT1&gt;</span>
+        <span class="nt">&lt;distortionT2&gt;</span>0.0<span class="nt">&lt;/distortionT2&gt;</span>
+        <span class="nt">&lt;CxPrime&gt;</span>0<span class="nt">&lt;/CxPrime&gt;</span>
+        <span class="nt">&lt;Cx&gt;</span>0.0<span class="nt">&lt;/Cx&gt;</span>
+        <span class="nt">&lt;Cy&gt;</span>0.0<span class="nt">&lt;/Cy&gt;</span>
+        <span class="nt">&lt;focalLength&gt;</span>0.0<span class="nt">&lt;/focalLength&gt;</span>
+      <span class="nt">&lt;/plugin&gt;</span>
+    <span class="nt">&lt;/sensor&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
 
-<span class=nt>&lt;/robot&gt;</span>
-</code></pre></div> <ul> <li>link1的材质定义 <div class=highlight><pre><span></span><code><span class=nt>&lt;gazebo</span> <span class=na>reference=</span><span class=s>&quot;link1&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;material&gt;</span>Gazebo/Orange<span class=nt>&lt;/material&gt;</span>
-  <span class=nt>&lt;/gazebo&gt;</span>
-</code></pre></div> 后面的reference,表示专门为link1定义的, 如果后面没有<code>reference=""</code> 属性，则表明该元素用于整个机器人模型。 The elements for a <code>&lt;robot&gt;</code> inside the <code>&lt;gazebo&gt;</code> tag are listed in the following table:</li> </ul> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>static</td> <td>bool</td> <td>If set to true, the model is immovable. Otherwise the model is simulated in the dynamics engine.</td> </tr> </tbody> </table> <p>在 <code>&lt;gazebo&gt;</code> 中的其他标签则会直接插入到SDF的<code>&lt;model&gt;</code>标签用于产生SDF，对于插件很有用，见 <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> 教程 (<strong>没明白</strong>)</p> <ul> <li>gazebo文件中和link相关的的元素</li> </ul> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>material</td> <td>value</td> <td>Material of visual element</td> </tr> <tr> <td>gravity</td> <td>bool</td> <td>Use gravity</td> </tr> <tr> <td>dampingFactor</td> <td>double</td> <td>Exponential velocity decay of the link velocity - takes the value and multiplies the previous link velocity by (1-dampingFactor).</td> </tr> <tr> <td>maxVel</td> <td>double</td> <td>maximum contact correction velocity truncation term.</td> </tr> <tr> <td>minDepth</td> <td>double</td> <td>minimum allowable depth before contact correction impulse is applied</td> </tr> <tr> <td>mu1</td> <td>double</td> <td>Friction coefficients μ for the principal contact directions along the contact surface as defined by the <a href=http://www.ode.org/ >Open Dynamics Engine (ODE)</a> (see parameter descriptions in <a href=http://www.ode.org/ode-latest-userguide.html#sec_7_3_7>ODE's user guide</a>)</td> </tr> <tr> <td>mu2</td> <td></td> <td></td> </tr> <tr> <td>fdir1</td> <td>string</td> <td>3-tuple specifying direction of mu1 in the collision local reference frame.</td> </tr> <tr> <td>kp</td> <td>double</td> <td>Contact stiffness k_p and damping k_d for rigid body contacts as defined by ODE (<a href=http://www.ode.org/ode-latest-userguide.html#sec_7_3_7>ODE uses erp and cfm</a> but there is a <a href=https://github.com/osrf/gazebo/blob/gazebo9/gazebo/physics/ode/ODEJoint.cc>mapping between erp/cfm and stiffness/damping</a>)</td> </tr> <tr> <td>kd</td> <td></td> <td></td> </tr> <tr> <td>selfCollide</td> <td>bool</td> <td>If true, the link can collide with other links in the model.</td> </tr> <tr> <td>maxContacts</td> <td>int</td> <td>Maximum number of contacts allowed between two entities. This value overrides the max_contacts element defined in physics.</td> </tr> <tr> <td>laserRetro</td> <td>double</td> <td>intensity value returned by laser sensor.</td> </tr> </tbody> </table> <p>上表中没有提及的标签则会直接插入SDF的<code>&lt;link&gt;</code> 的对应项里，这对于插件特别有用，参见<a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> </p> <ul> <li><code>.gazebo</code>文件中和joint相关的的元素</li> </ul> <table> <thead> <tr> <th>Name</th> <th>Type</th> <th>Description</th> </tr> </thead> <tbody> <tr> <td>stopCfm</td> <td>double</td> <td>Joint stop constraint force mixing (cfm) and error reduction parameter (erp) used by ODE</td> </tr> <tr> <td>stopErp</td> <td></td> <td></td> </tr> <tr> <td>provideFeedback</td> <td>bool</td> <td>Allows joints to publish their wrench data (force-torque) via a Gazebo plugin</td> </tr> <tr> <td>implicitSpringDamper</td> <td>bool</td> <td>If this flag is set to true, ODE will use ERP and CFM to simulate damping. This is a more stable numerical method for damping than the default damping tag. The cfmDamping element is deprecated and should be changed to implicitSpringDamper.</td> </tr> <tr> <td>springStiffness</td> <td>double</td> <td>Spring stiffness in N/m.</td> </tr> <tr> <td>springReference</td> <td>double</td> <td>Equilibrium position for the spring.</td> </tr> <tr> <td>cfmDamping</td> <td></td> <td></td> </tr> <tr> <td>fudgeFactor</td> <td>double</td> <td>Scale the excess for in a joint motor at joint limits. Should be between zero and one.</td> </tr> </tbody> </table> <p>和用于 <code>&lt;robot&gt;</code> and <code>&lt;link&gt;</code>的&lt; <code>&lt;gazebo&gt;</code> 元素一样，没有在上表列出的项将直接插入到SDF模型里的 <code>&lt;joint&gt;</code>，参考 <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> - d </p> <h3 id=_2>遗留问题<a class=headerlink href=#_2 title="Permanent link">&para;</a></h3> <ol> <li><code>launch</code>文件中的<code>transmission</code>没有弄明白</li> <li><code>.gazebo</code>文件中用于<code>hokuyo\_link</code>的一些标签和插件没有弄明白, <code>camera_link</code>也是如此, 这些标签的解读见[[2-Tutorial Using Gazebo plugins with ROS#^dd2599]]</li> </ol> <p>下一个教程： <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a>.</p> <h1 id=_3>其他 (暂时不管)<a class=headerlink href=#_3 title="Permanent link">&para;</a></h1> <h2 id=sdf>验证模型是否转换成SDF<a class=headerlink href=#sdf title="Permanent link">&para;</a></h2> <p>运行下面的命令查看URDF是否转换成SDF格式。</p> <div class=highlight><pre><span></span><code>  # gazebo2 and below
+<span class="nt">&lt;/robot&gt;</span>
+</code></pre></div>
+<ul>
+<li>link1的材质定义
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;gazebo</span> <span class="na">reference=</span><span class="s">&quot;link1&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;material&gt;</span>Gazebo/Orange<span class="nt">&lt;/material&gt;</span>
+  <span class="nt">&lt;/gazebo&gt;</span>
+</code></pre></div>
+后面的reference,表示专门为link1定义的, 如果后面没有<code>reference=""</code> 属性，则表明该元素用于整个机器人模型。
+The elements for a <code>&lt;robot&gt;</code> inside the <code>&lt;gazebo&gt;</code> tag are listed in the following table:</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>static</td>
+<td>bool</td>
+<td>If set to true, the model is immovable. Otherwise the model is simulated in the dynamics engine.</td>
+</tr>
+</tbody>
+</table>
+<p>在 <code>&lt;gazebo&gt;</code> 中的其他标签则会直接插入到SDF的<code>&lt;model&gt;</code>标签用于产生SDF，对于插件很有用，见 <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> 教程 (<strong>没明白</strong>)</p>
+<ul>
+<li>gazebo文件中和link相关的的元素</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>material</td>
+<td>value</td>
+<td>Material of visual element</td>
+</tr>
+<tr>
+<td>gravity</td>
+<td>bool</td>
+<td>Use gravity</td>
+</tr>
+<tr>
+<td>dampingFactor</td>
+<td>double</td>
+<td>Exponential velocity decay of the link velocity - takes the value and multiplies the previous link velocity by (1-dampingFactor).</td>
+</tr>
+<tr>
+<td>maxVel</td>
+<td>double</td>
+<td>maximum contact correction velocity truncation term.</td>
+</tr>
+<tr>
+<td>minDepth</td>
+<td>double</td>
+<td>minimum allowable depth before contact correction impulse is applied</td>
+</tr>
+<tr>
+<td>mu1</td>
+<td>double</td>
+<td>Friction coefficients μ for the principal contact directions along the contact surface as defined by the <a href="http://www.ode.org/">Open Dynamics Engine (ODE)</a> (see parameter descriptions in <a href="http://www.ode.org/ode-latest-userguide.html#sec_7_3_7">ODE's user guide</a>)</td>
+</tr>
+<tr>
+<td>mu2</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fdir1</td>
+<td>string</td>
+<td>3-tuple specifying direction of mu1 in the collision local reference frame.</td>
+</tr>
+<tr>
+<td>kp</td>
+<td>double</td>
+<td>Contact stiffness k_p and damping k_d for rigid body contacts as defined by ODE (<a href="http://www.ode.org/ode-latest-userguide.html#sec_7_3_7">ODE uses erp and cfm</a> but there is a <a href="https://github.com/osrf/gazebo/blob/gazebo9/gazebo/physics/ode/ODEJoint.cc">mapping between erp/cfm and stiffness/damping</a>)</td>
+</tr>
+<tr>
+<td>kd</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>selfCollide</td>
+<td>bool</td>
+<td>If true, the link can collide with other links in the model.</td>
+</tr>
+<tr>
+<td>maxContacts</td>
+<td>int</td>
+<td>Maximum number of contacts allowed between two entities. This value overrides the max_contacts element defined in physics.</td>
+</tr>
+<tr>
+<td>laserRetro</td>
+<td>double</td>
+<td>intensity value returned by laser sensor.</td>
+</tr>
+</tbody>
+</table>
+<p>上表中没有提及的标签则会直接插入SDF的<code>&lt;link&gt;</code> 的对应项里，这对于插件特别有用，参见<a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> </p>
+<ul>
+<li><code>.gazebo</code>文件中和joint相关的的元素</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>stopCfm</td>
+<td>double</td>
+<td>Joint stop constraint force mixing (cfm) and error reduction parameter (erp) used by ODE</td>
+</tr>
+<tr>
+<td>stopErp</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>provideFeedback</td>
+<td>bool</td>
+<td>Allows joints to publish their wrench data (force-torque) via a Gazebo plugin</td>
+</tr>
+<tr>
+<td>implicitSpringDamper</td>
+<td>bool</td>
+<td>If this flag is set to true, ODE will use ERP and CFM to simulate damping. This is a more stable numerical method for damping than the default damping tag. The cfmDamping element is deprecated and should be changed to implicitSpringDamper.</td>
+</tr>
+<tr>
+<td>springStiffness</td>
+<td>double</td>
+<td>Spring stiffness in N/m.</td>
+</tr>
+<tr>
+<td>springReference</td>
+<td>double</td>
+<td>Equilibrium position for the spring.</td>
+</tr>
+<tr>
+<td>cfmDamping</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>fudgeFactor</td>
+<td>double</td>
+<td>Scale the excess for in a joint motor at joint limits. Should be between zero and one.</td>
+</tr>
+</tbody>
+</table>
+<p>和用于 <code>&lt;robot&gt;</code> and <code>&lt;link&gt;</code>的&lt; <code>&lt;gazebo&gt;</code> 元素一样，没有在上表列出的项将直接插入到SDF模型里的 <code>&lt;joint&gt;</code>，参考 <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a> 
+- d </p>
+<h3 id="_2">遗留问题<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ol>
+<li><code>launch</code>文件中的<code>transmission</code>没有弄明白</li>
+<li><code>.gazebo</code>文件中用于<code>hokuyo\_link</code>的一些标签和插件没有弄明白, <code>camera_link</code>也是如此,  这些标签的解读见[[2-Tutorial Using Gazebo plugins with ROS#^dd2599]]</li>
+</ol>
+<p>下一个教程： <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a>.</p>
+<h1 id="_3">其他 (暂时不管)<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h1>
+<h2 id="sdf">验证模型是否转换成SDF<a class="headerlink" href="#sdf" title="Permanent link">&para;</a></h2>
+<p>运行下面的命令查看URDF是否转换成SDF格式。</p>
+<div class="highlight"><pre><span></span><code>  # gazebo2 and below
   gzsdf print MODEL.urdf
   # gazebo3 and above
   gz sdf -p MODEL.urdf
-</code></pre></div> <p>Note: in Gazebo version 1.9 and greater, some of the debug info has been moved to a log file you can view with:</p> <div class=highlight><pre><span></span><code>  cat ~/.gazebo/gzsdf.log
-</code></pre></div> <h2 id=gazebourdf>在 Gazebo里查看URDF模型<a class=headerlink href=#gazebourdf title="Permanent link">&para;</a></h2> <p>Viewing the RRBot in Gazebo was already covered at the beginning of this tutorial. For your own custom robot, we assume its URDF lives in a ROS package named <code>MYROBOT_description</code> in the subfolder <code>/urdf</code>. The method to open a URDF from that location into Gazebo using ROS was covered in the previous tutorial, <a href="http://gazebosim.org/tutorials?tut=ros_roslaunch">Using roslaunch Files to Spawn Models</a>. If you have not completed that tutorial, do so now.</p> <p>From that tutorial you should have two ROS packages for your custom robot: <code>MYROBOT_description</code> and <code>MYROBOT_gazebo</code>. To view your robot and test it in Gazebo, you should be able to now run something like:</p> <div class=highlight><pre><span></span><code>roslaunch MYROBOT_gazebo MYROBOT.launch
-</code></pre></div> <p>This should launch both the Gazebo server and GUI client with your robot automatically launched spawned inside.</p> <h2 id=_4>调整<a class=headerlink href=#_4 title="Permanent link">&para;</a></h2> <p>参考：<a href=http://gazebosim.org/sdf.html>SDF user guide</a> </p> <p>If your robot model behaves unexpectedly within Gazebo, it is likely because your URDF needs further tuning to accurately represent its physics in Gazebo. See the <a href=http://gazebosim.org/sdf.html>SDF user guide</a> for more info on various properties available in Gazebo, which are also available in the URDF via the <code>&lt;gazebo&gt;</code> tag.</p> <h2 id=_5>共享模型<a class=headerlink href=#_5 title="Permanent link">&para;</a></h2> <p>If you have a common robot that other's might want to use in Gazebo, you are encouraged to add your URDF to the <a href="http://gazebosim.org/tutorials?tut=model_structure&cat=build_robot">Gazebo Model Database</a>. It is an online server that Gazebo connects to to pull down models from the internet. Its Mercurial repository is located on <a href=https://github.com/osrf/gazebo_models>GitHub</a>. See <a href="http://gazebosim.org/tutorials?tut=model_contrib&cat=build_robot">Gazebo Model Database</a> documentation for how to submit a pull request to have your robot added to the database.</p> <h2 id=next-steps>Next steps<a class=headerlink href=#next-steps title="Permanent link">&para;</a></h2> <p>下一个教程： <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a>.</p> <hr> <p>原网址: <a href="http://gazebosim.org/tutorials/?tut=ros_urdf">访问</a></p> <p>创建时间: 2021-03-31 08:51:36</p> <p>目录: default</p> <p>标签: 无</p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+</code></pre></div>
+<p>Note: in Gazebo version 1.9 and greater, some of the debug info has been moved to a log file you can view with:</p>
+<div class="highlight"><pre><span></span><code>  cat ~/.gazebo/gzsdf.log
+</code></pre></div>
+<h2 id="gazebourdf">在 Gazebo里查看URDF模型<a class="headerlink" href="#gazebourdf" title="Permanent link">&para;</a></h2>
+<p>Viewing the RRBot in Gazebo was already covered at the beginning of this tutorial. For your own custom robot, we assume its URDF lives in a ROS package named <code>MYROBOT_description</code> in the subfolder <code>/urdf</code>. The method to open a URDF from that location into Gazebo using ROS was covered in the previous tutorial, <a href="http://gazebosim.org/tutorials?tut=ros_roslaunch">Using roslaunch Files to Spawn Models</a>. If you have not completed that tutorial, do so now.</p>
+<p>From that tutorial you should have two ROS packages for your custom robot: <code>MYROBOT_description</code> and <code>MYROBOT_gazebo</code>. To view your robot and test it in Gazebo, you should be able to now run something like:</p>
+<div class="highlight"><pre><span></span><code>roslaunch MYROBOT_gazebo MYROBOT.launch
+</code></pre></div>
+<p>This should launch both the Gazebo server and GUI client with your robot automatically launched spawned inside.</p>
+<h2 id="_4">调整<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<p>参考：<a href="http://gazebosim.org/sdf.html">SDF user guide</a> </p>
+<p>If your robot model behaves unexpectedly within Gazebo, it is likely because your URDF needs further tuning to accurately represent its physics in Gazebo. See the <a href="http://gazebosim.org/sdf.html">SDF user guide</a> for more info on various properties available in Gazebo, which are also available in the URDF via the <code>&lt;gazebo&gt;</code> tag.</p>
+<h2 id="_5">共享模型<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>If you have a common robot that other's might want to use in Gazebo, you are encouraged to add your URDF to the <a href="http://gazebosim.org/tutorials?tut=model_structure&amp;cat=build_robot">Gazebo Model Database</a>. It is an online server that Gazebo connects to to pull down models from the internet. Its Mercurial repository is located on <a href="https://github.com/osrf/gazebo_models">GitHub</a>. See <a href="http://gazebosim.org/tutorials?tut=model_contrib&amp;cat=build_robot">Gazebo Model Database</a> documentation for how to submit a pull request to have your robot added to the database.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p>下一个教程： <a href="http://gazebosim.org/tutorials?tut=ros_gzplugins">ROS Motor and Sensor Plugins</a>.</p>
+<hr />
+<p>原网址: <a href="http://gazebosim.org/tutorials/?tut=ros_urdf">访问</a></p>
+<p>创建时间: 2021-03-31 08:51:36</p>
+<p>目录: default</p>
+<p>标签: 无</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

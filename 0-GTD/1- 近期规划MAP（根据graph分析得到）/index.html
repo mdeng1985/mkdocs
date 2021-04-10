@@ -1,42 +1,651 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/0-GTD/1-%20%E8%BF%91%E6%9C%9F%E8%A7%84%E5%88%92MAP%EF%BC%88%E6%A0%B9%E6%8D%AEgraph%E5%88%86%E6%9E%90%E5%BE%97%E5%88%B0%EF%BC%89/ rel=canonical><link rel=icon href=../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>近期规划MAP（根据graph分析得到） - Mdeng Li's Blog</title><link rel=stylesheet href=../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#mapgraph class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 近期规划MAP（根据graph分析得到） </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=mapgraph>近期规划MAP（根据graph分析得到）<a class=headerlink href=#mapgraph title="Permanent link">&para;</a></h1> <pre class=mermaid><code>graph LR
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/0-GTD/1-%20%E8%BF%91%E6%9C%9F%E8%A7%84%E5%88%92MAP%EF%BC%88%E6%A0%B9%E6%8D%AEgraph%E5%88%86%E6%9E%90%E5%BE%97%E5%88%B0%EF%BC%89/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>近期规划MAP（根据graph分析得到） - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mapgraph" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              近期规划MAP（根据graph分析得到）
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="mapgraph">近期规划MAP（根据graph分析得到）<a class="headerlink" href="#mapgraph" title="Permanent link">&para;</a></h1>
+<pre class="mermaid"><code>graph LR
 A0[航天] --&gt;B0[小天体参数辨识-内网]
 A0 --&gt; A01[基于图像的在轨初始化问题]
 A01 --&gt; A02[路标导航在轨初始化问题]
 A0 --&gt; D0[导航系统可观性分析]
 A02 --&gt; 见onenote笔记-搜初始化
-A1[自动避障小车] --&gt; B1[先学习ROS] --&gt; 见1-202006-20201008每日笔记整理</code></pre> <h1 id=_1>灵感/有趣的项目<a class=headerlink href=#_1 title="Permanent link">&para;</a></h1> <h3 id=_2>基于图像在轨初始化<a class=headerlink href=#_2 title="Permanent link">&para;</a></h3> <ul> <li>基于路标着陆路标导航的初始化 笔记见: 见onenote笔记-搜初始化</li> <li> <h1 id=refs>refs :<a class=headerlink href=#refs title="Permanent link">&para;</a></h1> <ul> <li> <ul> <li><strong>Visual-Inertial-Aided Navigation for High-Dynamic Motion in Built Environments Without Initial Conditions</strong> (VINS 需要学习ROS)</li> </ul> </li> <li>VINS-Mono A Robust and Versatile Monocular Visual-Inertial State Estimator</li> <li><a href="https://www.youtube.com/watch?v=ia2D5iyLKnE">Minimalist Visual Perception and Navigation for Consumer Drones</a></li> <li>visual-Inertial Mapping with Non-Linear Factor Recovery （开源）</li> <li>yang_shen_2017_monocular visual–inertial state estimation with online initialization and</li> <li>其余文献见zotero： gravity</li> </ul> </li> </ul> <h3 id=_3>优先级★★★★<a class=headerlink href=#_3 title="Permanent link">&para;</a></h3> <ul> <li>基于低成本IMU的自主导航<ul> <li>IONet: Learning to Cure the Curse of Drift in Inertial Odometry （深度学习，有数据集） 已整理到zotero</li> <li>[[AI-IMU]] AI-IMU Dead-Reckoning</li> <li>Deep Kalman Filter: Simultaneous Multi-Sensor Integration and Modelling; A GNSS/IMU Case Study （深度学习，已整理至zotero里了）</li> <li>RINS-W: Robust Inertial Navigation System on Wheels （已整理至zotero） 纯IMU</li> </ul> </li> </ul> <h1 id=_4>近期要做的规划<a class=headerlink href=#_4 title="Permanent link">&para;</a></h1> <h2 id=_5>工作需要<a class=headerlink href=#_5 title="Permanent link">&para;</a></h2> <ul> <li>[[0-火星着陆或XH]]</li> <li>[[微型着陆器]]</li> <li>[[火星着陆导航的一些新想法]]</li> </ul> <h2 id=_6>[[创业项目灵感]]<a class=headerlink href=#_6 title="Permanent link">&para;</a></h2> <h2 id=_7>前沿扩展<a class=headerlink href=#_7 title="Permanent link">&para;</a></h2> <h2 id=->- [[微型机器人]]<a class=headerlink href=#- title="Permanent link">&para;</a></h2> <h2 id=_8>[[技术积累]]<a class=headerlink href=#_8 title="Permanent link">&para;</a></h2> <hr> <p>title: 20200622一周工作安排及每周总结 tags: 灵感,Newproducts,NewREFS notebook: 每周计划</p> <hr> <div class=toc> <ul> <li><a href=#mapgraph>近期规划MAP（根据graph分析得到）</a></li> <li><a href=#_1>灵感/有趣的项目</a><ul> <li><a href=#_2>基于图像在轨初始化</a></li> </ul> </li> <li><a href=#refs>refs :</a><ul> <li><a href=#_3>优先级★★★★</a></li> </ul> </li> <li><a href=#_4>近期要做的规划</a><ul> <li><a href=#_5>工作需要</a></li> <li><a href=#_6>[[创业项目灵感]]</a></li> <li><a href=#_7>前沿扩展</a></li> <li><a href=#->- [[微型机器人]]</a></li> <li><a href=#_8>[[技术积累]]</a></li> </ul> </li> <li><a href=#maponenote>大map（onenote）</a></li> <li><a href=#_9>嵌入式开发规划和整理</a><ul> <li><a href=#_10>开发流程 （大方向）</a></li> <li><a href=#step1-imugps>STEP1: 实现IMU+GPS+视觉组合导航**</a></li> <li><a href=#step2-imu>STEP2 : 实现纯IMU导航</a></li> <li><a href=#step3>STEP3: 付诸于无人机或机器人具体样机</a></li> </ul> </li> <li><a href=#_11>本周安排</a><ul> <li><a href=#_12>务必要完成的事情</a><ul> <li><a href=#xh>火星XH （大的规划和待办见上文的手写）</a></li> </ul> </li> <li><a href=#_13>近期要做的事情</a></li> <li><a href=#_14>其他重要事情</a></li> </ul> </li> <li><a href=#_15>本周总结</a></li> <li><a href=#inbox>新的inbox事项</a><ul> <li><a href=#_16>嵌入式开发相关</a></li> <li><a href=#_17>部分完成的事项：</a><ul> <li><a href=#_18>递归式多子样算法</a><ul> <li><a href=#see20190806>目前完成的事项 （see每日记录20190806）</a></li> <li><a href=#_19>后续要进一步研究</a></li> </ul> </li> </ul> </li> <li><a href=#_20>暂时挂起事项</a><ul> <li><a href=#xh_1>火星XH</a></li> </ul> </li> </ul> </li> <li><a href=#_21>以前未完成的待办汇总</a><ul> <li><a href=#_22>嵌入式开发</a></li> <li><a href=#_23>书稿</a></li> </ul> </li> <li><a href=#_24>灵感/有趣的项目</a><ul> <li><a href=#_25>研究、创新点类</a><ul> <li><a href=#_26>火星相关的灵感与创新点</a></li> <li><a href=#_27>优先级★★★★★</a></li> <li><a href=#_28>优先级★★★★</a></li> <li><a href=#_29>优先级★★★（太前沿）</a></li> <li><a href=#_30>其他的新文献（优先级不高的）：</a></li> </ul> </li> <li><a href=#_31>产品类、项目类</a><ul> <li><a href=#_32>优先级★★★★★</a></li> <li><a href=#_33>优先级★★★★</a></li> <li><a href=#_34>优先级★★★</a><ul> <li><a href=#uwb>UWB跟随 (考虑精力问题，暂时先不做)</a></li> <li><a href=#_35>机器人相关</a></li> </ul> </li> <li><a href=#_36>优先级★★</a></li> </ul> </li> </ul> </li> <li><a href=#_37>已移交给别人</a><ul> <li><a href=#_38>火星相关</a></li> </ul> </li> <li><a href=#_39>已经完成的事项（供查询）</a><ul> <li><a href=#20191227-20200103>20191227-20200103</a></li> <li><a href=#2019092920191222>20190929~20191222</a></li> <li><a href=#0923-0929>0923-0929完成事项</a></li> <li><a href=#0916-0922>0916-0922完成事项：</a></li> <li><a href=#0909-0915>0909-0915完成事项</a></li> <li><a href=#0901-0907>0901-0907完成事项</a></li> <li><a href=#0729-0804>0729-0804完成事项</a></li> <li><a href=#20200621>20200621以前</a></li> </ul> </li> <li><a href=#_40>上周总结</a></li> </ul> </div> <h1 id=maponenote>大map（onenote）<a class=headerlink href=#maponenote title="Permanent link">&para;</a></h1> <p>见onenote 的<code>Tags20190815plan</code> 和<code>tagsMarsPlan20190904</code></p> <p>tags:DEV_ROS_SORT</p> <p>====注意： 一段时间内，同时进行的不要超过3件事。==</p> <p><img alt=1569930625120 src=Z_Attachment/v_images/1569930625120.png></p> <p><img alt=1569930656735 src=Z_Attachment/v_images/1569930656735.png></p> <p><en-media type=image/png hash=534acc987c7a4319baae8b42e40126aa></en-media> <en-media type=image/png hash=d4c4f076e5337b07b25bdc0a7beae3c5></en-media> <en-media type=image/png hash=88db77af4fc0510bae1c12fedea7d6b9></en-media></p> <h1 id=_9>嵌入式开发规划和整理<a class=headerlink href=#_9 title="Permanent link">&para;</a></h1> <div class=highlight><pre><span></span><code><span class=n>stateDiagram</span> 
-    <span class=o>%%</span> <span class=p>[</span><span class=o>*</span><span class=p>]</span>  <span class=o>--&gt;</span> <span class=err>硬件层</span>
-    <span class=o>%%</span> <span class=err>硬件层</span>
-    <span class=n>state</span> <span class=err>架构</span>
-    <span class=p>{</span>
-    <span class=err>硬件平台</span> <span class=o>--&gt;</span> <span class=err>无人机</span>
-    <span class=err>硬件平台</span> <span class=o>--&gt;</span> <span class=err>机器人</span>
+A1[自动避障小车] --&gt; B1[先学习ROS] --&gt; 见1-202006-20201008每日笔记整理</code></pre>
+<h1 id="_1">灵感/有趣的项目<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h3 id="_2">基于图像在轨初始化<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h3>
+<ul>
+<li>基于路标着陆路标导航的初始化 笔记见: 见onenote笔记-搜初始化</li>
+<li>
+<h1 id="refs">refs :<a class="headerlink" href="#refs" title="Permanent link">&para;</a></h1>
+<ul>
+<li>
+<ul>
+<li><strong>Visual-Inertial-Aided Navigation for High-Dynamic Motion in Built Environments Without Initial Conditions</strong> (VINS 需要学习ROS)</li>
+</ul>
+</li>
+<li>VINS-Mono A Robust and Versatile Monocular Visual-Inertial State Estimator</li>
+<li><a href="https://www.youtube.com/watch?v=ia2D5iyLKnE">Minimalist Visual Perception and Navigation for Consumer Drones</a></li>
+<li>visual-Inertial Mapping with Non-Linear Factor Recovery （开源）</li>
+<li>yang_shen_2017_monocular visual–inertial state estimation with online initialization and</li>
+<li>其余文献见zotero： gravity</li>
+</ul>
+</li>
+</ul>
+<h3 id="_3">优先级★★★★<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>基于低成本IMU的自主导航<ul>
+<li>IONet: Learning to Cure the Curse of Drift in Inertial Odometry （深度学习，有数据集） 已整理到zotero</li>
+<li>[[AI-IMU]] AI-IMU Dead-Reckoning</li>
+<li>Deep Kalman Filter: Simultaneous Multi-Sensor Integration and Modelling; A GNSS/IMU Case Study （深度学习，已整理至zotero里了）</li>
+<li>RINS-W: Robust Inertial Navigation System on Wheels （已整理至zotero） 纯IMU</li>
+</ul>
+</li>
+</ul>
+<h1 id="_4">近期要做的规划<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h1>
+<h2 id="_5">工作需要<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<ul>
+<li>[[0-火星着陆或XH]]</li>
+<li>[[微型着陆器]]</li>
+<li>[[火星着陆导航的一些新想法]]</li>
+</ul>
+<h2 id="_6">[[创业项目灵感]]<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h2 id="_7">前沿扩展<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h2 id="-">- [[微型机器人]]<a class="headerlink" href="#-" title="Permanent link">&para;</a></h2>
+<h2 id="_8">[[技术积累]]<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<hr />
+<p>title: 20200622一周工作安排及每周总结
+tags: 灵感,Newproducts,NewREFS
+notebook: 每周计划</p>
+<hr />
+<div class="toc">
+<ul>
+<li><a href="#mapgraph">近期规划MAP（根据graph分析得到）</a></li>
+<li><a href="#_1">灵感/有趣的项目</a><ul>
+<li><a href="#_2">基于图像在轨初始化</a></li>
+</ul>
+</li>
+<li><a href="#refs">refs :</a><ul>
+<li><a href="#_3">优先级★★★★</a></li>
+</ul>
+</li>
+<li><a href="#_4">近期要做的规划</a><ul>
+<li><a href="#_5">工作需要</a></li>
+<li><a href="#_6">[[创业项目灵感]]</a></li>
+<li><a href="#_7">前沿扩展</a></li>
+<li><a href="#-">- [[微型机器人]]</a></li>
+<li><a href="#_8">[[技术积累]]</a></li>
+</ul>
+</li>
+<li><a href="#maponenote">大map（onenote）</a></li>
+<li><a href="#_9">嵌入式开发规划和整理</a><ul>
+<li><a href="#_10">开发流程 （大方向）</a></li>
+<li><a href="#step1-imugps">STEP1: 实现IMU+GPS+视觉组合导航**</a></li>
+<li><a href="#step2-imu">STEP2 : 实现纯IMU导航</a></li>
+<li><a href="#step3">STEP3: 付诸于无人机或机器人具体样机</a></li>
+</ul>
+</li>
+<li><a href="#_11">本周安排</a><ul>
+<li><a href="#_12">务必要完成的事情</a><ul>
+<li><a href="#xh">火星XH  （大的规划和待办见上文的手写）</a></li>
+</ul>
+</li>
+<li><a href="#_13">近期要做的事情</a></li>
+<li><a href="#_14">其他重要事情</a></li>
+</ul>
+</li>
+<li><a href="#_15">本周总结</a></li>
+<li><a href="#inbox">新的inbox事项</a><ul>
+<li><a href="#_16">嵌入式开发相关</a></li>
+<li><a href="#_17">部分完成的事项：</a><ul>
+<li><a href="#_18">递归式多子样算法</a><ul>
+<li><a href="#see20190806">目前完成的事项 （see每日记录20190806）</a></li>
+<li><a href="#_19">后续要进一步研究</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_20">暂时挂起事项</a><ul>
+<li><a href="#xh_1">火星XH</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_21">以前未完成的待办汇总</a><ul>
+<li><a href="#_22">嵌入式开发</a></li>
+<li><a href="#_23">书稿</a></li>
+</ul>
+</li>
+<li><a href="#_24">灵感/有趣的项目</a><ul>
+<li><a href="#_25">研究、创新点类</a><ul>
+<li><a href="#_26">火星相关的灵感与创新点</a></li>
+<li><a href="#_27">优先级★★★★★</a></li>
+<li><a href="#_28">优先级★★★★</a></li>
+<li><a href="#_29">优先级★★★（太前沿）</a></li>
+<li><a href="#_30">其他的新文献（优先级不高的）：</a></li>
+</ul>
+</li>
+<li><a href="#_31">产品类、项目类</a><ul>
+<li><a href="#_32">优先级★★★★★</a></li>
+<li><a href="#_33">优先级★★★★</a></li>
+<li><a href="#_34">优先级★★★</a><ul>
+<li><a href="#uwb">UWB跟随 (考虑精力问题，暂时先不做)</a></li>
+<li><a href="#_35">机器人相关</a></li>
+</ul>
+</li>
+<li><a href="#_36">优先级★★</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#_37">已移交给别人</a><ul>
+<li><a href="#_38">火星相关</a></li>
+</ul>
+</li>
+<li><a href="#_39">已经完成的事项（供查询）</a><ul>
+<li><a href="#20191227-20200103">20191227-20200103</a></li>
+<li><a href="#2019092920191222">20190929~20191222</a></li>
+<li><a href="#0923-0929">0923-0929完成事项</a></li>
+<li><a href="#0916-0922">0916-0922完成事项：</a></li>
+<li><a href="#0909-0915">0909-0915完成事项</a></li>
+<li><a href="#0901-0907">0901-0907完成事项</a></li>
+<li><a href="#0729-0804">0729-0804完成事项</a></li>
+<li><a href="#20200621">20200621以前</a></li>
+</ul>
+</li>
+<li><a href="#_40">上周总结</a></li>
+</ul>
+</div>
+<h1 id="maponenote">大map（onenote）<a class="headerlink" href="#maponenote" title="Permanent link">&para;</a></h1>
+<p>见onenote 的<code>Tags20190815plan</code> 和<code>tagsMarsPlan20190904</code></p>
+<p>tags:DEV_ROS_SORT</p>
+<p>====注意： 一段时间内，同时进行的不要超过3件事。==</p>
+<p><img alt="1569930625120" src="Z_Attachment/v_images/1569930625120.png" /></p>
+<p><img alt="1569930656735" src="Z_Attachment/v_images/1569930656735.png" /></p>
+<p><en-media type="image/png" hash="534acc987c7a4319baae8b42e40126aa"></en-media>
+<en-media type="image/png" hash="d4c4f076e5337b07b25bdc0a7beae3c5"></en-media>
+<en-media type="image/png" hash="88db77af4fc0510bae1c12fedea7d6b9"></en-media></p>
+<h1 id="_9">嵌入式开发规划和整理<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code><span class="n">stateDiagram</span> 
+    <span class="o">%%</span> <span class="p">[</span><span class="o">*</span><span class="p">]</span>  <span class="o">--&gt;</span> <span class="err">硬件层</span>
+    <span class="o">%%</span> <span class="err">硬件层</span>
+    <span class="n">state</span> <span class="err">架构</span>
+    <span class="p">{</span>
+    <span class="err">硬件平台</span> <span class="o">--&gt;</span> <span class="err">无人机</span>
+    <span class="err">硬件平台</span> <span class="o">--&gt;</span> <span class="err">机器人</span>
 
-    <span class=err>无人机</span> <span class=o>--&gt;</span> <span class=n>AR_Drone</span>
-    <span class=err>无人机</span> <span class=o>--&gt;</span> <span class=n>crazyflie</span>
-    <span class=err>机器人</span> <span class=o>--&gt;</span> <span class=err>小觅智能</span>
-    <span class=o>--</span>
-    <span class=err>软件平台</span> <span class=o>--&gt;</span> <span class=n>ROS</span>
-    <span class=err>软件平台</span> <span class=o>--&gt;</span> <span class=n>python</span>
-    <span class=n>python</span> <span class=o>--&gt;</span> <span class=n>pytorch深度学习</span>
-    <span class=n>python</span> <span class=o>--&gt;</span> <span class=n>sklearn深度学习</span>
-    <span class=o>--</span>
-    <span class=err>算法层</span> <span class=o>--&gt;</span>  <span class=n>IMU_视觉</span>
-    <span class=err>算法层</span> <span class=o>--&gt;</span>  <span class=n>IMU_GNSS</span>
-    <span class=err>算法层</span> <span class=o>--&gt;</span>  <span class=err>纯</span><span class=n>IMU</span>
-    <span class=err>算法层</span> <span class=o>--&gt;</span>  <span class=err>纯</span><span class=n>GNSS</span>
+    <span class="err">无人机</span> <span class="o">--&gt;</span> <span class="n">AR_Drone</span>
+    <span class="err">无人机</span> <span class="o">--&gt;</span> <span class="n">crazyflie</span>
+    <span class="err">机器人</span> <span class="o">--&gt;</span> <span class="err">小觅智能</span>
+    <span class="o">--</span>
+    <span class="err">软件平台</span> <span class="o">--&gt;</span> <span class="n">ROS</span>
+    <span class="err">软件平台</span> <span class="o">--&gt;</span> <span class="n">python</span>
+    <span class="n">python</span> <span class="o">--&gt;</span> <span class="n">pytorch深度学习</span>
+    <span class="n">python</span> <span class="o">--&gt;</span> <span class="n">sklearn深度学习</span>
+    <span class="o">--</span>
+    <span class="err">算法层</span> <span class="o">--&gt;</span>  <span class="n">IMU_视觉</span>
+    <span class="err">算法层</span> <span class="o">--&gt;</span>  <span class="n">IMU_GNSS</span>
+    <span class="err">算法层</span> <span class="o">--&gt;</span>  <span class="err">纯</span><span class="n">IMU</span>
+    <span class="err">算法层</span> <span class="o">--&gt;</span>  <span class="err">纯</span><span class="n">GNSS</span>
 
-    <span class=n>IMU_视觉</span> <span class=o>--&gt;</span>  <span class=n>VINS_FUSION</span>
-    <span class=n>IMU_视觉</span> <span class=o>--&gt;</span>  <span class=n>DroNet_CNN</span>
-    <span class=n>IMU_视觉</span> <span class=o>--&gt;</span>  <span class=n>tum_ardrone</span>
+    <span class="n">IMU_视觉</span> <span class="o">--&gt;</span>  <span class="n">VINS_FUSION</span>
+    <span class="n">IMU_视觉</span> <span class="o">--&gt;</span>  <span class="n">DroNet_CNN</span>
+    <span class="n">IMU_视觉</span> <span class="o">--&gt;</span>  <span class="n">tum_ardrone</span>
 
-    <span class=n>IMU_GNSS</span> <span class=o>--&gt;</span> <span class=n>Aceinna开源惯导</span>
-    <span class=err>纯</span><span class=n>IMU</span> <span class=o>--&gt;</span> <span class=n>AI_IMU</span>
-    <span class=err>纯</span><span class=n>IMU</span> <span class=o>--&gt;</span> <span class=n>IONet</span>
-    <span class=err>纯</span><span class=n>GNSS</span> <span class=o>--&gt;</span> <span class=n>RTKLIB</span>
+    <span class="n">IMU_GNSS</span> <span class="o">--&gt;</span> <span class="n">Aceinna开源惯导</span>
+    <span class="err">纯</span><span class="n">IMU</span> <span class="o">--&gt;</span> <span class="n">AI_IMU</span>
+    <span class="err">纯</span><span class="n">IMU</span> <span class="o">--&gt;</span> <span class="n">IONet</span>
+    <span class="err">纯</span><span class="n">GNSS</span> <span class="o">--&gt;</span> <span class="n">RTKLIB</span>
 
-    <span class=p>}</span>
-</code></pre></div> <p><strong>几点说明</strong></p> <ol> <li>AR_Drone是tum_ardrone算法的搭载平台；小觅智能摄像头是VINS-FUSION的搭载平台;crazyflie是PULP-DroNet的搭载平台</li> </ol> <h2 id=_10>开发流程 （大方向）<a class=headerlink href=#_10 title="Permanent link">&para;</a></h2> <table> <thead> <tr> <th></th> <th></th> <th></th> </tr> </thead> <tbody> <tr> <td><strong>STEP1</strong></td> <td>实现IMU+GPS+视觉组合导航</td> <td></td> </tr> <tr> <td><strong>STEP2</strong></td> <td>实现纯IMU导航</td> <td></td> </tr> <tr> <td><strong>STEP3</strong></td> <td>付诸于无人机或机器人具体样机</td> <td></td> </tr> </tbody> </table> <pre class=mermaid><code>graph LR
+    <span class="p">}</span>
+</code></pre></div>
+<p><strong>几点说明</strong></p>
+<ol>
+<li>AR_Drone是tum_ardrone算法的搭载平台；小觅智能摄像头是VINS-FUSION的搭载平台;crazyflie是PULP-DroNet的搭载平台</li>
+</ol>
+<h2 id="_10">开发流程 （大方向）<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>STEP1</strong></td>
+<td>实现IMU+GPS+视觉组合导航</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>STEP2</strong></td>
+<td>实现纯IMU导航</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>STEP3</strong></td>
+<td>付诸于无人机或机器人具体样机</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<pre class="mermaid"><code>graph LR
   开发流程 --&gt; Step1(第一步:IMU+GPS+VISION导航) --&gt; Step1.1(Step 1.1:IMU+GPS导航)
   Step1.1 --&gt; Step1.1.1(Step1.1.1:PPP定点导航) --&gt; Step1.1.1.1(Step1.1.1.1:PPP定点导航+IMU)
   Step1.1 --&gt; Step1.1.2(Step1.1.2:多IMU定姿+多约束导航) 
@@ -44,7 +653,483 @@ A1[自动避障小车] --&gt; B1[先学习ROS] --&gt; 见1-202006-20201008每日
   Step1.2.1 --&gt; Step1.2.1.1(Step 1.2.1.1:工具篇ROS)
   Step1.2.1 --&gt; Step1.2.1.2(Step 1.2.1.2:算法篇)
   开发流程 --&gt; Step2(第二步:纯IMU导航)
-  开发流程 --&gt; Step3(第三步:PULP-DroNet无人机)</code></pre> <h2 id=step1-imugps>STEP1: 实现IMU+GPS+视觉组合导航**<a class=headerlink href=#step1-imugps title="Permanent link">&para;</a></h2> <p>每一列不是一一对应的</p> <table> <thead> <tr> <th>涉及的辅助类知识</th> <th>涉及的专业类知识</th> <th>已有工具</th> </tr> </thead> <tbody> <tr> <td>读取传感器数据并转换成有物理量纲的数(<strong>已完成</strong>)</td> <td>GNSS利用伪距确定位置</td> <td><a href=https://github.com/HKUST-Aerial-Robotics/VINS-Fusion>VINS-Fusion</a>可以使用数据集 这个比较合适</td> </tr> <tr> <td>UBLOX协议详细学习，及配置输出RAW数据</td> <td>GNSS利用相位确定位置</td> <td></td> </tr> <tr> <td>ROS学习 （学习VINS-Fusion需要，可以和这些代码一块学习;）</td> <td>GNSS利用差分确定位置(<strong>利用差分和多个接收机的固定距离差能否精确确定位置</strong>)</td> <td></td> </tr> <tr> <td>RTKLIB工具学习</td> <td>GNSS PPP学习</td> <td></td> </tr> <tr> <td></td> <td>图像导航知识学习</td> <td></td> </tr> <tr> <td></td> <td>多IMU定姿，see<code>FGRIAE</code></td> <td></td> </tr> </tbody> </table> <p><strong>Notes:</strong> </p> <ol> <li><code>main_gps.m</code>对两个gps的估计精度进行了评估，精度有所提高。理论可行；但是如果是系统误差就不行了。系统误差能否通过多个GNSS芯片的固定距离差来消除？</li> <li>GNSS目前比较好的学习资料如下：（20200210）</li> <li>zotero的GNSS DATA PROCESSING的两套书，理论和实践部分。</li> <li>The Easy Suite - Matlab code for the GPS newcomer的matlab程序对于实测数据处理有用</li> <li> <p>satnav3p01对于数值仿真，算法验证很有帮助。</p> </li> <li> <p>PPP定点导航+IMU 参考：</p> </li> <li>Low-cost, Dual-frequency PPP GNSS and MEMS-IMU Integration Performance in Obstructed Environments</li> <li>Low-Cost Real-Time PPP/INS Integration for Automated Land Vehicles</li> <li>Precise GNSS Positioning Using Smart Devices</li> <li>PPPH matlab工具箱</li> <li>ROS的笔记见相应的md文件，可参考的资料为百度网盘的udemy课程：ROS for Beginners Basics, Motion, and OpenCV</li> </ol> <h2 id=step2-imu>STEP2 : 实现纯IMU导航<a class=headerlink href=#step2-imu title="Permanent link">&para;</a></h2> <table> <thead> <tr> <th>涉及的辅助类知识</th> <th>涉及的专业类知识</th> <th>已有工具</th> </tr> </thead> <tbody> <tr> <td>python学习</td> <td>机器学习专业知识学习</td> <td>AI-IMU</td> </tr> <tr> <td>pytorch 机器学习库</td> <td></td> <td>Ionet Oxford Inertial Odometry Dataset_2.0.zip</td> </tr> <tr> <td></td> <td></td> <td></td> </tr> </tbody> </table> <p><strong>Notes:</strong> </p> <ol> <li>Python 学习资料 <a href=https://github.com/jackfrued/Python-100-Days>https://github.com/jackfrued/Python-100-Days</a> Python - 100天从新手到大师</li> <li>机器学习目前的学习资料为<code>udemy课程机器学习A-Z</code>，已经直接购买，学习笔记见相应的md文件。</li> </ol> <h2 id=step3>STEP3: 付诸于无人机或机器人具体样机<a class=headerlink href=#step3 title="Permanent link">&para;</a></h2> <ol> <li>PULP-DroNet无人机 (也有datasets和虚拟平台)；算法为<a href=https://github.com/uzh-rpg/rpg_public_dronet>DRONET网络</a></li> <li>tum_ardrone的学习</li> </ol> <h1 id=_11>本周安排<a class=headerlink href=#_11 title="Permanent link">&para;</a></h1> <p>嵌入式先搞定数据采集 再搞算法</p> <p>徐超：动力学仿真，模拟测量数据；嵌入式；组合导航算法</p> <p>新文献：On Kalman filtering with linear state equality constraints 2019</p> <p>ROS + 我的开发板 + VINS结合学比较理想</p> <h2 id=_12>务必要完成的事情<a class=headerlink href=#_12 title="Permanent link">&para;</a></h2> <h3 id=xh>火星XH （大的规划和待办见上文的手写）<a class=headerlink href=#xh title="Permanent link">&para;</a></h3> <h2 id=_13>近期要做的事情<a class=headerlink href=#_13 title="Permanent link">&para;</a></h2> <h2 id=_14>其他重要事情<a class=headerlink href=#_14 title="Permanent link">&para;</a></h2> <ul> <li></li> <li>嵌入式仿真，将实测数据加入闭环</li> <li>STM32的学习和实践 （完成寄存器基础知识一章的笔记，以及其他2章的温习）</li> </ul> <p><strong>长期要做的事情</strong> 1. 将资料整理到zotero数据库里 （有空的时候做） 2. 清空上周的inbox 3. 游泳3次 4. 钢琴练习3小时(巴斯蒂安成人钢琴教程+simply piano) 5. 每两天学习温习stm教程</p> <h1 id=_15>本周总结<a class=headerlink href=#_15 title="Permanent link">&para;</a></h1> <h1 id=inbox>新的inbox事项<a class=headerlink href=#inbox title="Permanent link">&para;</a></h1> <ul> <li>智能交通玩具、机器人开发（能够自主避障，基于ROS，且可以实现仿真，参考ROS的书籍和文献）</li> <li>多IMU导航、多个着陆器或编队飞行的调研（小卫星）</li> <li>基于未知路标约束的自主导航</li> <li>变革性技术导航调研</li> <li>完成D:\Dropbox\mdeng\Desktop\桌面 的资料整理</li> <li>整理markdown的相关笔记到vnote和印象笔记</li> <li></li> <li><strong>研究INS/GPS、IONet深度学习导航、基于约束的多个IMU自主导航</strong></li> </ul> <hr> <ul> <li> <p>修正系数</p> </li> <li> <p>compatible modeling文章修改</p> </li> <li></li> </ul> <h2 id=_16>嵌入式开发相关<a class=headerlink href=#_16 title="Permanent link">&para;</a></h2> <ol> <li>udemy课程：Mastering Microcontroller with Embedded Driver Development | Udemy （百度网盘里）</li> <li>udemy Arduino : Industrial Data Logger Designing and Programming （百度网盘里</li> </ol> <p><strong>不紧急</strong></p> <h2 id=_17>部分完成的事项：<a class=headerlink href=#_17 title="Permanent link">&para;</a></h2> <h3 id=_18>递归式多子样算法<a class=headerlink href=#_18 title="Permanent link">&para;</a></h3> <h4 id=see20190806>目前完成的事项 （see每日记录<code>20190806</code>）<a class=headerlink href=#see20190806 title="Permanent link">&para;</a></h4> <ul> <li>文档：基本将<code>着陆高精度导航(含多子样算法)-内网版</code>的主体内容整理到<code>大动态惯性导航(整理版).md</code>了，还未整理的在里面进行了批注。<code>notes-递归多子样.txt</code>中还有部分内容未整理到<code>大动态惯性导航(整理版).md</code>中。</li> <li>程序：运动频率小的时候，递归四子样要优于普通四子样，反之则没有普通四子样要好。需要进一步核对程序和研究。<code>D:\SMproject\2016-Mars火星\XH\方案&amp;算法（整理）\大动态惯性导航算法\code\导航四子样分析和对比</code></li> <li>需要看的文献已整理到zotero里了。多子样更新文件夹</li> </ul> <h4 id=_19>后续要进一步研究<a class=headerlink href=#_19 title="Permanent link">&para;</a></h4> <ul> <li>为什么采样频率越高，递归式的性能要差；非多项式拟合的递归式多子样算法。。。。</li> </ul> <h2 id=_20>暂时挂起事项<a class=headerlink href=#_20 title="Permanent link">&para;</a></h2> <h3 id=xh_1>火星XH<a class=headerlink href=#xh_1 title="Permanent link">&para;</a></h3> <ol> <li>测速故障检测完善 (当有两个波束出现故障3m/s的时候还是会出现漏检); 而且实际上阈值和实际构型还有关系</li> <li>基于零速度的标定(可以人为加安装偏差、零偏)</li> <li>引力修地平关键是怎么评估引力估计的精度。一种方案就是动力下降段也找地平，伞降段也找，然后和前台对比，哪两组接近就选哪两组。</li> <li> <ul> <li>专利三项：定稿两个专利交底书（刘秀祥）沟通的结果是1月开始定稿</li> </ul> </li> </ol> <h1 id=_21>以前未完成的待办汇总<a class=headerlink href=#_21 title="Permanent link">&para;</a></h1> <table> <thead> <tr> <th>项目</th> <th>完成情况</th> <th>备注</th> </tr> </thead> <tbody> <tr> <td></td> <td></td> <td></td> </tr> </tbody> </table> <ul> <li>火星导航</li> <li>大角速度标定程序调试</li> <li>对程序进行整理</li> <li>调试闭环标定的程序</li> <li>零速度的加计标定 （顺便整理MEMS IMU的文档）</li> <li>多次大角速度标定和大动态导航试验 （未完成，数据采集有问题）</li> <li>整理成文档</li> <li> <ul> <li>大动态的多子样对比（验证我的递归多子样算法）</li> </ul> </li> <li> <p>英语学习</p> </li> <li> <p>见： 201906每日总结，看看从哪里开始学习，先学习语法： <a href=http://www.butte.edu/cas/tipsheets/ >butte大学的 online TIP Sheet （语法、拼写、阅读）</a>？</p> <ul> <li>整理我写文章的一些批注、以前文章润色的批注</li> </ul> </li> <li> <p>stm32</p> </li> </ul> <h2 id=_22>嵌入式开发<a class=headerlink href=#_22 title="Permanent link">&para;</a></h2> <ol> <li><code>我的开发板实践.md</code>，其中为啥要添加<code>SysTick_Handler</code>没有搞懂 (这个暂时可以学)</li> <li>已实现上位机保存数据,还未实现帧判断, <code>SerialPort-Arduino.txt</code>. 帧判断, 可以参考的文献如下:</li> <li><a href=https://blog.csdn.net/hpbhpb/article/details/8922518>串口接收方法</a> 这个有帧的相关判断，我的程序可以参考</li> <li><a href=https://blog.csdn.net/xh_xinhua/article/details/83448404>数据帧接收解析及拼帧</a>。</li> <li> <p><a href=https://blog.csdn.net/lifan1314521/article/details/51482639>解析串口-接收完整数据帧</a></p> </li> <li> <p>需要弄懂传感器raw数据到物理意义的数据,可能参考的文献有:</p> </li> <li>mpu6050的视频教程：<a href=http://www.moore8.com/courses/1308>MPU6050原始数据获取</a></li> <li><a href=https://github.com/inertialsense/InertialSenseSDK/blob/master/src/InertialSense.cpp>https://github.com/inertialsense/InertialSenseSDK/blob/master/src/InertialSense.cpp</a></li> <li>需要研究下aceinna(<code>软、硬件、产品资料汇总.md</code>)开源惯导的实现过程，里面还有ublox的<a href=https://github.com/Aceinna/ublox_decoder>解码程序</a></li> <li> <p><a href=https://github.com/PX4/ecl>Estimation &amp; Control Library for Guidance, Navigation and Control Applications</a></p> </li> <li> <p>硬件板子</p> </li> <li>采集收据 &lt;=== STM32f7原理与应用 （HAL库）</li> <li>采集完数据，<strong>研究INS/GPS、IONet深度学习导航、基于约束的多个IMU自主导航</strong> 2 . 回顾STM32学习笔记，继续亚博智能学习。</li> <li>INS+GPS导航相关 （完成资料整理、学习路线规划）</li> <li><del>整理组合导航程序，准备给徐超。</del></li> <li>准备看低成本高精度GNSS导航的文献。</li> <li>回顾gnss导航的方案策划：见onenote的Tags:plan_ins_gps</li> <li>启动ROS的学习 （学习这个是为了学习VINS）,相关资料整理到：印象笔记的资料汇总了tags:index_software_hardware</li> </ol> <h2 id=_23>书稿<a class=headerlink href=#_23 title="Permanent link">&para;</a></h2> <ol> <li>关注<code>航天器多源信息融合自主导航技术书稿翻译.md</code>里的一些待办事项</li> </ol> <h1 id=_24>灵感/有趣的项目<a class=headerlink href=#_24 title="Permanent link">&para;</a></h1> <h2 id=_25>研究、创新点类<a class=headerlink href=#_25 title="Permanent link">&para;</a></h2> <h3 id=_26>火星相关的灵感与创新点<a class=headerlink href=#_26 title="Permanent link">&para;</a></h3> <ol> <li>利用两套IMU的约束提高估计精度</li> <li>利用测速敏感器的IMU校正<ol> <li>参考文献:Accelerometer bias calibration using attitude and angular velocity information</li> </ol> </li> </ol> <h3 id=_27>优先级★★★★★<a class=headerlink href=#_27 title="Permanent link">&para;</a></h3> <h3 id=_28>优先级★★★★<a class=headerlink href=#_28 title="Permanent link">&para;</a></h3> <ul> <li>基于机动的相对目标小天体视线导航</li> <li>（小行星探测的程序内网，目前完成最小二乘，和文档推导）</li> <li>需要改成递归式的，可以采用MHE或者increment smooth方法来实施。</li> <li>可参考的新文献：Observability-based navigation using optical and radiometric measurements for asteroid proximity</li> <li>自旋角速度估计：</li> <li>Globally exponentially stable attitude observer with Earth velocity estimation</li> <li>其余文献见zotero: gravity</li> <li>杠臂效应的角速度补偿和估计</li> <li>gyro free六个加计估计角速度，利用随机克隆技术角速度 dotx = x1 -x2</li> <li>gyro free 可用于我自己的多imu估计问题</li> <li>利用测速敏感器对IMU安装进行估计，建立本体系下的速度微分方程。</li> <li>利用两个IMU的安装约束提高状态的估计精度。</li> </ul> <h3 id=_29>优先级★★★（太前沿）<a class=headerlink href=#_29 title="Permanent link">&para;</a></h3> <ul> <li>An ant-inspired celestial compass applied to autonomous outdoor robot navigation （涉及到硬件开发，搞不定 仿生）</li> </ul> <h3 id=_30>其他的新文献（<strong>优先级不高的</strong>）：<a class=headerlink href=#_30 title="Permanent link">&para;</a></h3> <ul> <li>见NewREFS标签</li> </ul> <h2 id=_31>产品类、项目类<a class=headerlink href=#_31 title="Permanent link">&para;</a></h2> <p>自动婴儿推车 </p> <h3 id=_32>优先级★★★★★<a class=headerlink href=#_32 title="Permanent link">&para;</a></h3> <ol> <li>低成本的GPS实现高精度</li> <li><a href="https://radionavlab.ae.utexas.edu/index.php?option=com_content&view=article&id=456:centimeter-accurate-mobile-positioning&catid=29&Itemid=2">Advanced Techniques for Centimeter-Accurate GNSS Positioning on Low-Cost Mobile Platforms</a> （ATCAGNSS）</li> <li>多IMU<ol> <li>Fusion of gps and redundant IMU data for attitude estimation 多imu （FGRIAE） (已同步整理到zotero和文献汇总)</li> <li>A Lightweight and Accurate Localization Algorithm Using Multiple Inertial Measurement Units (已同步整理到zotero和文献汇总)</li> </ol> </li> <li>PULP Dronet的纳米级无人机</li> <li>A 64mW DNN-based Visual Navigation Engine for Autonomous Nano-Drones (已整理至zotero)<ol> <li>基于*Crazyflie* Nano Quadrotor from <em>Bitcraze</em> (<a href=http://www>http://www</a>.<em>bitcraze</em>.se/).的无人机套件开发的，基本前提也是学习ROS </li> <li><strong>ROS机器人开发：实用案例分析</strong> 一书中有提及<ol> <li><a href="https://item.taobao.com/item.htm?spm=a230r.1.14.18.240a2f40Aec2Kp&id=577360316134&ns=1&abbucket=16#detail">淘宝有卖crazyflie2.0 DW1000FOLLOWER飞行器UWB高精度定位系统 自动驾驶</a></li> </ol> </li> <li><a href=https://www.seas.upenn.edu/~loiannog/workshopIROS2017uav/index.html#call>Vision-based Agile Autonomous Navigation of UAVs</a></li> </ol> </li> </ol> <h3 id=_33>优先级★★★★<a class=headerlink href=#_33 title="Permanent link">&para;</a></h3> <ol> <li>嵌入式</li> <li>PCB制作学习 </li> <li><a href=https://blog.particle.io/2018/03/06/prototype-to-production-building-your-first-pcb-prototype-part-1/ >Prototype to production: Building your first PCB prototype</a></li> <li>其他见：tags:index_software_hardware </li> </ol> <h3 id=_34>优先级★★★<a class=headerlink href=#_34 title="Permanent link">&para;</a></h3> <h4 id=uwb>UWB跟随 (考虑精力问题，暂时先不做)<a class=headerlink href=#uwb title="Permanent link">&para;</a></h4> <ol> <li><a href=https://www.cybercom.com/innovation-zone/our-projects/3d-positioning-by-uwb/ >https://www.cybercom.com/innovation-zone/our-projects/3d-positioning-by-uwb/</a> </li> <li>创新点在于不用安装将基站和标签的功能互换了，不用安装多个基站。可应用于行李箱、购物车跟随。潜在购物车上安装四个标签，然后利用约束进行定位和跟随</li> <li>参考文献：A Framework for a Relative Real-Time Tracking System Based on Ultra-Wideband Technology</li> <li><a href=https://www.cybercom.com/innovation-zone/our-projects/ >https://www.cybercom.com/innovation-zone/our-projects/</a> </li> </ol> <h4 id=_35>机器人相关<a class=headerlink href=#_35 title="Permanent link">&para;</a></h4> <ol> <li> <p><a href=http://swarmrobot.org/ ><em>Swarm Robot Platform</em></a> 微型蜂窝机器人平台（暂时没能力做）</p> </li> <li> <p><a href=https://hackaday.io/project/11399-micro-robots-for-education>micro-robots-for-education</a></p> </li> <li> <p><a href=https://github.com/nasa-jpl/open-source-rover>NASA的开源火星车</a></p> </li> <li> <p>基于树莓派的观星系统STARPI](<a href=https://hackaday.io/project/10181-starpi>https://hackaday.io/project/10181-starpi</a>) </p> </li> <li> <p><a href=https://hackaday.io/project/8843/gallery#fff247bf0a0d7d56b603556fa3714407>会走的机器人Gallery | Mr. Runner | Hackaday.io</a></p> </li> <li> <p><a href=https://hackaday.io/project/25687-programing-espcopter-esp8266-drone-with-visuino>Programing ESPcopter - ESP8266 Drone with Visuino</a></p> </li> <li> <p><a href=https://hackaday.io/project/20628-open-simple-lidar>20628-open-simple-lidar hackaday</a></p> </li> <li> <p>走迷宫的小车 （灵感）</p> </li> <li> <p>自动跟随的智能垃圾桶</p> </li> <li> <p>NASA <a href=https://www.nasa.gov/astrobee>Astrobee</a> 飞行机器人</p> <ol> <li><a href=https://github.com/nasa/astrobee>https://github.com/nasa/astrobee</a> 视觉导航、ROS....</li> </ol> </li> </ol> <h3 id=_36>优先级★★<a class=headerlink href=#_36 title="Permanent link">&para;</a></h3> <ol> <li><a href=https://hackaday.io/project/161648-casiokeybot>casiokeybot 钢琴机器人</a> hackaday teotronica robot pianist</li> <li><a href=https://hackaday.io/project/13301-bivac-bio-inspired-visual-collision-avoidance>BIVAC - Bio-Inspired Visual Collision Avoidance</a> hackaday</li> <li><a href=https://hackaday.io/project/2295-cheap-expandable-floor-piano>cheap-expandable-floor-piano</a></li> <li></li> <li></li> </ol> <h1 id=_37>已移交给别人<a class=headerlink href=#_37 title="Permanent link">&para;</a></h1> <h2 id=_38>火星相关<a class=headerlink href=#_38 title="Permanent link">&para;</a></h2> <ol> <li>快速找地平、多波束故障检测 的专利，发给了专利中心</li> <li>第一次投稿IEEE融合的文章（高度和速度分开修+鲁棒融合 可以投个中文期刊） 投给了深空探测会议</li> <li></li> </ol> <h1 id=_39>已经完成的事项（供查询）<a class=headerlink href=#_39 title="Permanent link">&para;</a></h1> <ul> <li>将<code>d:\dropbox\mdeng\WORK\vnote-资料库\具体资料\数学类\</code>的资料导入到zotero里，具体步骤参考<code>zotero.md</code>. -备份电脑前的准备 (同时整理onenote的备份笔记) （见<code>电脑重装系统</code>）</li> <li>完成找地平离线数据处理 （已完成，但是会出现角度大的情况，测速误差过大，看看能不能剔除掉）</li> </ul> <h2 id=20191227-20200103>20191227-20200103<a class=headerlink href=#20191227-20200103 title="Permanent link">&para;</a></h2> <p><strong>嵌入式开发:</strong></p> <ul> <li>完成了stm32 hal库的头文件的调用流程 并汇总成笔记 (已完成，见<code>stm32hal库实践.md</code>)</li> <li> <p>将原子书籍的第三章MDK使用技巧,添加到了笔记<code>stm32笔记本里的软硬件操作.md</code>里了</p> </li> <li> <p>学习了串口通信</p> </li> <li> <p>笔记见<code>8-stm32串口通信.md</code></p> </li> <li> <p>测试的单片机器的代码见<code>tagsUART-EXPERIMENT</code> (<strong>注意要把板子上的有个A10和TX的跳 线帽拔了，否则电脑无法给板子发数据</strong>)</p> </li> <li> <p>参考资料：</p> <ul> <li>D:\BaiduNetdiskDownload的原子视频</li> <li>野火和原子的书籍</li> <li>中文参考手册</li> </ul> </li> <li> <p>定位开发板实践: (摘自<code>**20200124**</code>的每日记录) 已实现上位机保存数据,还未实现帧判断</p> </li> <li> <p>学习了<code>SystemClock_Config()</code>函数, <code>delay_init</code>函数, systick计时器</p> </li> <li>单片机方面: 实现了利用野火板子向串口的程序发送，程序见：<code>tags_stm32F4_hal_FORTEST.txt</code>。说明文档见<code>我的开发板实践.md</code></li> <li> <p>上位机方面:</p> <ul> <li>程序见<code>SerialPort-Arduino.txt</code>可以保存数据，也可以实时读取用于导航计算。（还有个MFC的程序mscommDemo.txt可以用来保存数据）</li> </ul> </li> <li> <p>文档：</p> <ul> <li><code>串口通信上位机实践.md</code>(关键看这个)</li> <li><code>我的开发板实践.md</code></li> </ul> </li> </ul> <h2 id=2019092920191222>20190929~20191222<a class=headerlink href=#2019092920191222 title="Permanent link">&para;</a></h2> <ul> <li>复核复算报告</li> <li>标定试验，目前的标定试验可以认为的加个安装偏差和零偏，是可以标出来的。</li> <li>乐宝的文章</li> <li>TAES修改</li> <li>多波束测速故障检测的共面情况处理</li> </ul> <h2 id=0923-0929>0923-0929完成事项<a class=headerlink href=#0923-0929 title="Permanent link">&para;</a></h2> <ol> <li>火星XH</li> <li>独立评估回答</li> <li>找出徐超仿真的引力找地平精度差的原因。 为测速波束选取的问题，导致可观性差。。</li> </ol> <h2 id=0916-0922>0916-0922完成事项：<a class=headerlink href=#0916-0922 title="Permanent link">&para;</a></h2> <ol> <li>火星XH</li> <li>六个能力、健壮性报告的仿真</li> <li>书稿序</li> <li>多波束的测距故障检测 (只能说是有一版本，需要深化研究)</li> <li>李爽任务书</li> </ol> <h2 id=0909-0915>0909-0915完成事项<a class=headerlink href=#0909-0915 title="Permanent link">&para;</a></h2> <ol> <li>完成3个专利申请书的撰写：转台真北、大动态修地平、基于卡尔曼滤波的引力方向确定</li> <li>复核复算交底报告的更新</li> <li>测速的故障检测简化，见内网的vnote，但是有时候有漏检的情况</li> </ol> <h2 id=0901-0907>0901-0907完成事项<a class=headerlink href=#0901-0907 title="Permanent link">&para;</a></h2> <ol> <li>利用IMU真北基准确定转台的真北基准</li> <li>文档：一种无须安装光学标志物的转台精测方法.md （还可参考内网，研保的初设报告）</li> <li>程序：see<code>利用IMU的真北基准确定转台的真北基准.txt</code><ol> <li>利用实际精测数据计算的结果见<code>D:\SMproject\2016-Mars火星\XH\导航试验-5号楼(整理)\code\M-code\After201908\转台精测\code\数学仿真</code>的<code>main_Experiment</code> 该函数即为20190903的精测结果</li> <li>D:\SMproject\2016-Mars火星\XH\导航试验-5号楼(整理)\code\M-code\After201908\转台精测\code\转台精测试验`给出的式转台精测结果与自对准的对比</li> </ol> </li> </ol> <h2 id=0729-0804>0729-0804完成事项<a class=headerlink href=#0729-0804 title="Permanent link">&para;</a></h2> <ul> <li>整理陆标导航的程序， “陆标+测距测速修正”</li> <li>整理了“测距测速修正的3维位置和速度修正导航”的程序，及相关笔记、文献（在zotero里标注下，供后面方便捡起来）</li> <li>文档见<code>基于测距测速的三维位置修正.docx</code>，（通过可观性分析表明，不是完全可观的）对程序也进行了整理。 程序也搜索<code>基于测距测速的三维位置修正</code>；以后有时间再研究基于部分可观性的。。参考<code>部分状态的可观性分析.mmap</code></li> <li>zotero的标签为<code>测距测速三维修正</code></li> <li>完成了专刊投稿，见<code>2019专刊（控制理论与应用）-陆标+测距测速导航.txt</code></li> <li>完成深空探测会议的投稿，<code>2018-深空探测年会-基于测距测速修正的火星着陆鲁棒自主导航方法研究.txt</code></li> <li></li> </ul> <h2 id=20200621>20200621以前<a class=headerlink href=#20200621 title="Permanent link">&para;</a></h2> <ul> <li>IEEE文章的程序整理，见<code>导航文章导出.txt</code></li> </ul> <h1 id=_40>上周总结<a class=headerlink href=#_40 title="Permanent link">&para;</a></h1> <p>根据vnote笔记的日期进行脉络梳理</p> <pre class=mermaid><code>graph LR
+  开发流程 --&gt; Step3(第三步:PULP-DroNet无人机)</code></pre>
+<h2 id="step1-imugps">STEP1: 实现IMU+GPS+视觉组合导航**<a class="headerlink" href="#step1-imugps" title="Permanent link">&para;</a></h2>
+<p>每一列不是一一对应的</p>
+<table>
+<thead>
+<tr>
+<th>涉及的辅助类知识</th>
+<th>涉及的专业类知识</th>
+<th>已有工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>读取传感器数据并转换成有物理量纲的数(<strong>已完成</strong>)</td>
+<td>GNSS利用伪距确定位置</td>
+<td><a href="https://github.com/HKUST-Aerial-Robotics/VINS-Fusion">VINS-Fusion</a>可以使用数据集  这个比较合适</td>
+</tr>
+<tr>
+<td>UBLOX协议详细学习，及配置输出RAW数据</td>
+<td>GNSS利用相位确定位置</td>
+<td></td>
+</tr>
+<tr>
+<td>ROS学习 （学习VINS-Fusion需要，可以和这些代码一块学习;）</td>
+<td>GNSS利用差分确定位置(<strong>利用差分和多个接收机的固定距离差能否精确确定位置</strong>)</td>
+<td></td>
+</tr>
+<tr>
+<td>RTKLIB工具学习</td>
+<td>GNSS PPP学习</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>图像导航知识学习</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>多IMU定姿，see<code>FGRIAE</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> </p>
+<ol>
+<li><code>main_gps.m</code>对两个gps的估计精度进行了评估，精度有所提高。理论可行；但是如果是系统误差就不行了。系统误差能否通过多个GNSS芯片的固定距离差来消除？</li>
+<li>GNSS目前比较好的学习资料如下：（20200210）</li>
+<li>zotero的GNSS DATA PROCESSING的两套书，理论和实践部分。</li>
+<li>The Easy Suite - Matlab code for the GPS newcomer的matlab程序对于实测数据处理有用</li>
+<li>
+<p>satnav3p01对于数值仿真，算法验证很有帮助。</p>
+</li>
+<li>
+<p>PPP定点导航+IMU 参考：</p>
+</li>
+<li>Low-cost, Dual-frequency PPP GNSS and MEMS-IMU Integration Performance in Obstructed Environments</li>
+<li>Low-Cost Real-Time PPP/INS Integration for Automated Land Vehicles</li>
+<li>Precise GNSS Positioning Using Smart Devices</li>
+<li>PPPH matlab工具箱</li>
+<li>ROS的笔记见相应的md文件，可参考的资料为百度网盘的udemy课程：ROS for Beginners Basics, Motion, and OpenCV</li>
+</ol>
+<h2 id="step2-imu">STEP2 : 实现纯IMU导航<a class="headerlink" href="#step2-imu" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>涉及的辅助类知识</th>
+<th>涉及的专业类知识</th>
+<th>已有工具</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>python学习</td>
+<td>机器学习专业知识学习</td>
+<td>AI-IMU</td>
+</tr>
+<tr>
+<td>pytorch 机器学习库</td>
+<td></td>
+<td>Ionet Oxford Inertial Odometry Dataset_2.0.zip</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Notes:</strong> </p>
+<ol>
+<li>Python 学习资料 <a href="https://github.com/jackfrued/Python-100-Days">https://github.com/jackfrued/Python-100-Days</a>  Python - 100天从新手到大师</li>
+<li>机器学习目前的学习资料为<code>udemy课程机器学习A-Z</code>，已经直接购买，学习笔记见相应的md文件。</li>
+</ol>
+<h2 id="step3">STEP3: 付诸于无人机或机器人具体样机<a class="headerlink" href="#step3" title="Permanent link">&para;</a></h2>
+<ol>
+<li>PULP-DroNet无人机  (也有datasets和虚拟平台)；算法为<a href="https://github.com/uzh-rpg/rpg_public_dronet">DRONET网络</a></li>
+<li>tum_ardrone的学习</li>
+</ol>
+<h1 id="_11">本周安排<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h1>
+<p>嵌入式先搞定数据采集 再搞算法</p>
+<p>徐超：动力学仿真，模拟测量数据；嵌入式；组合导航算法</p>
+<p>新文献：On Kalman filtering with linear state equality constraints 2019</p>
+<p>ROS + 我的开发板 + VINS结合学比较理想</p>
+<h2 id="_12">务必要完成的事情<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<h3 id="xh">火星XH  （大的规划和待办见上文的手写）<a class="headerlink" href="#xh" title="Permanent link">&para;</a></h3>
+<h2 id="_13">近期要做的事情<a class="headerlink" href="#_13" title="Permanent link">&para;</a></h2>
+<h2 id="_14">其他重要事情<a class="headerlink" href="#_14" title="Permanent link">&para;</a></h2>
+<ul>
+<li></li>
+<li>嵌入式仿真，将实测数据加入闭环</li>
+<li>STM32的学习和实践 （完成寄存器基础知识一章的笔记，以及其他2章的温习）</li>
+</ul>
+<p><strong>长期要做的事情</strong>
+1. 将资料整理到zotero数据库里 （有空的时候做）
+2. 清空上周的inbox
+3. 游泳3次
+4. 钢琴练习3小时(巴斯蒂安成人钢琴教程+simply piano)
+5. 每两天学习温习stm教程</p>
+<h1 id="_15">本周总结<a class="headerlink" href="#_15" title="Permanent link">&para;</a></h1>
+<h1 id="inbox">新的inbox事项<a class="headerlink" href="#inbox" title="Permanent link">&para;</a></h1>
+<ul>
+<li>智能交通玩具、机器人开发（能够自主避障，基于ROS，且可以实现仿真，参考ROS的书籍和文献）</li>
+<li>多IMU导航、多个着陆器或编队飞行的调研（小卫星）</li>
+<li>基于未知路标约束的自主导航</li>
+<li>变革性技术导航调研</li>
+<li>完成D:\Dropbox\mdeng\Desktop\桌面 的资料整理</li>
+<li>整理markdown的相关笔记到vnote和印象笔记</li>
+<li></li>
+<li><strong>研究INS/GPS、IONet深度学习导航、基于约束的多个IMU自主导航</strong></li>
+</ul>
+<hr />
+<ul>
+<li>
+<p>修正系数</p>
+</li>
+<li>
+<p>compatible modeling文章修改</p>
+</li>
+<li></li>
+</ul>
+<h2 id="_16">嵌入式开发相关<a class="headerlink" href="#_16" title="Permanent link">&para;</a></h2>
+<ol>
+<li>udemy课程：Mastering Microcontroller with Embedded Driver Development | Udemy （百度网盘里）</li>
+<li>udemy Arduino : Industrial Data Logger Designing and Programming （百度网盘里</li>
+</ol>
+<p><strong>不紧急</strong></p>
+<h2 id="_17">部分完成的事项：<a class="headerlink" href="#_17" title="Permanent link">&para;</a></h2>
+<h3 id="_18">递归式多子样算法<a class="headerlink" href="#_18" title="Permanent link">&para;</a></h3>
+<h4 id="see20190806">目前完成的事项 （see每日记录<code>20190806</code>）<a class="headerlink" href="#see20190806" title="Permanent link">&para;</a></h4>
+<ul>
+<li>文档：基本将<code>着陆高精度导航(含多子样算法)-内网版</code>的主体内容整理到<code>大动态惯性导航(整理版).md</code>了，还未整理的在里面进行了批注。<code>notes-递归多子样.txt</code>中还有部分内容未整理到<code>大动态惯性导航(整理版).md</code>中。</li>
+<li>程序：运动频率小的时候，递归四子样要优于普通四子样，反之则没有普通四子样要好。需要进一步核对程序和研究。<code>D:\SMproject\2016-Mars火星\XH\方案&amp;算法（整理）\大动态惯性导航算法\code\导航四子样分析和对比</code></li>
+<li>需要看的文献已整理到zotero里了。多子样更新文件夹</li>
+</ul>
+<h4 id="_19">后续要进一步研究<a class="headerlink" href="#_19" title="Permanent link">&para;</a></h4>
+<ul>
+<li>为什么采样频率越高，递归式的性能要差；非多项式拟合的递归式多子样算法。。。。</li>
+</ul>
+<h2 id="_20">暂时挂起事项<a class="headerlink" href="#_20" title="Permanent link">&para;</a></h2>
+<h3 id="xh_1">火星XH<a class="headerlink" href="#xh_1" title="Permanent link">&para;</a></h3>
+<ol>
+<li>测速故障检测完善 (当有两个波束出现故障3m/s的时候还是会出现漏检); 而且实际上阈值和实际构型还有关系</li>
+<li>基于零速度的标定(可以人为加安装偏差、零偏)</li>
+<li>引力修地平关键是怎么评估引力估计的精度。一种方案就是动力下降段也找地平，伞降段也找，然后和前台对比，哪两组接近就选哪两组。</li>
+<li>
+<ul>
+<li>专利三项：定稿两个专利交底书（刘秀祥）沟通的结果是1月开始定稿</li>
+</ul>
+</li>
+</ol>
+<h1 id="_21">以前未完成的待办汇总<a class="headerlink" href="#_21" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>项目</th>
+<th>完成情况</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>火星导航</li>
+<li>大角速度标定程序调试</li>
+<li>对程序进行整理</li>
+<li>调试闭环标定的程序</li>
+<li>零速度的加计标定 （顺便整理MEMS IMU的文档）</li>
+<li>多次大角速度标定和大动态导航试验 （未完成，数据采集有问题）</li>
+<li>整理成文档</li>
+<li>
+<ul>
+<li>大动态的多子样对比（验证我的递归多子样算法）</li>
+</ul>
+</li>
+<li>
+<p>英语学习</p>
+</li>
+<li>
+<p>见： 201906每日总结，看看从哪里开始学习，先学习语法： <a href="http://www.butte.edu/cas/tipsheets/">butte大学的 online TIP Sheet （语法、拼写、阅读）</a>？</p>
+<ul>
+<li>整理我写文章的一些批注、以前文章润色的批注</li>
+</ul>
+</li>
+<li>
+<p>stm32</p>
+</li>
+</ul>
+<h2 id="_22">嵌入式开发<a class="headerlink" href="#_22" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>我的开发板实践.md</code>，其中为啥要添加<code>SysTick_Handler</code>没有搞懂  (这个暂时可以学)</li>
+<li>已实现上位机保存数据,还未实现帧判断, <code>SerialPort-Arduino.txt</code>. 帧判断, 可以参考的文献如下:</li>
+<li><a href="https://blog.csdn.net/hpbhpb/article/details/8922518">串口接收方法</a> 这个有帧的相关判断，我的程序可以参考</li>
+<li><a href="https://blog.csdn.net/xh_xinhua/article/details/83448404">数据帧接收解析及拼帧</a>。</li>
+<li>
+<p><a href="https://blog.csdn.net/lifan1314521/article/details/51482639">解析串口-接收完整数据帧</a></p>
+</li>
+<li>
+<p>需要弄懂传感器raw数据到物理意义的数据,可能参考的文献有:</p>
+</li>
+<li>mpu6050的视频教程：<a href="http://www.moore8.com/courses/1308">MPU6050原始数据获取</a></li>
+<li><a href="https://github.com/inertialsense/InertialSenseSDK/blob/master/src/InertialSense.cpp">https://github.com/inertialsense/InertialSenseSDK/blob/master/src/InertialSense.cpp</a></li>
+<li>需要研究下aceinna(<code>软、硬件、产品资料汇总.md</code>)开源惯导的实现过程，里面还有ublox的<a href="https://github.com/Aceinna/ublox_decoder">解码程序</a></li>
+<li>
+<p><a href="https://github.com/PX4/ecl">Estimation &amp; Control Library for Guidance, Navigation and Control Applications</a></p>
+</li>
+<li>
+<p>硬件板子</p>
+</li>
+<li>采集收据 &lt;=== STM32f7原理与应用 （HAL库）</li>
+<li>采集完数据，<strong>研究INS/GPS、IONet深度学习导航、基于约束的多个IMU自主导航</strong>
+      2 . 回顾STM32学习笔记，继续亚博智能学习。</li>
+<li>INS+GPS导航相关 （完成资料整理、学习路线规划）</li>
+<li><del>整理组合导航程序，准备给徐超。</del></li>
+<li>准备看低成本高精度GNSS导航的文献。</li>
+<li>回顾gnss导航的方案策划：见onenote的Tags:plan_ins_gps</li>
+<li>启动ROS的学习 （学习这个是为了学习VINS）,相关资料整理到：印象笔记的资料汇总了tags:index_software_hardware</li>
+</ol>
+<h2 id="_23">书稿<a class="headerlink" href="#_23" title="Permanent link">&para;</a></h2>
+<ol>
+<li>关注<code>航天器多源信息融合自主导航技术书稿翻译.md</code>里的一些待办事项</li>
+</ol>
+<h1 id="_24">灵感/有趣的项目<a class="headerlink" href="#_24" title="Permanent link">&para;</a></h1>
+<h2 id="_25">研究、创新点类<a class="headerlink" href="#_25" title="Permanent link">&para;</a></h2>
+<h3 id="_26">火星相关的灵感与创新点<a class="headerlink" href="#_26" title="Permanent link">&para;</a></h3>
+<ol>
+<li>利用两套IMU的约束提高估计精度</li>
+<li>利用测速敏感器的IMU校正<ol>
+<li>参考文献:Accelerometer bias calibration using attitude and angular velocity information</li>
+</ol>
+</li>
+</ol>
+<h3 id="_27">优先级★★★★★<a class="headerlink" href="#_27" title="Permanent link">&para;</a></h3>
+<h3 id="_28">优先级★★★★<a class="headerlink" href="#_28" title="Permanent link">&para;</a></h3>
+<ul>
+<li>基于机动的相对目标小天体视线导航</li>
+<li>（小行星探测的程序内网，目前完成最小二乘，和文档推导）</li>
+<li>需要改成递归式的，可以采用MHE或者increment smooth方法来实施。</li>
+<li>可参考的新文献：Observability-based navigation using optical and radiometric measurements for asteroid proximity</li>
+<li>自旋角速度估计：</li>
+<li>Globally exponentially stable attitude observer with Earth velocity estimation</li>
+<li>其余文献见zotero: gravity</li>
+<li>杠臂效应的角速度补偿和估计</li>
+<li>gyro free六个加计估计角速度，利用随机克隆技术角速度 dotx = x1 -x2</li>
+<li>gyro free 可用于我自己的多imu估计问题</li>
+<li>利用测速敏感器对IMU安装进行估计，建立本体系下的速度微分方程。</li>
+<li>利用两个IMU的安装约束提高状态的估计精度。</li>
+</ul>
+<h3 id="_29">优先级★★★（太前沿）<a class="headerlink" href="#_29" title="Permanent link">&para;</a></h3>
+<ul>
+<li>An ant-inspired celestial compass applied to autonomous outdoor robot navigation （涉及到硬件开发，搞不定 仿生）</li>
+</ul>
+<h3 id="_30">其他的新文献（<strong>优先级不高的</strong>）：<a class="headerlink" href="#_30" title="Permanent link">&para;</a></h3>
+<ul>
+<li>见NewREFS标签</li>
+</ul>
+<h2 id="_31">产品类、项目类<a class="headerlink" href="#_31" title="Permanent link">&para;</a></h2>
+<p>自动婴儿推车 </p>
+<h3 id="_32">优先级★★★★★<a class="headerlink" href="#_32" title="Permanent link">&para;</a></h3>
+<ol>
+<li>低成本的GPS实现高精度</li>
+<li><a href="https://radionavlab.ae.utexas.edu/index.php?option=com_content&amp;view=article&amp;id=456:centimeter-accurate-mobile-positioning&amp;catid=29&amp;Itemid=2">Advanced Techniques for       Centimeter-Accurate GNSS Positioning on Low-Cost Mobile Platforms</a>  （ATCAGNSS）</li>
+<li>多IMU<ol>
+<li>Fusion of gps and redundant IMU data for attitude estimation  多imu （FGRIAE） (已同步整理到zotero和文献汇总)</li>
+<li>A Lightweight and Accurate Localization Algorithm Using Multiple
+Inertial Measurement Units  (已同步整理到zotero和文献汇总)</li>
+</ol>
+</li>
+<li>PULP Dronet的纳米级无人机</li>
+<li>A 64mW DNN-based Visual Navigation Engine for Autonomous Nano-Drones (已整理至zotero)<ol>
+<li>基于*Crazyflie* Nano Quadrotor from <em>Bitcraze</em> (<a href="http://www">http://www</a>.<em>bitcraze</em>.se/).的无人机套件开发的，基本前提也是学习ROS </li>
+<li><strong>ROS机器人开发：实用案例分析</strong> 一书中有提及<ol>
+<li><a href="https://item.taobao.com/item.htm?spm=a230r.1.14.18.240a2f40Aec2Kp&amp;id=577360316134&amp;ns=1&amp;abbucket=16#detail">淘宝有卖crazyflie2.0 DW1000FOLLOWER飞行器UWB高精度定位系统 自动驾驶</a></li>
+</ol>
+</li>
+<li><a href="https://www.seas.upenn.edu/~loiannog/workshopIROS2017uav/index.html#call">Vision-based Agile Autonomous Navigation of UAVs</a></li>
+</ol>
+</li>
+</ol>
+<h3 id="_33">优先级★★★★<a class="headerlink" href="#_33" title="Permanent link">&para;</a></h3>
+<ol>
+<li>嵌入式</li>
+<li>PCB制作学习 </li>
+<li><a href="https://blog.particle.io/2018/03/06/prototype-to-production-building-your-first-pcb-prototype-part-1/">Prototype to production: Building your first PCB prototype</a></li>
+<li>其他见：tags:index_software_hardware  </li>
+</ol>
+<h3 id="_34">优先级★★★<a class="headerlink" href="#_34" title="Permanent link">&para;</a></h3>
+<h4 id="uwb">UWB跟随 (考虑精力问题，暂时先不做)<a class="headerlink" href="#uwb" title="Permanent link">&para;</a></h4>
+<ol>
+<li><a href="https://www.cybercom.com/innovation-zone/our-projects/3d-positioning-by-uwb/">https://www.cybercom.com/innovation-zone/our-projects/3d-positioning-by-uwb/</a>  </li>
+<li>创新点在于不用安装将基站和标签的功能互换了，不用安装多个基站。可应用于行李箱、购物车跟随。潜在购物车上安装四个标签，然后利用约束进行定位和跟随</li>
+<li>参考文献：A Framework for a Relative Real-Time Tracking System Based on Ultra-Wideband Technology</li>
+<li><a href="https://www.cybercom.com/innovation-zone/our-projects/">https://www.cybercom.com/innovation-zone/our-projects/</a> </li>
+</ol>
+<h4 id="_35">机器人相关<a class="headerlink" href="#_35" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p><a href="http://swarmrobot.org/"><em>Swarm Robot Platform</em></a> 微型蜂窝机器人平台（暂时没能力做）</p>
+</li>
+<li>
+<p><a href="https://hackaday.io/project/11399-micro-robots-for-education">micro-robots-for-education</a></p>
+</li>
+<li>
+<p><a href="https://github.com/nasa-jpl/open-source-rover">NASA的开源火星车</a></p>
+</li>
+<li>
+<p>基于树莓派的观星系统STARPI](<a href="https://hackaday.io/project/10181-starpi">https://hackaday.io/project/10181-starpi</a>)  </p>
+</li>
+<li>
+<p><a href="https://hackaday.io/project/8843/gallery#fff247bf0a0d7d56b603556fa3714407">会走的机器人Gallery | Mr. Runner | Hackaday.io</a></p>
+</li>
+<li>
+<p><a href="https://hackaday.io/project/25687-programing-espcopter-esp8266-drone-with-visuino">Programing ESPcopter - ESP8266 Drone with Visuino</a></p>
+</li>
+<li>
+<p><a href="https://hackaday.io/project/20628-open-simple-lidar">20628-open-simple-lidar hackaday</a></p>
+</li>
+<li>
+<p>走迷宫的小车 （灵感）</p>
+</li>
+<li>
+<p>自动跟随的智能垃圾桶</p>
+</li>
+<li>
+<p>NASA <a href="https://www.nasa.gov/astrobee">Astrobee</a> 飞行机器人</p>
+<ol>
+<li><a href="https://github.com/nasa/astrobee">https://github.com/nasa/astrobee</a> 视觉导航、ROS....</li>
+</ol>
+</li>
+</ol>
+<h3 id="_36">优先级★★<a class="headerlink" href="#_36" title="Permanent link">&para;</a></h3>
+<ol>
+<li><a href="https://hackaday.io/project/161648-casiokeybot">casiokeybot 钢琴机器人</a>  hackaday  teotronica robot pianist</li>
+<li><a href="https://hackaday.io/project/13301-bivac-bio-inspired-visual-collision-avoidance">BIVAC - Bio-Inspired Visual Collision Avoidance</a> hackaday</li>
+<li><a href="https://hackaday.io/project/2295-cheap-expandable-floor-piano">cheap-expandable-floor-piano</a></li>
+<li></li>
+<li></li>
+</ol>
+<h1 id="_37">已移交给别人<a class="headerlink" href="#_37" title="Permanent link">&para;</a></h1>
+<h2 id="_38">火星相关<a class="headerlink" href="#_38" title="Permanent link">&para;</a></h2>
+<ol>
+<li>快速找地平、多波束故障检测 的专利，发给了专利中心</li>
+<li>第一次投稿IEEE融合的文章（高度和速度分开修+鲁棒融合 可以投个中文期刊） 投给了深空探测会议</li>
+<li></li>
+</ol>
+<h1 id="_39">已经完成的事项（供查询）<a class="headerlink" href="#_39" title="Permanent link">&para;</a></h1>
+<ul>
+<li>将<code>d:\dropbox\mdeng\WORK\vnote-资料库\具体资料\数学类\</code>的资料导入到zotero里，具体步骤参考<code>zotero.md</code>. 
+  -备份电脑前的准备 (同时整理onenote的备份笔记) （见<code>电脑重装系统</code>）</li>
+<li>完成找地平离线数据处理 （已完成，但是会出现角度大的情况，测速误差过大，看看能不能剔除掉）</li>
+</ul>
+<h2 id="20191227-20200103">20191227-20200103<a class="headerlink" href="#20191227-20200103" title="Permanent link">&para;</a></h2>
+<p><strong>嵌入式开发:</strong></p>
+<ul>
+<li>完成了stm32 hal库的头文件的调用流程 并汇总成笔记 (已完成，见<code>stm32hal库实践.md</code>)</li>
+<li>
+<p>将原子书籍的第三章MDK使用技巧,添加到了笔记<code>stm32笔记本里的软硬件操作.md</code>里了</p>
+</li>
+<li>
+<p>学习了串口通信</p>
+</li>
+<li>
+<p>笔记见<code>8-stm32串口通信.md</code></p>
+</li>
+<li>
+<p>测试的单片机器的代码见<code>tagsUART-EXPERIMENT</code> (<strong>注意要把板子上的有个A10和TX的跳 线帽拔了，否则电脑无法给板子发数据</strong>)</p>
+</li>
+<li>
+<p>参考资料：</p>
+<ul>
+<li>D:\BaiduNetdiskDownload的原子视频</li>
+<li>野火和原子的书籍</li>
+<li>中文参考手册</li>
+</ul>
+</li>
+<li>
+<p>定位开发板实践: (摘自<code>**20200124**</code>的每日记录)  已实现上位机保存数据,还未实现帧判断</p>
+</li>
+<li>
+<p>学习了<code>SystemClock_Config()</code>函数, <code>delay_init</code>函数, systick计时器</p>
+</li>
+<li>单片机方面: 实现了利用野火板子向串口的程序发送，程序见：<code>tags_stm32F4_hal_FORTEST.txt</code>。说明文档见<code>我的开发板实践.md</code></li>
+<li>
+<p>上位机方面:</p>
+<ul>
+<li>程序见<code>SerialPort-Arduino.txt</code>可以保存数据，也可以实时读取用于导航计算。（还有个MFC的程序mscommDemo.txt可以用来保存数据）</li>
+</ul>
+</li>
+<li>
+<p>文档：</p>
+<ul>
+<li><code>串口通信上位机实践.md</code>(关键看这个)</li>
+<li><code>我的开发板实践.md</code></li>
+</ul>
+</li>
+</ul>
+<h2 id="2019092920191222">20190929~20191222<a class="headerlink" href="#2019092920191222" title="Permanent link">&para;</a></h2>
+<ul>
+<li>复核复算报告</li>
+<li>标定试验，目前的标定试验可以认为的加个安装偏差和零偏，是可以标出来的。</li>
+<li>乐宝的文章</li>
+<li>TAES修改</li>
+<li>多波束测速故障检测的共面情况处理</li>
+</ul>
+<h2 id="0923-0929">0923-0929完成事项<a class="headerlink" href="#0923-0929" title="Permanent link">&para;</a></h2>
+<ol>
+<li>火星XH</li>
+<li>独立评估回答</li>
+<li>找出徐超仿真的引力找地平精度差的原因。 为测速波束选取的问题，导致可观性差。。</li>
+</ol>
+<h2 id="0916-0922">0916-0922完成事项：<a class="headerlink" href="#0916-0922" title="Permanent link">&para;</a></h2>
+<ol>
+<li>火星XH</li>
+<li>六个能力、健壮性报告的仿真</li>
+<li>书稿序</li>
+<li>多波束的测距故障检测  (只能说是有一版本，需要深化研究)</li>
+<li>李爽任务书</li>
+</ol>
+<h2 id="0909-0915">0909-0915完成事项<a class="headerlink" href="#0909-0915" title="Permanent link">&para;</a></h2>
+<ol>
+<li>完成3个专利申请书的撰写：转台真北、大动态修地平、基于卡尔曼滤波的引力方向确定</li>
+<li>复核复算交底报告的更新</li>
+<li>测速的故障检测简化，见内网的vnote，但是有时候有漏检的情况</li>
+</ol>
+<h2 id="0901-0907">0901-0907完成事项<a class="headerlink" href="#0901-0907" title="Permanent link">&para;</a></h2>
+<ol>
+<li>利用IMU真北基准确定转台的真北基准</li>
+<li>文档：一种无须安装光学标志物的转台精测方法.md （还可参考内网，研保的初设报告）</li>
+<li>程序：see<code>利用IMU的真北基准确定转台的真北基准.txt</code><ol>
+<li>利用实际精测数据计算的结果见<code>D:\SMproject\2016-Mars火星\XH\导航试验-5号楼(整理)\code\M-code\After201908\转台精测\code\数学仿真</code>的<code>main_Experiment</code> 该函数即为20190903的精测结果</li>
+<li>D:\SMproject\2016-Mars火星\XH\导航试验-5号楼(整理)\code\M-code\After201908\转台精测\code\转台精测试验`给出的式转台精测结果与自对准的对比</li>
+</ol>
+</li>
+</ol>
+<h2 id="0729-0804">0729-0804完成事项<a class="headerlink" href="#0729-0804" title="Permanent link">&para;</a></h2>
+<ul>
+<li>整理陆标导航的程序， “陆标+测距测速修正”</li>
+<li>整理了“测距测速修正的3维位置和速度修正导航”的程序，及相关笔记、文献（在zotero里标注下，供后面方便捡起来）</li>
+<li>文档见<code>基于测距测速的三维位置修正.docx</code>，（通过可观性分析表明，不是完全可观的）对程序也进行了整理。 程序也搜索<code>基于测距测速的三维位置修正</code>；以后有时间再研究基于部分可观性的。。参考<code>部分状态的可观性分析.mmap</code></li>
+<li>zotero的标签为<code>测距测速三维修正</code></li>
+<li>完成了专刊投稿，见<code>2019专刊（控制理论与应用）-陆标+测距测速导航.txt</code></li>
+<li>完成深空探测会议的投稿，<code>2018-深空探测年会-基于测距测速修正的火星着陆鲁棒自主导航方法研究.txt</code></li>
+<li></li>
+</ul>
+<h2 id="20200621">20200621以前<a class="headerlink" href="#20200621" title="Permanent link">&para;</a></h2>
+<ul>
+<li>IEEE文章的程序整理，见<code>导航文章导出.txt</code></li>
+</ul>
+<h1 id="_40">上周总结<a class="headerlink" href="#_40" title="Permanent link">&para;</a></h1>
+<p>根据vnote笔记的日期进行脉络梳理</p>
+<pre class="mermaid"><code>graph LR
 subgraph cmake
 1[CMAKE学习温习] --&gt; 1.1[`cmake实践篇.md`]
   1.1 --&gt; 1.1.1[`如何创建CMAKE工作空间`]
@@ -74,4 +1159,53 @@ subgraph raspberrypi
 3.2.2 --&gt; 3.2.2.1(`3-python函数与模块.md`)
 3(树莓派小车) --&gt; 3.2(障碍检测:`infrared.md`)
 3(树莓派小车) --&gt; 3.3(超声波测距:`ultrasound.md`)
-end</code></pre> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+end</code></pre>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

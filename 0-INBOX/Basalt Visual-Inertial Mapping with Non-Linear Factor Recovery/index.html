@@ -1,344 +1,829 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/0-INBOX/Basalt%20Visual-Inertial%20Mapping%20with%20Non-Linear%20Factor%20Recovery/ rel=canonical><link rel=icon href=../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery - Mdeng Li's Blog</title><link rel=stylesheet href=../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#basalt-visual-inertial-mapping-with-non-linear-factor-recovery class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=basalt-visual-inertial-mapping-with-non-linear-factor-recovery>Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery<a class=headerlink href=#basalt-visual-inertial-mapping-with-non-linear-factor-recovery title="Permanent link">&para;</a></h1> <h1 id=_1>安装<a class=headerlink href=#_1 title="Permanent link">&para;</a></h1> <p>参考：<a href=https://github.com/VladyslavUsenko/basalt-mirror>https://github.com/VladyslavUsenko/basalt-mirror</a></p> <div class=highlight><pre><span></span><code>git clone --recursive https://gitlab.com/VladyslavUsenko/basalt.git
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/0-INBOX/Basalt%20Visual-Inertial%20Mapping%20with%20Non-Linear%20Factor%20Recovery/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#basalt-visual-inertial-mapping-with-non-linear-factor-recovery" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="basalt-visual-inertial-mapping-with-non-linear-factor-recovery">Basalt Visual-Inertial Mapping with Non-Linear Factor Recovery<a class="headerlink" href="#basalt-visual-inertial-mapping-with-non-linear-factor-recovery" title="Permanent link">&para;</a></h1>
+<h1 id="_1">安装<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>参考：<a href="https://github.com/VladyslavUsenko/basalt-mirror">https://github.com/VladyslavUsenko/basalt-mirror</a></p>
+<div class="highlight"><pre><span></span><code>git clone --recursive https://gitlab.com/VladyslavUsenko/basalt.git
 cd basalt
 ./scripts/install_deps.sh
 mkdir build
 cd build
 cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo
 make -j8
-</code></pre></div> <ul> <li> <p><code>install_deps.sh</code> <code>install_deps.sh</code>的作用是判断操作系统是ubunutu还是mac，如果是ubuntu则执行<code>install_ubuntu_deps.sh</code></p> <p>install_ubuntu_deps.sh的内容如下： <div class=highlight><pre><span></span><code><span class=ch>#!/bin/sh</span>
+</code></pre></div>
+<ul>
+<li>
+<p><code>install_deps.sh</code>
+    <code>install_deps.sh</code>的作用是判断操作系统是ubunutu还是mac，如果是ubuntu则执行<code>install_ubuntu_deps.sh</code></p>
+<p>install_ubuntu_deps.sh的内容如下：
+<div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
 
 sudo apt-get update
 sudo apt-get install -y gcc g++ cmake git libtbb-dev libeigen3-dev libglew-dev ccache libjpeg-dev libpng-dev liblz4-dev libbz2-dev libboost-regex-dev libboost-filesystem-dev libboost-date-time-dev libboost-program-options-dev libgtest-dev libopencv-dev
-</code></pre></div> - <code>cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo</code> <code>RelWithDebInfo</code>为进行执行速度最佳化，但仍然会启用 debug flag</p> </li> </ul> <h2 id=cmakeliststxt><code>CMakeLists.txt</code>详细解析：<a class=headerlink href=#cmakeliststxt title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nb>cmake_minimum_required</span><span class=p>(</span><span class=s>VERSION</span> <span class=s>3.10</span><span class=p>)</span>
+</code></pre></div>
+- <code>cmake .. -DCMAKE_BUILD_TYPE=RelWithDebInfo</code>
+<code>RelWithDebInfo</code>为进行执行速度最佳化，但仍然会启用 debug flag</p>
+</li>
+</ul>
+<h2 id="cmakeliststxt"><code>CMakeLists.txt</code>详细解析：<a class="headerlink" href="#cmakeliststxt" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nb">cmake_minimum_required</span><span class="p">(</span><span class="s">VERSION</span> <span class="s">3.10</span><span class="p">)</span>
+
+<span class="nb">include</span><span class="p">(</span><span class="s2">&quot;thirdparty/basalt-headers/cmake_modules/PreProjectWorkarounds.cmake&quot;</span><span class="p">)</span>
+
+<span class="nb">project</span><span class="p">(</span><span class="s">basalt</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_MODULE_PATH</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/&quot;</span> <span class="o">${</span><span class="nv">CMAKE_MODULE_PATH</span><span class="o">}</span><span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">NOT</span> <span class="s">EIGEN_ROOT</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">EIGEN_ROOT</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/basalt-headers/thirdparty/eigen&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">string</span><span class="p">(</span><span class="s">TOLOWER</span> <span class="s2">&quot;${PROJECT_NAME}&quot;</span> <span class="s">PROJECT_NAME_LOWERCASE</span><span class="p">)</span>
+<span class="nb">find_program</span><span class="p">(</span><span class="s">DPKG_PROGRAM</span> <span class="s">dpkg</span> <span class="s">DOC</span> <span class="s2">&quot;dpkg program of Debian-based systems&quot;</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">DPKG_PROGRAM</span><span class="p">)</span>
+  <span class="nb">execute_process</span><span class="p">(</span>
+    <span class="s">COMMAND</span> <span class="o">${</span><span class="nv">DPKG_PROGRAM</span><span class="o">}</span> <span class="s">--print-architecture</span>
+    <span class="s">OUTPUT_VARIABLE</span> <span class="s">CPACK_DEBIAN_PACKAGE_ARCHITECTURE</span>
+    <span class="s">OUTPUT_STRIP_TRAILING_WHITESPACE</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">(</span><span class="s">DPKG_PROGRAM</span><span class="p">)</span>
+
+
+<span class="nb">find_program</span><span class="p">(</span><span class="s">LSB_RELEASE_PROGRAM</span> <span class="s">lsb_release</span> <span class="s">DOC</span> <span class="s2">&quot;lsb_release program of Debian-based systems&quot;</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">LSB_RELEASE_PROGRAM</span><span class="p">)</span>
+  <span class="nb">execute_process</span><span class="p">(</span><span class="s">COMMAND</span> <span class="o">${</span><span class="nv">LSB_RELEASE_PROGRAM</span><span class="o">}</span> <span class="s">-rs</span>
+    <span class="s">OUTPUT_VARIABLE</span> <span class="s">LSB_RELEASE_ID_SHORT</span>
+    <span class="s">OUTPUT_STRIP_TRAILING_WHITESPACE</span><span class="p">)</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="o">${</span><span class="nv">LSB_RELEASE_ID_SHORT</span><span class="o">}</span> <span class="s">EQUAL</span> <span class="s2">&quot;20.04&quot;</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">DEBIAN_DEPENDS</span> <span class="s2">&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.71.0, libboost-date-time1.71.0, libboost-program-options1.71.0, libboost-regex1.71.0, libopencv-dev, libglew2.1, libjpeg8, libpng16-16, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class="p">)</span>
+
+  <span class="nb">elseif</span><span class="p">(</span><span class="o">${</span><span class="nv">LSB_RELEASE_ID_SHORT</span><span class="o">}</span> <span class="s">EQUAL</span> <span class="s2">&quot;18.04&quot;</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">DEBIAN_DEPENDS</span> <span class="s2">&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.65.1, libboost-date-time1.65.1, libboost-program-options1.65.1, libboost-regex1.65.1, libopencv-dev, libglew2.0, libjpeg8, libpng16-16, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class="p">)</span>
+
+  <span class="nb">elseif</span><span class="p">(</span><span class="o">${</span><span class="nv">LSB_RELEASE_ID_SHORT</span><span class="o">}</span> <span class="s">EQUAL</span> <span class="s2">&quot;16.04&quot;</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">DEBIAN_DEPENDS</span> <span class="s2">&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.58.0, libboost-date-time1.58.0, libboost-program-options1.58.0, libboost-regex1.58.0, libopencv-dev, libglew1.13, libjpeg8, libpng12-0, libstdc++6, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">endif</span><span class="p">(</span><span class="s">LSB_RELEASE_PROGRAM</span><span class="p">)</span>
+
+<span class="nb">string</span><span class="p">(</span><span class="s">TIMESTAMP</span> <span class="s">PROJECT_VERSION_REVISION</span> <span class="s2">&quot;%Y%m%d%H%M&quot;</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_GENERATOR</span> <span class="s2">&quot;DEB&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_DEBIAN_PACKAGE_MAINTAINER</span> <span class="s2">&quot;Vladyslav Usenko &lt;vlad.usenko@tum.de&gt;&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_VERSION_MAJOR</span> <span class="s2">&quot;0&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_VERSION_MINOR</span> <span class="s2">&quot;1&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_VERSION_PATCH</span> <span class="s2">&quot;0-${PROJECT_VERSION_REVISION}~${LSB_RELEASE_ID_SHORT}&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_DEBIAN_PACKAGE_DEPENDS</span> <span class="o">${</span><span class="nv">DEBIAN_DEPENDS</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_PACKAGE_FILE_NAME</span> <span class="s2">&quot;${PROJECT_NAME_LOWERCASE}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}&quot;</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CPACK_RESOURCE_FILE_LICENSE</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/LICENSE&quot;</span><span class="p">)</span>
+<span class="nb">include</span><span class="p">(</span><span class="s">CPack</span><span class="p">)</span>
+
+
+<span class="c"># Configure CCache if available</span>
+<span class="nb">if</span> <span class="p">(</span><span class="s">NOT</span> <span class="s">CMAKE_C_COMPILER_LAUNCHER</span> <span class="s">AND</span> <span class="s">NOT</span> <span class="s">CMAKE_CXX_COMPILER_LAUNCHER</span><span class="p">)</span>
+  <span class="nb">find_program</span><span class="p">(</span><span class="s">CCACHE_PROGRAM</span> <span class="s">ccache</span><span class="p">)</span>
+  <span class="nb">if</span><span class="p">(</span><span class="s">CCACHE_PROGRAM</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Found ccache: ${CCACHE_PROGRAM}&quot;</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_C_COMPILER_LAUNCHER</span>   <span class="o">${</span><span class="nv">CCACHE_PROGRAM</span><span class="o">}</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_LAUNCHER</span> <span class="o">${</span><span class="nv">CCACHE_PROGRAM</span><span class="o">}</span><span class="p">)</span>
+  <span class="nb">else</span><span class="p">()</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Dind&#39;t find ccache&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Compiler launcher already set. Not configuring ccache.&quot;</span><span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;CMAKE_C_COMPILER_LAUNCHER: ${CMAKE_C_COMPILER_LAUNCHER}&quot;</span><span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;CMAKE_CXX_COMPILER_LAUNCHER: ${CMAKE_CXX_COMPILER_LAUNCHER}&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">if</span><span class="p">(</span> <span class="s">NOT</span> <span class="s">CMAKE_BUILD_TYPE</span> <span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span> <span class="s">CMAKE_BUILD_TYPE</span> <span class="s">Release</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">NOT</span> <span class="s">CXX_MARCH</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">CXX_MARCH</span> <span class="s">native</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD</span> <span class="s">17</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="s">ON</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_EXTENSIONS</span> <span class="s">OFF</span><span class="p">)</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_POSITION_INDEPENDENT_CODE</span> <span class="s">ON</span><span class="p">)</span>
+
+
+<span class="c"># Flags used for CHECK_CXX_SOURCE_COMPILES</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_REQUIRED_FLAGS</span> <span class="s2">&quot;-Wno-error&quot;</span><span class="p">)</span>
+
+
+<span class="c"># save flags passed by user</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">BASALT_PASSED_CXX_FLAGS</span> <span class="s2">&quot;${CMAKE_CXX_FLAGS}&quot;</span><span class="p">)</span>
+
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_DEBUG</span>  <span class="s2">&quot;-O0 -g -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class="p">)</span>          <span class="c"># cmake default: &quot;-g&quot;</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_RELWITHDEBINFO</span> <span class="s2">&quot;-O3 -g -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class="p">)</span>  <span class="c"># cmake default: &quot;-O2 -g -DNDEBUG&quot;</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_RELEASE</span> <span class="s2">&quot;-O3 -DNDEBUG&quot;</span><span class="p">)</span>                                      <span class="c"># cmake default: &quot;-O3 -DNDEBUG&quot;</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_CIDEBUG</span>  <span class="s2">&quot;-O0 -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class="p">)</span>          <span class="c"># CI version with no debug symbols</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS_CIRELWITHDEBINFO</span> <span class="s2">&quot;-O3 -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class="p">)</span>  <span class="c"># CI version with no debug symbols</span>
+
+<span class="c"># base set of compile flags</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;-Wall -Wextra -Werror -Wno-error=unused-parameter -ftemplate-backtrace-limit=0&quot;</span><span class="p">)</span>
+
+<span class="c"># clang-specific compile flags</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span> <span class="s">OR</span> <span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;AppleClang&quot;</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -Wno-exceptions -fcolor-diagnostics -frelaxed-template-template-args -Wno-error=deprecated-declarations&quot;</span><span class="p">)</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span> <span class="s">AND</span> <span class="s">CMAKE_CXX_COMPILER_VERSION</span> <span class="s">VERSION_GREATER_EQUAL</span> <span class="s">10</span><span class="p">)</span>
+      <span class="c"># These are disabled to avoid lot&#39;s of warnings in Eigen code with clang 10</span>
+      <span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -Wno-misleading-indentation -Wno-error=deprecated-copy&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+
+  <span class="c">#   - Added TBB_USE_GLIBCXX_VERSION macro to specify the version of GNU</span>
+  <span class="c">#     libstdc++ when it cannot be properly recognized, e.g. when used</span>
+  <span class="c">#     with Clang on Linux* OS. Adopted from https://github.com/wjakob/tbb</span>
+  <span class="nb">if</span><span class="p">(</span><span class="s">NOT</span> <span class="s">TBB_USE_GLIBCXX_VERSION</span> <span class="s">AND</span> <span class="s">UNIX</span> <span class="s">AND</span> <span class="s">NOT</span> <span class="s">APPLE</span><span class="p">)</span>
+    <span class="nb">if</span> <span class="p">(</span><span class="s2">&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+      <span class="nb">string</span><span class="p">(</span><span class="s">REPLACE</span> <span class="s2">&quot;.&quot;</span> <span class="s2">&quot;0&quot;</span> <span class="s">TBB_USE_GLIBCXX_VERSION</span> <span class="o">${</span><span class="nv">CMAKE_CXX_COMPILER_VERSION</span><span class="o">}</span><span class="p">)</span>
+    <span class="nb">endif</span><span class="p">()</span>
+    <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DTBB_USE_GLIBCXX_VERSION=</span><span class="o">${</span><span class="nv">TBB_USE_GLIBCXX_VERSION</span><span class="o">}</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -Wno-error=maybe-uninitialized -Wno-error=implicit-fallthrough&quot;</span><span class="p">)</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_VERSION</span> <span class="s">VERSION_GREATER_EQUAL</span> <span class="s">9</span><span class="p">)</span>
+      <span class="c"># These are disabled to avoid lot&#39;s of warnings in Eigen code with gcc-9</span>
+      <span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -Wno-error=deprecated-copy&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+
+<span class="c"># Set platform / compiler specific compile flags and checks</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">APPLE</span><span class="p">)</span>
+  <span class="c"># Need to investigate how to reliably detect and use OpenMP on macOS...</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">USE_OPENMP_DEFAULT</span> <span class="s">OFF</span><span class="p">)</span>
+
+  <span class="c"># Among others, setting CMAKE_FIND_FRAMEWORK to LAST fixed issues</span>
+  <span class="c"># with installed Mono that contains old headers (libpng, ...).</span>
+  <span class="c"># See: https://github.com/openMVG/openMVG/issues/1349#issuecomment-401492811</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_FIND_FRAMEWORK</span> <span class="s">LAST</span><span class="p">)</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_SYSTEM_VERSION</span> <span class="s">VERSION_LESS</span> <span class="s">19.0.0</span><span class="p">)</span>
+      <span class="c"># use brewed llvm&#39;s libc++</span>
+      <span class="nb">include_directories</span><span class="p">(</span><span class="s2">&quot;/usr/local/opt/llvm/include/c++/v1&quot;</span><span class="p">)</span>
+      <span class="nb">link_directories</span><span class="p">(</span><span class="s2">&quot;/usr/local/opt/llvm/lib&quot;</span><span class="p">)</span>
+      <span class="nb">add_compile_options</span><span class="p">(</span><span class="s2">&quot;-nostdinc++&quot;</span><span class="p">)</span>
+      <span class="c">#set(STD_CXX_FS c++fs)</span>
+
+      <span class="c"># Workaround for cmake not to filter the manually added standard include path</span>
+      <span class="c"># See: https://gitlab.kitware.com/cmake/cmake/issues/19227#note_669894</span>
+      <span class="nb">list</span><span class="p">(</span><span class="s">REMOVE_ITEM</span> <span class="s">CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES</span> <span class="s2">&quot;/usr/local/opt/llvm/include/c++/v1&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Detected macOS with non-Apple clang&quot;</span><span class="p">)</span>
+
+  <span class="nb">elseif</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;AppleClang&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Detected macOS with Apple clang&quot;</span><span class="p">)</span>
+    <span class="c"># Apple clang on macOS &lt; 10.14 Mojave is too old</span>
+    <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_SYSTEM_VERSION</span> <span class="s">VERSION_LESS</span> <span class="s">18.0.0</span><span class="p">)</span>
+      <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Detected Darwin version ${CMAKE_SYSTEM_VERSION}, which is earlier than macos 10.14 Mojave. Apple clang is too old and not supported. Use clang from homebrew.&quot;</span><span class="p">)</span>
+    <span class="nb">endif</span><span class="p">()</span>
+
+  <span class="nb">else</span><span class="p">()</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Detected macOS with unsupported compiler ${CMAKE_CXX_COMPILER_ID}&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">elseif</span><span class="p">(</span><span class="s">UNIX</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">USE_OPENMP_DEFAULT</span> <span class="s">ON</span><span class="p">)</span>
+
+  <span class="c"># assume libstdc++</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">STD_CXX_FS</span> <span class="s">stdc++fs</span><span class="p">)</span>
+
+  <span class="nb">if</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;Clang&quot;</span><span class="p">)</span>
+    <span class="nb">set</span><span class="p">(</span><span class="s">LINUX_CLANG</span> <span class="s">1</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Detected Linux with clang.&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Clang on Linux is currently not fully supported. You&#39;ll likely need to get a recent version of TBB.&quot;</span><span class="p">)</span>
+
+  <span class="nb">elseif</span><span class="p">(</span><span class="s">CMAKE_CXX_COMPILER_ID</span> <span class="s">STREQUAL</span> <span class="s2">&quot;GNU&quot;</span><span class="p">)</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Detected Linux with gcc.&quot;</span><span class="p">)</span>
 
-<span class=nb>include</span><span class=p>(</span><span class=s2>&quot;thirdparty/basalt-headers/cmake_modules/PreProjectWorkarounds.cmake&quot;</span><span class=p>)</span>
+  <span class="nb">else</span><span class="p">()</span>
+    <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Detected Linux with unsupported compiler ${CMAKE_CXX_COMPILER_ID}&quot;</span><span class="p">)</span>
+  <span class="nb">endif</span><span class="p">()</span>
 
-<span class=nb>project</span><span class=p>(</span><span class=s>basalt</span><span class=p>)</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Only Linux and macOS are currently supported&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
 
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_MODULE_PATH</span> <span class=s2>&quot;${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/&quot;</span> <span class=o>${</span><span class=nv>CMAKE_MODULE_PATH</span><span class=o>}</span><span class=p>)</span>
 
-<span class=nb>if</span><span class=p>(</span><span class=s>NOT</span> <span class=s>EIGEN_ROOT</span><span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>EIGEN_ROOT</span> <span class=s2>&quot;${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/basalt-headers/thirdparty/eigen&quot;</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
+<span class="c"># OpenMP option and compile flags</span>
+<span class="nb">option</span><span class="p">(</span><span class="s">USE_OPENMP</span> <span class="s2">&quot;Use OpenMP (e.g. for parallel computation in Eigen)&quot;</span> <span class="o">${</span><span class="nv">USE_OPENMP_DEFAULT</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">USE_OPENMP</span><span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;OpenMP Enabled&quot;</span><span class="p">)</span>
+  <span class="nb">set</span><span class="p">(</span><span class="s">BASALT_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -fopenmp&quot;</span><span class="p">)</span>
+<span class="nb">else</span><span class="p">()</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;OpenMP Disabled&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
 
-<span class=nb>string</span><span class=p>(</span><span class=s>TOLOWER</span> <span class=s2>&quot;${PROJECT_NAME}&quot;</span> <span class=s>PROJECT_NAME_LOWERCASE</span><span class=p>)</span>
-<span class=nb>find_program</span><span class=p>(</span><span class=s>DPKG_PROGRAM</span> <span class=s>dpkg</span> <span class=s>DOC</span> <span class=s2>&quot;dpkg program of Debian-based systems&quot;</span><span class=p>)</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>DPKG_PROGRAM</span><span class=p>)</span>
-  <span class=nb>execute_process</span><span class=p>(</span>
-    <span class=s>COMMAND</span> <span class=o>${</span><span class=nv>DPKG_PROGRAM</span><span class=o>}</span> <span class=s>--print-architecture</span>
-    <span class=s>OUTPUT_VARIABLE</span> <span class=s>CPACK_DEBIAN_PACKAGE_ARCHITECTURE</span>
-    <span class=s>OUTPUT_STRIP_TRAILING_WHITESPACE</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>(</span><span class=s>DPKG_PROGRAM</span><span class=p>)</span>
-
-
-<span class=nb>find_program</span><span class=p>(</span><span class=s>LSB_RELEASE_PROGRAM</span> <span class=s>lsb_release</span> <span class=s>DOC</span> <span class=s2>&quot;lsb_release program of Debian-based systems&quot;</span><span class=p>)</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>LSB_RELEASE_PROGRAM</span><span class=p>)</span>
-  <span class=nb>execute_process</span><span class=p>(</span><span class=s>COMMAND</span> <span class=o>${</span><span class=nv>LSB_RELEASE_PROGRAM</span><span class=o>}</span> <span class=s>-rs</span>
-    <span class=s>OUTPUT_VARIABLE</span> <span class=s>LSB_RELEASE_ID_SHORT</span>
-    <span class=s>OUTPUT_STRIP_TRAILING_WHITESPACE</span><span class=p>)</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=o>${</span><span class=nv>LSB_RELEASE_ID_SHORT</span><span class=o>}</span> <span class=s>EQUAL</span> <span class=s2>&quot;20.04&quot;</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>DEBIAN_DEPENDS</span> <span class=s2>&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.71.0, libboost-date-time1.71.0, libboost-program-options1.71.0, libboost-regex1.71.0, libopencv-dev, libglew2.1, libjpeg8, libpng16-16, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class=p>)</span>
-
-  <span class=nb>elseif</span><span class=p>(</span><span class=o>${</span><span class=nv>LSB_RELEASE_ID_SHORT</span><span class=o>}</span> <span class=s>EQUAL</span> <span class=s2>&quot;18.04&quot;</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>DEBIAN_DEPENDS</span> <span class=s2>&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.65.1, libboost-date-time1.65.1, libboost-program-options1.65.1, libboost-regex1.65.1, libopencv-dev, libglew2.0, libjpeg8, libpng16-16, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class=p>)</span>
-
-  <span class=nb>elseif</span><span class=p>(</span><span class=o>${</span><span class=nv>LSB_RELEASE_ID_SHORT</span><span class=o>}</span> <span class=s>EQUAL</span> <span class=s2>&quot;16.04&quot;</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>DEBIAN_DEPENDS</span> <span class=s2>&quot;libtbb2, liblz4-1, libbz2-1.0, libboost-filesystem1.58.0, libboost-date-time1.58.0, libboost-program-options1.58.0, libboost-regex1.58.0, libopencv-dev, libglew1.13, libjpeg8, libpng12-0, libstdc++6, librealsense2, librealsense2-dkms, librealsense2-gl, librealsense2-utils&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>endif</span><span class=p>(</span><span class=s>LSB_RELEASE_PROGRAM</span><span class=p>)</span>
-
-<span class=nb>string</span><span class=p>(</span><span class=s>TIMESTAMP</span> <span class=s>PROJECT_VERSION_REVISION</span> <span class=s2>&quot;%Y%m%d%H%M&quot;</span><span class=p>)</span>
-
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_GENERATOR</span> <span class=s2>&quot;DEB&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_DEBIAN_PACKAGE_MAINTAINER</span> <span class=s2>&quot;Vladyslav Usenko &lt;vlad.usenko@tum.de&gt;&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_PACKAGE_VERSION_MAJOR</span> <span class=s2>&quot;0&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_PACKAGE_VERSION_MINOR</span> <span class=s2>&quot;1&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_PACKAGE_VERSION_PATCH</span> <span class=s2>&quot;0-${PROJECT_VERSION_REVISION}~${LSB_RELEASE_ID_SHORT}&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_DEBIAN_PACKAGE_DEPENDS</span> <span class=o>${</span><span class=nv>DEBIAN_DEPENDS</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_PACKAGE_FILE_NAME</span> <span class=s2>&quot;${PROJECT_NAME_LOWERCASE}_${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}_${CPACK_DEBIAN_PACKAGE_ARCHITECTURE}&quot;</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CPACK_RESOURCE_FILE_LICENSE</span> <span class=s2>&quot;${CMAKE_CURRENT_SOURCE_DIR}/LICENSE&quot;</span><span class=p>)</span>
-<span class=nb>include</span><span class=p>(</span><span class=s>CPack</span><span class=p>)</span>
-
-
-<span class=c># Configure CCache if available</span>
-<span class=nb>if</span> <span class=p>(</span><span class=s>NOT</span> <span class=s>CMAKE_C_COMPILER_LAUNCHER</span> <span class=s>AND</span> <span class=s>NOT</span> <span class=s>CMAKE_CXX_COMPILER_LAUNCHER</span><span class=p>)</span>
-  <span class=nb>find_program</span><span class=p>(</span><span class=s>CCACHE_PROGRAM</span> <span class=s>ccache</span><span class=p>)</span>
-  <span class=nb>if</span><span class=p>(</span><span class=s>CCACHE_PROGRAM</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Found ccache: ${CCACHE_PROGRAM}&quot;</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_C_COMPILER_LAUNCHER</span>   <span class=o>${</span><span class=nv>CCACHE_PROGRAM</span><span class=o>}</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_LAUNCHER</span> <span class=o>${</span><span class=nv>CCACHE_PROGRAM</span><span class=o>}</span><span class=p>)</span>
-  <span class=nb>else</span><span class=p>()</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Dind&#39;t find ccache&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-<span class=nb>else</span><span class=p>()</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Compiler launcher already set. Not configuring ccache.&quot;</span><span class=p>)</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;CMAKE_C_COMPILER_LAUNCHER: ${CMAKE_C_COMPILER_LAUNCHER}&quot;</span><span class=p>)</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;CMAKE_CXX_COMPILER_LAUNCHER: ${CMAKE_CXX_COMPILER_LAUNCHER}&quot;</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>if</span><span class=p>(</span> <span class=s>NOT</span> <span class=s>CMAKE_BUILD_TYPE</span> <span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span> <span class=s>CMAKE_BUILD_TYPE</span> <span class=s>Release</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>if</span><span class=p>(</span><span class=s>NOT</span> <span class=s>CXX_MARCH</span><span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>CXX_MARCH</span> <span class=s>native</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_STANDARD</span> <span class=s>17</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_STANDARD_REQUIRED</span> <span class=s>ON</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_EXTENSIONS</span> <span class=s>OFF</span><span class=p>)</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_POSITION_INDEPENDENT_CODE</span> <span class=s>ON</span><span class=p>)</span>
-
-
-<span class=c># Flags used for CHECK_CXX_SOURCE_COMPILES</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_REQUIRED_FLAGS</span> <span class=s2>&quot;-Wno-error&quot;</span><span class=p>)</span>
-
-
-<span class=c># save flags passed by user</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>BASALT_PASSED_CXX_FLAGS</span> <span class=s2>&quot;${CMAKE_CXX_FLAGS}&quot;</span><span class=p>)</span>
-
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_DEBUG</span>  <span class=s2>&quot;-O0 -g -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class=p>)</span>          <span class=c># cmake default: &quot;-g&quot;</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_RELWITHDEBINFO</span> <span class=s2>&quot;-O3 -g -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class=p>)</span>  <span class=c># cmake default: &quot;-O2 -g -DNDEBUG&quot;</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_RELEASE</span> <span class=s2>&quot;-O3 -DNDEBUG&quot;</span><span class=p>)</span>                                      <span class=c># cmake default: &quot;-O3 -DNDEBUG&quot;</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_CIDEBUG</span>  <span class=s2>&quot;-O0 -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class=p>)</span>          <span class=c># CI version with no debug symbols</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS_CIRELWITHDEBINFO</span> <span class=s2>&quot;-O3 -DEIGEN_INITIALIZE_MATRICES_BY_NAN&quot;</span><span class=p>)</span>  <span class=c># CI version with no debug symbols</span>
-
-<span class=c># base set of compile flags</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;-Wall -Wextra -Werror -Wno-error=unused-parameter -ftemplate-backtrace-limit=0&quot;</span><span class=p>)</span>
-
-<span class=c># clang-specific compile flags</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;Clang&quot;</span> <span class=s>OR</span> <span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;AppleClang&quot;</span><span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -Wno-exceptions -fcolor-diagnostics -frelaxed-template-template-args -Wno-error=deprecated-declarations&quot;</span><span class=p>)</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;Clang&quot;</span> <span class=s>AND</span> <span class=s>CMAKE_CXX_COMPILER_VERSION</span> <span class=s>VERSION_GREATER_EQUAL</span> <span class=s>10</span><span class=p>)</span>
-      <span class=c># These are disabled to avoid lot&#39;s of warnings in Eigen code with clang 10</span>
-      <span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -Wno-misleading-indentation -Wno-error=deprecated-copy&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-
-  <span class=c>#   - Added TBB_USE_GLIBCXX_VERSION macro to specify the version of GNU</span>
-  <span class=c>#     libstdc++ when it cannot be properly recognized, e.g. when used</span>
-  <span class=c>#     with Clang on Linux* OS. Adopted from https://github.com/wjakob/tbb</span>
-  <span class=nb>if</span><span class=p>(</span><span class=s>NOT</span> <span class=s>TBB_USE_GLIBCXX_VERSION</span> <span class=s>AND</span> <span class=s>UNIX</span> <span class=s>AND</span> <span class=s>NOT</span> <span class=s>APPLE</span><span class=p>)</span>
-    <span class=nb>if</span> <span class=p>(</span><span class=s2>&quot;${CMAKE_CXX_COMPILER_ID}&quot;</span> <span class=s>STREQUAL</span> <span class=s2>&quot;Clang&quot;</span><span class=p>)</span>
-      <span class=nb>string</span><span class=p>(</span><span class=s>REPLACE</span> <span class=s2>&quot;.&quot;</span> <span class=s2>&quot;0&quot;</span> <span class=s>TBB_USE_GLIBCXX_VERSION</span> <span class=o>${</span><span class=nv>CMAKE_CXX_COMPILER_VERSION</span><span class=o>}</span><span class=p>)</span>
-    <span class=nb>endif</span><span class=p>()</span>
-    <span class=nb>add_definitions</span><span class=p>(</span><span class=s>-DTBB_USE_GLIBCXX_VERSION=</span><span class=o>${</span><span class=nv>TBB_USE_GLIBCXX_VERSION</span><span class=o>}</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-<span class=nb>else</span><span class=p>()</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -Wno-error=maybe-uninitialized -Wno-error=implicit-fallthrough&quot;</span><span class=p>)</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_VERSION</span> <span class=s>VERSION_GREATER_EQUAL</span> <span class=s>9</span><span class=p>)</span>
-      <span class=c># These are disabled to avoid lot&#39;s of warnings in Eigen code with gcc-9</span>
-      <span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -Wno-error=deprecated-copy&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-
-<span class=c># Set platform / compiler specific compile flags and checks</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>APPLE</span><span class=p>)</span>
-  <span class=c># Need to investigate how to reliably detect and use OpenMP on macOS...</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>USE_OPENMP_DEFAULT</span> <span class=s>OFF</span><span class=p>)</span>
-
-  <span class=c># Among others, setting CMAKE_FIND_FRAMEWORK to LAST fixed issues</span>
-  <span class=c># with installed Mono that contains old headers (libpng, ...).</span>
-  <span class=c># See: https://github.com/openMVG/openMVG/issues/1349#issuecomment-401492811</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_FIND_FRAMEWORK</span> <span class=s>LAST</span><span class=p>)</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_SYSTEM_VERSION</span> <span class=s>VERSION_LESS</span> <span class=s>19.0.0</span><span class=p>)</span>
-      <span class=c># use brewed llvm&#39;s libc++</span>
-      <span class=nb>include_directories</span><span class=p>(</span><span class=s2>&quot;/usr/local/opt/llvm/include/c++/v1&quot;</span><span class=p>)</span>
-      <span class=nb>link_directories</span><span class=p>(</span><span class=s2>&quot;/usr/local/opt/llvm/lib&quot;</span><span class=p>)</span>
-      <span class=nb>add_compile_options</span><span class=p>(</span><span class=s2>&quot;-nostdinc++&quot;</span><span class=p>)</span>
-      <span class=c>#set(STD_CXX_FS c++fs)</span>
-
-      <span class=c># Workaround for cmake not to filter the manually added standard include path</span>
-      <span class=c># See: https://gitlab.kitware.com/cmake/cmake/issues/19227#note_669894</span>
-      <span class=nb>list</span><span class=p>(</span><span class=s>REMOVE_ITEM</span> <span class=s>CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES</span> <span class=s2>&quot;/usr/local/opt/llvm/include/c++/v1&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;Clang&quot;</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Detected macOS with non-Apple clang&quot;</span><span class=p>)</span>
-
-  <span class=nb>elseif</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;AppleClang&quot;</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Detected macOS with Apple clang&quot;</span><span class=p>)</span>
-    <span class=c># Apple clang on macOS &lt; 10.14 Mojave is too old</span>
-    <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_SYSTEM_VERSION</span> <span class=s>VERSION_LESS</span> <span class=s>18.0.0</span><span class=p>)</span>
-      <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Detected Darwin version ${CMAKE_SYSTEM_VERSION}, which is earlier than macos 10.14 Mojave. Apple clang is too old and not supported. Use clang from homebrew.&quot;</span><span class=p>)</span>
-    <span class=nb>endif</span><span class=p>()</span>
-
-  <span class=nb>else</span><span class=p>()</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Detected macOS with unsupported compiler ${CMAKE_CXX_COMPILER_ID}&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>elseif</span><span class=p>(</span><span class=s>UNIX</span><span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>USE_OPENMP_DEFAULT</span> <span class=s>ON</span><span class=p>)</span>
-
-  <span class=c># assume libstdc++</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>STD_CXX_FS</span> <span class=s>stdc++fs</span><span class=p>)</span>
-
-  <span class=nb>if</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;Clang&quot;</span><span class=p>)</span>
-    <span class=nb>set</span><span class=p>(</span><span class=s>LINUX_CLANG</span> <span class=s>1</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Detected Linux with clang.&quot;</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Clang on Linux is currently not fully supported. You&#39;ll likely need to get a recent version of TBB.&quot;</span><span class=p>)</span>
-
-  <span class=nb>elseif</span><span class=p>(</span><span class=s>CMAKE_CXX_COMPILER_ID</span> <span class=s>STREQUAL</span> <span class=s2>&quot;GNU&quot;</span><span class=p>)</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Detected Linux with gcc.&quot;</span><span class=p>)</span>
-
-  <span class=nb>else</span><span class=p>()</span>
-    <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Detected Linux with unsupported compiler ${CMAKE_CXX_COMPILER_ID}&quot;</span><span class=p>)</span>
-  <span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>else</span><span class=p>()</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Only Linux and macOS are currently supported&quot;</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
 
+<span class="c"># setup combined compiler flags</span>
+<span class="nb">set</span><span class="p">(</span><span class="s">CMAKE_CXX_FLAGS</span> <span class="s2">&quot;${BASALT_CXX_FLAGS} -march=${CXX_MARCH} ${BASALT_PASSED_CXX_FLAGS}&quot;</span><span class="p">)</span>
 
-<span class=c># OpenMP option and compile flags</span>
-<span class=nb>option</span><span class=p>(</span><span class=s>USE_OPENMP</span> <span class=s2>&quot;Use OpenMP (e.g. for parallel computation in Eigen)&quot;</span> <span class=o>${</span><span class=nv>USE_OPENMP_DEFAULT</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>USE_OPENMP</span><span class=p>)</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;OpenMP Enabled&quot;</span><span class=p>)</span>
-  <span class=nb>set</span><span class=p>(</span><span class=s>BASALT_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -fopenmp&quot;</span><span class=p>)</span>
-<span class=nb>else</span><span class=p>()</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;OpenMP Disabled&quot;</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
 
+<span class="nb">set</span><span class="p">(</span><span class="s">EIGEN_INCLUDE_DIR_HINTS</span> <span class="o">${</span><span class="nv">EIGEN_ROOT</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">Eigen3</span> <span class="s">3.3.7</span> <span class="s">EXACT</span> <span class="s">REQUIRED</span> <span class="s">MODULE</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">EIGEN3_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Found Eigen headers in: ${EIGEN3_INCLUDE_DIR}&quot;</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">NOT</span> <span class="s">EIGEN3_INCLUDE_DIR</span> <span class="s">MATCHES</span> <span class="s2">&quot;^${EIGEN_ROOT}&quot;</span><span class="p">)</span>
+  <span class="nb">message</span><span class="p">(</span><span class="s">WARNING</span> <span class="s2">&quot;Found Eigen headers are outside of specified EIGEN_ROOT &#39;${EIGEN_ROOT}&#39;&quot;</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
 
-<span class=c># setup combined compiler flags</span>
-<span class=nb>set</span><span class=p>(</span><span class=s>CMAKE_CXX_FLAGS</span> <span class=s2>&quot;${BASALT_CXX_FLAGS} -march=${CXX_MARCH} ${BASALT_PASSED_CXX_FLAGS}&quot;</span><span class=p>)</span>
+<span class="nb">find_package</span><span class="p">(</span><span class="s">TBB</span> <span class="s">REQUIRED</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">TBB_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;TBB_INTERFACE_VERSION: ${TBB_INTERFACE_VERSION}&quot;</span><span class="p">)</span>
+<span class="nb">if</span> <span class="p">(</span><span class="s">TBB_INTERFACE_VERSION</span> <span class="s">LESS</span> <span class="s">11004</span><span class="p">)</span>
+  <span class="c"># enable global_control header for earlier TBB versions (Ubuntu 16.04, 18.04)</span>
+  <span class="nb">add_definitions</span><span class="p">(</span><span class="s">-DTBB_PREVIEW_GLOBAL_CONTROL</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
 
+<span class="nb">find_package</span><span class="p">(</span><span class="s">OpenCV</span> <span class="s">REQUIRED</span> <span class="s">core</span> <span class="s">imgproc</span> <span class="s">calib3d</span> <span class="s">highgui</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="o">${</span><span class="nv">OpenCV_INCLUDE_DIR</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Found OpenCV headers in: ${OpenCV_INCLUDE_DIR}&quot;</span><span class="p">)</span>
+<span class="nb">message</span><span class="p">(</span><span class="s">STATUS</span> <span class="s2">&quot;Found OpenCV_LIBS: ${OpenCV_LIBS}&quot;</span><span class="p">)</span>
 
-<span class=nb>set</span><span class=p>(</span><span class=s>EIGEN_INCLUDE_DIR_HINTS</span> <span class=o>${</span><span class=nv>EIGEN_ROOT</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>find_package</span><span class=p>(</span><span class=s>Eigen3</span> <span class=s>3.3.7</span> <span class=s>EXACT</span> <span class=s>REQUIRED</span> <span class=s>MODULE</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=o>${</span><span class=nv>EIGEN3_INCLUDE_DIR</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Found Eigen headers in: ${EIGEN3_INCLUDE_DIR}&quot;</span><span class=p>)</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>NOT</span> <span class=s>EIGEN3_INCLUDE_DIR</span> <span class=s>MATCHES</span> <span class=s2>&quot;^${EIGEN_ROOT}&quot;</span><span class=p>)</span>
-  <span class=nb>message</span><span class=p>(</span><span class=s>WARNING</span> <span class=s2>&quot;Found Eigen headers are outside of specified EIGEN_ROOT &#39;${EIGEN_ROOT}&#39;&quot;</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
 
-<span class=nb>find_package</span><span class=p>(</span><span class=s>TBB</span> <span class=s>REQUIRED</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=o>${</span><span class=nv>TBB_INCLUDE_DIR</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;TBB_INTERFACE_VERSION: ${TBB_INTERFACE_VERSION}&quot;</span><span class=p>)</span>
-<span class=nb>if</span> <span class=p>(</span><span class=s>TBB_INTERFACE_VERSION</span> <span class=s>LESS</span> <span class=s>11004</span><span class=p>)</span>
-  <span class=c># enable global_control header for earlier TBB versions (Ubuntu 16.04, 18.04)</span>
-  <span class=nb>add_definitions</span><span class=p>(</span><span class=s>-DTBB_PREVIEW_GLOBAL_CONTROL</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">thirdparty</span><span class="p">)</span>
 
-<span class=nb>find_package</span><span class=p>(</span><span class=s>OpenCV</span> <span class=s>REQUIRED</span> <span class=s>core</span> <span class=s>imgproc</span> <span class=s>calib3d</span> <span class=s>highgui</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=o>${</span><span class=nv>OpenCV_INCLUDE_DIR</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Found OpenCV headers in: ${OpenCV_INCLUDE_DIR}&quot;</span><span class=p>)</span>
-<span class=nb>message</span><span class=p>(</span><span class=s>STATUS</span> <span class=s2>&quot;Found OpenCV_LIBS: ${OpenCV_LIBS}&quot;</span><span class=p>)</span>
 
-
-<span class=nb>add_subdirectory</span><span class=p>(</span><span class=s>thirdparty</span><span class=p>)</span>
-
-
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>thirdparty/basalt-headers/thirdparty/Sophus</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>thirdparty/basalt-headers/thirdparty/cereal/include</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>thirdparty/basalt-headers/include</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>thirdparty/CLI11/include</span><span class=p>)</span>
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>thirdparty/fast/include</span><span class=p>)</span>
-
-<span class=nb>include_directories</span><span class=p>(</span><span class=s>include</span><span class=p>)</span>
-
-
-<span class=nb>add_library</span><span class=p>(</span><span class=s>basalt</span> <span class=s>SHARED</span>
-  <span class=s>src/io/dataset_io.cpp</span>
-  <span class=s>src/io/marg_data_io.cpp</span>
-  <span class=s>src/calibration/aprilgrid.cpp</span>
-  <span class=s>src/calibration/calibraiton_helper.cpp</span>
-  <span class=s>src/calibration/vignette.cpp</span>
-  <span class=s>src/utils/vio_config.cpp</span>
-  <span class=s>src/optical_flow/optical_flow.cpp</span>
-  <span class=s>src/vi_estimator/keypoint_vio.cpp</span>
-  <span class=s>src/vi_estimator/keypoint_vio_linearize.cpp</span>
-  <span class=s>src/vi_estimator/keypoint_vo.cpp</span>
-  <span class=s>src/vi_estimator/vio_estimator.cpp</span>
-  <span class=s>src/vi_estimator/ba_base.cpp</span>
-  <span class=s>src/vi_estimator/nfr_mapper.cpp</span>
-  <span class=s>src/vi_estimator/landmark_database.cpp</span>
-  <span class=s>src/utils/keypoints.cpp</span><span class=p>)</span>
-
-
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt</span> <span class=s>PUBLIC</span> <span class=o>${</span><span class=nv>TBB_LIBRARIES</span><span class=o>}</span> <span class=o>${</span><span class=nv>STD_CXX_FS</span><span class=o>}</span> <span class=o>${</span><span class=nv>OpenCV_LIBS</span><span class=o>}</span> <span class=s>PRIVATE</span> <span class=s>rosbag</span> <span class=s>apriltag</span> <span class=s>opengv</span><span class=p>)</span>
-
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_calibrate</span> <span class=s>src/calibrate.cpp</span> <span class=s>src/calibration/cam_calib.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_calibrate</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_calibrate_imu</span> <span class=s>src/calibrate_imu.cpp</span> <span class=s>src/calibration/cam_imu_calib.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_calibrate_imu</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_vio_sim</span> <span class=s>src/vio_sim.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_vio_sim</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_mapper_sim</span> <span class=s>src/mapper_sim.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_mapper_sim</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_mapper_sim_naive</span> <span class=s>src/mapper_sim_naive.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_mapper_sim_naive</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_mapper</span> <span class=s>src/mapper.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_mapper</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_opt_flow</span> <span class=s>src/opt_flow.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_opt_flow</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_vio</span> <span class=s>src/vio.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_vio</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_time_alignment</span> <span class=s>src/time_alignment.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_time_alignment</span> <span class=s>basalt</span> <span class=s>pangolin</span><span class=p>)</span>
-
-<span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_kitti_eval</span> <span class=s>src/kitti_eval.cpp</span><span class=p>)</span>
-<span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_kitti_eval</span><span class=p>)</span>
-
-<span class=nb>find_package</span><span class=p>(</span><span class=s>realsense2</span> <span class=s>QUIET</span><span class=p>)</span>
-<span class=nb>if</span><span class=p>(</span><span class=s>realsense2_FOUND</span><span class=p>)</span>
-  <span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_rs_t265_record</span> <span class=s>src/rs_t265_record.cpp</span> <span class=s>src/device/rs_t265.cpp</span><span class=p>)</span>
-  <span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_rs_t265_record</span> <span class=s>basalt</span> <span class=s>realsense2::realsense2</span> <span class=o>${</span><span class=nv>OpenCV_LIBS</span><span class=o>}</span> <span class=s>pangolin</span><span class=p>)</span>
-
-  <span class=nb>add_executable</span><span class=p>(</span><span class=s>basalt_rs_t265_vio</span> <span class=s>src/rs_t265_vio.cpp</span> <span class=s>src/device/rs_t265.cpp</span><span class=p>)</span>
-  <span class=nb>target_link_libraries</span><span class=p>(</span><span class=s>basalt_rs_t265_vio</span> <span class=s>basalt</span> <span class=s>realsense2::realsense2</span> <span class=s>pangolin</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-
-
-<span class=nb>install</span><span class=p>(</span><span class=s>TARGETS</span> <span class=s>basalt_calibrate</span> <span class=s>basalt_calibrate_imu</span> <span class=s>basalt_vio_sim</span> <span class=s>basalt_mapper_sim</span> <span class=s>basalt_mapper_sim_naive</span> <span class=s>basalt_mapper</span> <span class=s>basalt_opt_flow</span> <span class=s>basalt_vio</span> <span class=s>basalt_kitti_eval</span> <span class=s>basalt_time_alignment</span> <span class=s>basalt</span>
-  <span class=s>EXPORT</span> <span class=s>BasaltTargets</span>
-  <span class=s>RUNTIME</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/bin</span>
-  <span class=s>LIBRARY</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/lib</span>
-  <span class=s>ARCHIVE</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/lib</span><span class=p>)</span>
-
-<span class=nb>if</span><span class=p>(</span><span class=s>realsense2_FOUND</span><span class=p>)</span>
-    <span class=nb>install</span><span class=p>(</span><span class=s>TARGETS</span> <span class=s>basalt_rs_t265_record</span> <span class=s>basalt_rs_t265_vio</span>
-      <span class=s>EXPORT</span> <span class=s>BasaltTargets</span>
-      <span class=s>RUNTIME</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/bin</span>
-      <span class=s>LIBRARY</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/lib</span>
-      <span class=s>ARCHIVE</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/lib</span><span class=p>)</span>
-<span class=nb>endif</span><span class=p>()</span>
-
-<span class=nb>file</span><span class=p>(</span><span class=s>GLOB</span> <span class=s>SCRIPTS_TO_INSTALL</span> <span class=s2>&quot;${CMAKE_CURRENT_SOURCE_DIR}/scripts/basalt_*.py&quot;</span><span class=p>)</span>
-<span class=nb>install</span><span class=p>(</span><span class=s>PROGRAMS</span> <span class=o>${</span><span class=nv>SCRIPTS_TO_INSTALL</span><span class=o>}</span> <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/bin</span><span class=p>)</span>
-
-<span class=nb>file</span><span class=p>(</span><span class=s>GLOB</span> <span class=s>CONFIG_FILES</span> <span class=s2>&quot;${CMAKE_CURRENT_SOURCE_DIR}/data/*.json&quot;</span><span class=p>)</span>
-<span class=nb>install</span><span class=p>(</span><span class=s>FILES</span> <span class=o>${</span><span class=nv>CONFIG_FILES</span><span class=o>}</span>
-  <span class=s>DESTINATION</span> <span class=o>${</span><span class=nv>CMAKE_INSTALL_PREFIX</span><span class=o>}</span><span class=s>/etc/basalt</span><span class=p>)</span>
-
-
-<span class=c># Replace install() to do-nothing macro.</span>
-<span class=nb>macro</span><span class=p>(</span><span class=s>install</span><span class=p>)</span>
-<span class=nb>endmacro</span><span class=p>()</span>
-<span class=c># Include subproject (or any other CMake code) with &quot;disabled&quot; install().</span>
-<span class=nb>enable_testing</span><span class=p>()</span>
-<span class=nb>add_subdirectory</span><span class=p>(</span><span class=s>thirdparty/basalt-headers/test</span><span class=p>)</span>
-<span class=nb>add_subdirectory</span><span class=p>(</span><span class=s>test</span><span class=p>)</span>
-<span class=c># Restore original install() behavior.</span>
-<span class=nb>macro</span><span class=p>(</span><span class=s>install</span><span class=p>)</span>
-  <span class=nb>_install</span><span class=p>(</span><span class=o>${</span><span class=nv>ARGN</span><span class=o>}</span><span class=p>)</span>
-<span class=nb>endmacro</span><span class=p>()</span>
-</code></pre></div> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">thirdparty/basalt-headers/thirdparty/Sophus</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">thirdparty/basalt-headers/thirdparty/cereal/include</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">thirdparty/basalt-headers/include</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">thirdparty/CLI11/include</span><span class="p">)</span>
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">thirdparty/fast/include</span><span class="p">)</span>
+
+<span class="nb">include_directories</span><span class="p">(</span><span class="s">include</span><span class="p">)</span>
+
+
+<span class="nb">add_library</span><span class="p">(</span><span class="s">basalt</span> <span class="s">SHARED</span>
+  <span class="s">src/io/dataset_io.cpp</span>
+  <span class="s">src/io/marg_data_io.cpp</span>
+  <span class="s">src/calibration/aprilgrid.cpp</span>
+  <span class="s">src/calibration/calibraiton_helper.cpp</span>
+  <span class="s">src/calibration/vignette.cpp</span>
+  <span class="s">src/utils/vio_config.cpp</span>
+  <span class="s">src/optical_flow/optical_flow.cpp</span>
+  <span class="s">src/vi_estimator/keypoint_vio.cpp</span>
+  <span class="s">src/vi_estimator/keypoint_vio_linearize.cpp</span>
+  <span class="s">src/vi_estimator/keypoint_vo.cpp</span>
+  <span class="s">src/vi_estimator/vio_estimator.cpp</span>
+  <span class="s">src/vi_estimator/ba_base.cpp</span>
+  <span class="s">src/vi_estimator/nfr_mapper.cpp</span>
+  <span class="s">src/vi_estimator/landmark_database.cpp</span>
+  <span class="s">src/utils/keypoints.cpp</span><span class="p">)</span>
+
+
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt</span> <span class="s">PUBLIC</span> <span class="o">${</span><span class="nv">TBB_LIBRARIES</span><span class="o">}</span> <span class="o">${</span><span class="nv">STD_CXX_FS</span><span class="o">}</span> <span class="o">${</span><span class="nv">OpenCV_LIBS</span><span class="o">}</span> <span class="s">PRIVATE</span> <span class="s">rosbag</span> <span class="s">apriltag</span> <span class="s">opengv</span><span class="p">)</span>
+
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_calibrate</span> <span class="s">src/calibrate.cpp</span> <span class="s">src/calibration/cam_calib.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_calibrate</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_calibrate_imu</span> <span class="s">src/calibrate_imu.cpp</span> <span class="s">src/calibration/cam_imu_calib.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_calibrate_imu</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_vio_sim</span> <span class="s">src/vio_sim.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_vio_sim</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_mapper_sim</span> <span class="s">src/mapper_sim.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_mapper_sim</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_mapper_sim_naive</span> <span class="s">src/mapper_sim_naive.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_mapper_sim_naive</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_mapper</span> <span class="s">src/mapper.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_mapper</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_opt_flow</span> <span class="s">src/opt_flow.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_opt_flow</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_vio</span> <span class="s">src/vio.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_vio</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_time_alignment</span> <span class="s">src/time_alignment.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_time_alignment</span> <span class="s">basalt</span> <span class="s">pangolin</span><span class="p">)</span>
+
+<span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_kitti_eval</span> <span class="s">src/kitti_eval.cpp</span><span class="p">)</span>
+<span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_kitti_eval</span><span class="p">)</span>
+
+<span class="nb">find_package</span><span class="p">(</span><span class="s">realsense2</span> <span class="s">QUIET</span><span class="p">)</span>
+<span class="nb">if</span><span class="p">(</span><span class="s">realsense2_FOUND</span><span class="p">)</span>
+  <span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_rs_t265_record</span> <span class="s">src/rs_t265_record.cpp</span> <span class="s">src/device/rs_t265.cpp</span><span class="p">)</span>
+  <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_rs_t265_record</span> <span class="s">basalt</span> <span class="s">realsense2::realsense2</span> <span class="o">${</span><span class="nv">OpenCV_LIBS</span><span class="o">}</span> <span class="s">pangolin</span><span class="p">)</span>
+
+  <span class="nb">add_executable</span><span class="p">(</span><span class="s">basalt_rs_t265_vio</span> <span class="s">src/rs_t265_vio.cpp</span> <span class="s">src/device/rs_t265.cpp</span><span class="p">)</span>
+  <span class="nb">target_link_libraries</span><span class="p">(</span><span class="s">basalt_rs_t265_vio</span> <span class="s">basalt</span> <span class="s">realsense2::realsense2</span> <span class="s">pangolin</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+
+
+<span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="s">basalt_calibrate</span> <span class="s">basalt_calibrate_imu</span> <span class="s">basalt_vio_sim</span> <span class="s">basalt_mapper_sim</span> <span class="s">basalt_mapper_sim_naive</span> <span class="s">basalt_mapper</span> <span class="s">basalt_opt_flow</span> <span class="s">basalt_vio</span> <span class="s">basalt_kitti_eval</span> <span class="s">basalt_time_alignment</span> <span class="s">basalt</span>
+  <span class="s">EXPORT</span> <span class="s">BasaltTargets</span>
+  <span class="s">RUNTIME</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/bin</span>
+  <span class="s">LIBRARY</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/lib</span>
+  <span class="s">ARCHIVE</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/lib</span><span class="p">)</span>
+
+<span class="nb">if</span><span class="p">(</span><span class="s">realsense2_FOUND</span><span class="p">)</span>
+    <span class="nb">install</span><span class="p">(</span><span class="s">TARGETS</span> <span class="s">basalt_rs_t265_record</span> <span class="s">basalt_rs_t265_vio</span>
+      <span class="s">EXPORT</span> <span class="s">BasaltTargets</span>
+      <span class="s">RUNTIME</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/bin</span>
+      <span class="s">LIBRARY</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/lib</span>
+      <span class="s">ARCHIVE</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/lib</span><span class="p">)</span>
+<span class="nb">endif</span><span class="p">()</span>
+
+<span class="nb">file</span><span class="p">(</span><span class="s">GLOB</span> <span class="s">SCRIPTS_TO_INSTALL</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/scripts/basalt_*.py&quot;</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">PROGRAMS</span> <span class="o">${</span><span class="nv">SCRIPTS_TO_INSTALL</span><span class="o">}</span> <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/bin</span><span class="p">)</span>
+
+<span class="nb">file</span><span class="p">(</span><span class="s">GLOB</span> <span class="s">CONFIG_FILES</span> <span class="s2">&quot;${CMAKE_CURRENT_SOURCE_DIR}/data/*.json&quot;</span><span class="p">)</span>
+<span class="nb">install</span><span class="p">(</span><span class="s">FILES</span> <span class="o">${</span><span class="nv">CONFIG_FILES</span><span class="o">}</span>
+  <span class="s">DESTINATION</span> <span class="o">${</span><span class="nv">CMAKE_INSTALL_PREFIX</span><span class="o">}</span><span class="s">/etc/basalt</span><span class="p">)</span>
+
+
+<span class="c"># Replace install() to do-nothing macro.</span>
+<span class="nb">macro</span><span class="p">(</span><span class="s">install</span><span class="p">)</span>
+<span class="nb">endmacro</span><span class="p">()</span>
+<span class="c"># Include subproject (or any other CMake code) with &quot;disabled&quot; install().</span>
+<span class="nb">enable_testing</span><span class="p">()</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">thirdparty/basalt-headers/test</span><span class="p">)</span>
+<span class="nb">add_subdirectory</span><span class="p">(</span><span class="s">test</span><span class="p">)</span>
+<span class="c"># Restore original install() behavior.</span>
+<span class="nb">macro</span><span class="p">(</span><span class="s">install</span><span class="p">)</span>
+  <span class="nb">_install</span><span class="p">(</span><span class="o">${</span><span class="nv">ARGN</span><span class="o">}</span><span class="p">)</span>
+<span class="nb">endmacro</span><span class="p">()</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

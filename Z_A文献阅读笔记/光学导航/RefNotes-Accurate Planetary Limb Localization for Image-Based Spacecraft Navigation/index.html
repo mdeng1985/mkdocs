@@ -1,1 +1,527 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/Z_A%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/%E5%85%89%E5%AD%A6%E5%AF%BC%E8%88%AA/RefNotes-Accurate%20Planetary%20Limb%20Localization%20for%20Image-Based%20Spacecraft%20Navigation/ rel=canonical><link rel=icon href=../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation - Mdeng Li's Blog</title><link rel=stylesheet href=../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#_1 class=md-nav__link> 标签 </a> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation>RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation<a class=headerlink href=#refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation title="Permanent link">&para;</a></h1> <h2 id=_1>标签<a class=headerlink href=#_1 title="Permanent link">&para;</a></h2> <h1 id=_2>阅读笔记 #特征提取 #深空光学导航<a class=headerlink href=#_2 title="Permanent link">&para;</a></h1> <h2 id=_3>背景<a class=headerlink href=#_3 title="Permanent link">&para;</a></h2> <p>horizon-based navigation </p> <p>有两种成像方式： 1. limb-star 同时对近导航天体和恒星成像 2. limb-only 只对近导航天体成像</p> <p>方法1可以同时估计姿态，但是有两个问题： 1. 恒星一般亮度要远弱于导航目标，对两者成像的曝光时间不一样。一般是对导航目标进行短时间曝光成像，对恒星进行长时间曝光成像。因此面临的困难为：获得适当曝光和质量的连续图像；连续曝光时可能有非恒定的姿态旋转；如何获得足够准确的图像时间戳。 2. 误识别问题，比如将空间碎片识别成恒星。如何以足够高的置信度进行恒星测量？ 方法2需要额外的姿态信息</p> <h2 id=limb>limb识别需要考虑的因素<a class=headerlink href=#limb title="Permanent link">&para;</a></h2> <h3 id=_4>大气散射作用<a class=headerlink href=#_4 title="Permanent link">&para;</a></h3> <ol> <li>大气散射作用。Gaseous planetary atmospheres scatter气态行星大气散布。由于大气的作用，horizon的高度很难精确预测，它是和气候、太阳光复杂散射以及照亮的几何关系有关。</li> </ol> <p>目前基于地平线识别的光学导航尽可能避免用在含有大气天体上，原因如下： 1. 大气模型的准确性很难提前验证 2. 具有足够保真度的大气模型倾向于非常复杂且难以实施，需要大量的地面操作 3. 大气的时间变化可能很大，这是的稳态大气模型用于导航得到的导航精度会很差。 一个典型的例子是云层， 很难建模，可能会在短期内发生重大变化时间，通常对物体的外观起主要作用。 4. （到目前为止）已经可以成功地完成所有任务仅使用无线电导航和光学导航用于无大气天体，因此无需投资足够成熟的技术所需的大量资源处理有大气天体。</p> <p>参考文献：Christian, J., “Horizon-Based Optical Navigation Using Images of a Planet with an Atmosphere,” AIAA/AAS Astrodynamics Specialist Conference, AIAA Paper 2016-5442, 2016.</p> <h3 id=reflectance-models-for-atmosphereless-bodies>无大气天体的反射率模型Reflectance Models for Atmosphereless Bodies<a class=headerlink href=#reflectance-models-for-atmosphereless-bodies title="Permanent link">&para;</a></h3> <p>行星表面的反射率由其表面来描述双向反射率分布函数（BRDF）。 BRDF定义反射辐射与入射辐射的比率通常是表面特性，波长的函数以及观察/照明几何形状。 观看/照明 几何形状通常通过三个角度进行参数化：入射角 i，发射角e和相位角g。 </p> <p>几种模型： 1. 简单的漫反射反射率模型 2. Lommel-Seeliger模型 3. Kasseleinen-Shkuratov模型 4. Hapke模型</p> <h3 id=_5>局部地形的影响<a class=headerlink href=#_5 title="Permanent link">&para;</a></h3> <p>由于地质变化，撞击事件和空间风化灯因素是的真实的导航目标表面地形粗糙，在许多情况下，地形制约OPNAV性能的一个重要因素。</p> <p>在实际导航的时候，需要考虑目标导航变化，越近则地形影响越大。因此需要能够进行自主评估，判断地形影响和edge finding的量级相当的时候，则需要结合表面路标进行导航 ^6e033e</p> <h2 id=_6>基于边缘监测的光学导航方法<a class=headerlink href=#_6 title="Permanent link">&para;</a></h2> <p>![[Pasted image 20210105160656.png]]</p> <h3 id=_7>图像预处理<a class=headerlink href=#_7 title="Permanent link">&para;</a></h3> <p>首先，通过减去固定的图案噪声从图像中去除从原始强度值开始的每个像素位置的intensity bias。intensity bias通过捕获的暗帧得到。如果相机具有机械快门，可能会在快门关闭的情况下拍摄适当曝光的图像。如果图像具有电子快门（许多现代数码相机），可以拍摄一组星空图，暗框的中位数。</p> <p>其次，纠正不良像素。辐射，发射振动和其他环境影响通常会导致焦平面上有几个像素失败。这些像素可能会被识别，并且它们的错误强度可以使用相邻像素的插值替换这些值。选择通过插值来校正这些像素（而不是只是忽略它们）以更好地适应基于地区的用于亚像素边缘定位的技术。 第三，镜头像差和制造/缺陷组装导致图像中对象的明显位置系统地偏离理想的针孔相机位置。这样使用布朗畸变模型可以很好地模拟畸变[77,78]，并且可以图像中的星图进行估计[35]。这个参数模型可以用于使原始图像不失真。作者发现在不失真的情况下使用简单的双线性插值可获得良好的结果处理，尽管更复杂的插值算法可能在某些情况下很有用。</p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/Z_A%E6%96%87%E7%8C%AE%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0/%E5%85%89%E5%AD%A6%E5%AF%BC%E8%88%AA/RefNotes-Accurate%20Planetary%20Limb%20Localization%20for%20Image-Based%20Spacecraft%20Navigation/">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    标签
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation">RefNotes-Accurate Planetary Limb Localization for Image-Based Spacecraft Navigation<a class="headerlink" href="#refnotes-accurate-planetary-limb-localization-for-image-based-spacecraft-navigation" title="Permanent link">&para;</a></h1>
+<h2 id="_1">标签<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<h1 id="_2">阅读笔记  #特征提取 #深空光学导航<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h1>
+<h2 id="_3">背景<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>horizon-based navigation </p>
+<p>有两种成像方式：
+1. limb-star 同时对近导航天体和恒星成像
+2. limb-only 只对近导航天体成像</p>
+<p>方法1可以同时估计姿态，但是有两个问题：
+1. 恒星一般亮度要远弱于导航目标，对两者成像的曝光时间不一样。一般是对导航目标进行短时间曝光成像，对恒星进行长时间曝光成像。因此面临的困难为：获得适当曝光和质量的连续图像；连续曝光时可能有非恒定的姿态旋转；如何获得足够准确的图像时间戳。
+2. 误识别问题，比如将空间碎片识别成恒星。如何以足够高的置信度进行恒星测量？
+方法2需要额外的姿态信息</p>
+<h2 id="limb">limb识别需要考虑的因素<a class="headerlink" href="#limb" title="Permanent link">&para;</a></h2>
+<h3 id="_4">大气散射作用<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<ol>
+<li>大气散射作用。Gaseous planetary atmospheres scatter气态行星大气散布。由于大气的作用，horizon的高度很难精确预测，它是和气候、太阳光复杂散射以及照亮的几何关系有关。</li>
+</ol>
+<p>目前基于地平线识别的光学导航尽可能避免用在含有大气天体上，原因如下：
+1. 大气模型的准确性很难提前验证
+2. 具有足够保真度的大气模型倾向于非常复杂且难以实施，需要大量的地面操作
+3. 大气的时间变化可能很大，这是的稳态大气模型用于导航得到的导航精度会很差。 一个典型的例子是云层，
+很难建模，可能会在短期内发生重大变化时间，通常对物体的外观起主要作用。
+4. （到目前为止）已经可以成功地完成所有任务仅使用无线电导航和光学导航用于无大气天体，因此无需投资足够成熟的技术所需的大量资源处理有大气天体。</p>
+<p>参考文献：Christian, J., “Horizon-Based Optical Navigation Using Images of a   Planet with an Atmosphere,” AIAA/AAS Astrodynamics Specialist  Conference, AIAA Paper 2016-5442, 2016.</p>
+<h3 id="reflectance-models-for-atmosphereless-bodies">无大气天体的反射率模型Reflectance Models for Atmosphereless Bodies<a class="headerlink" href="#reflectance-models-for-atmosphereless-bodies" title="Permanent link">&para;</a></h3>
+<p>行星表面的反射率由其表面来描述双向反射率分布函数（BRDF）。 BRDF定义反射辐射与入射辐射的比率通常是表面特性，波长的函数以及观察/照明几何形状。 观看/照明
+几何形状通常通过三个角度进行参数化：入射角
+i，发射角e和相位角g。 </p>
+<p>几种模型：
+1. 简单的漫反射反射率模型
+2. Lommel-Seeliger模型
+3. Kasseleinen-Shkuratov模型
+4. Hapke模型</p>
+<h3 id="_5">局部地形的影响<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>由于地质变化，撞击事件和空间风化灯因素是的真实的导航目标表面地形粗糙，在许多情况下，地形制约OPNAV性能的一个重要因素。</p>
+<p>在实际导航的时候，需要考虑目标导航变化，越近则地形影响越大。因此需要能够进行自主评估，判断地形影响和edge finding的量级相当的时候，则需要结合表面路标进行导航 ^6e033e</p>
+<h2 id="_6">基于边缘监测的光学导航方法<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<p>![[Pasted image 20210105160656.png]]</p>
+<h3 id="_7">图像预处理<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>首先，通过减去固定的图案噪声从图像中去除从原始强度值开始的每个像素位置的intensity bias。intensity bias通过捕获的暗帧得到。如果相机具有机械快门，可能会在快门关闭的情况下拍摄适当曝光的图像。如果图像具有电子快门（许多现代数码相机），可以拍摄一组星空图，暗框的中位数。</p>
+<p>其次，纠正不良像素。辐射，发射振动和其他环境影响通常会导致焦平面上有几个像素失败。这些像素可能会被识别，并且它们的错误强度可以使用相邻像素的插值替换这些值。选择通过插值来校正这些像素（而不是只是忽略它们）以更好地适应基于地区的用于亚像素边缘定位的技术。
+第三，镜头像差和制造/缺陷组装导致图像中对象的明显位置系统地偏离理想的针孔相机位置。这样使用布朗畸变模型可以很好地模拟畸变[77,78]，并且可以图像中的星图进行估计[35]。这个参数模型可以用于使原始图像不失真。作者发现在不失真的情况下使用简单的双线性插值可获得良好的结果处理，尽管更复杂的插值算法可能在某些情况下很有用。</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

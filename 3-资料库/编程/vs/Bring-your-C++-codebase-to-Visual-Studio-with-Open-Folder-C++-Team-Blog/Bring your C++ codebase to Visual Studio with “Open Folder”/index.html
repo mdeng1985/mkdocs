@@ -1,4 +1,449 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/vs/Bring-your-C%2B%2B-codebase-to-Visual-Studio-with-Open-Folder-C%2B%2B-Team-Blog/Bring%20your%20C%2B%2B%20codebase%20to%20Visual%20Studio%20with%20%E2%80%9COpen%20Folder%E2%80%9D/ rel=canonical><link rel=icon href=../../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>Bring your C++ codebase to Visual Studio with “Open Folder” - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#bring-your-c-codebase-to-visual-studio-with-open-folder class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Bring your C++ codebase to Visual Studio with “Open Folder” </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=bring-your-c-codebase-to-visual-studio-with-open-folder>Bring your C++ codebase to Visual Studio with “Open Folder”<a class=headerlink href=#bring-your-c-codebase-to-visual-studio-with-open-folder title="Permanent link">&para;</a></h1> <h1 id=c-vs-linux-tutorial>c++ #vs #linux #tutorial<a class=headerlink href=#c-vs-linux-tutorial title="Permanent link">&para;</a></h1> <p><a href=https://devblogs.microsoft.com/cppblog/bring-your-c-codebase-to-visual-studio-with-open-folder/ >原网页</a></p> <blockquote> <p><strong>MD注</strong>：实践发现vs的nmake的makefile语法和Linux下的makefile语法不一样，还是不行。</p> </blockquote> <p><a href=https://stackoverflow.com/questions/8270391/use-the-same-makefile-for-make-linux-and-nmake-windows>[Use the same makefile for make (Linux) and nmake (Windows)](https://stackoverflow.com/questions/8270391/use-the-same-makefile-for-make-linux-and-nmake-windows)</a></p> <p>vs用 <strong>“Open Folder” support for C++ codebases</strong>. 可以胜任如下的工作，而无需创建和维护.vcxproj or .sln文件。</p> <ul> <li><a href=./#read-code>read C++ code</a></li> <li><a href=./#edit-code>edit C++ code</a></li> <li><a href=./#customize>customize the reading and editing experience</a></li> <li><a href=./#build-code>build C++ projects</a></li> <li><a href=./#debug-code>debug C++ binaries</a></li> </ul> <h3 id=getting-started-with-open-folder-for-c>Getting started with “Open Folder” for C++<a class=headerlink href=#getting-started-with-open-folder-for-c title="Permanent link">&para;</a></h3> <p>如果是cmake项目则参考**If you have a CMake-based project, take a look also at this post describing our <a href=https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/ >Visual Studio’s streamlined “Open Folder” experience for CMake</a>**. </p> <p>其他的形式的则接着往下读：</p> <p><strong>File</strong> &gt; <strong>Open</strong> &gt; <strong>Folder</strong> or <strong>Quick Launch</strong>) or directly launch <strong>devenv.exe <foldername></strong> from the command prompt.</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-openfolder.png><img alt=openfolder src=../assets/1611374968-52076d6c4309f116ab377e820e59cd91.png></a></p> <h3 id=customizing-c-configuration-settings>Customizing C++ configuration settings<a class=headerlink href=#customizing-c-configuration-settings title="Permanent link">&para;</a></h3> <p>By default, VS will provide two C++ configurations for IntelliSense and browsing: Debug and Release. These configurations are consistent with the configurations provided by <a href=https://devblogs.microsoft.com/cppblog/single-file-intellisense-and-other-ide-improvements-in-vs2015/ >Single File IntelliSense</a> functionality introduced in VS 2015.</p> <p>配置：在根目录下创建**CppProperties.json**用于指定路径和额外的定义：</p> <p><strong>CppProperties.json:</strong></p> <div class=highlight><pre><span></span><code>{
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/vs/Bring-your-C%2B%2B-codebase-to-Visual-Studio-with-Open-Folder-C%2B%2B-Team-Blog/Bring%20your%20C%2B%2B%20codebase%20to%20Visual%20Studio%20with%20%E2%80%9COpen%20Folder%E2%80%9D/">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>Bring your C++ codebase to Visual Studio with “Open Folder” - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#bring-your-c-codebase-to-visual-studio-with-open-folder" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Bring your C++ codebase to Visual Studio with “Open Folder”
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="bring-your-c-codebase-to-visual-studio-with-open-folder">Bring your C++ codebase to Visual Studio with “Open Folder”<a class="headerlink" href="#bring-your-c-codebase-to-visual-studio-with-open-folder" title="Permanent link">&para;</a></h1>
+<h1 id="c-vs-linux-tutorial">c++ #vs #linux  #tutorial<a class="headerlink" href="#c-vs-linux-tutorial" title="Permanent link">&para;</a></h1>
+<p><a href="https://devblogs.microsoft.com/cppblog/bring-your-c-codebase-to-visual-studio-with-open-folder/">原网页</a></p>
+<blockquote>
+<p><strong>MD注</strong>：实践发现vs的nmake的makefile语法和Linux下的makefile语法不一样，还是不行。</p>
+</blockquote>
+<p><a href="https://stackoverflow.com/questions/8270391/use-the-same-makefile-for-make-linux-and-nmake-windows">[Use the same makefile for make (Linux) and nmake (Windows)](https://stackoverflow.com/questions/8270391/use-the-same-makefile-for-make-linux-and-nmake-windows)</a></p>
+<p>vs用 <strong>“Open Folder” support for C++ codebases</strong>. 可以胜任如下的工作，而无需创建和维护.vcxproj or .sln文件。</p>
+<ul>
+<li><a href="./#read-code">read C++ code</a></li>
+<li><a href="./#edit-code">edit C++ code</a></li>
+<li><a href="./#customize">customize the reading and editing experience</a></li>
+<li><a href="./#build-code">build C++ projects</a></li>
+<li><a href="./#debug-code">debug C++ binaries</a></li>
+</ul>
+<h3 id="getting-started-with-open-folder-for-c">Getting started with “Open Folder” for C++<a class="headerlink" href="#getting-started-with-open-folder-for-c" title="Permanent link">&para;</a></h3>
+<p>如果是cmake项目则参考**If you have a CMake-based project, take a look also at this post describing our <a href="https://blogs.msdn.microsoft.com/vcblog/2016/10/05/cmake-support-in-visual-studio/">Visual Studio’s streamlined “Open Folder” experience for CMake</a>**. </p>
+<p>其他的形式的则接着往下读：</p>
+<p><strong>File</strong> &gt; <strong>Open</strong> &gt; <strong>Folder</strong> or <strong>Quick Launch</strong>) or directly launch <strong>devenv.exe <foldername></strong> from the command prompt.</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-openfolder.png"><img alt="openfolder" src="../assets/1611374968-52076d6c4309f116ab377e820e59cd91.png" /></a></p>
+<h3 id="customizing-c-configuration-settings">Customizing C++ configuration settings<a class="headerlink" href="#customizing-c-configuration-settings" title="Permanent link">&para;</a></h3>
+<p>By default, VS will provide two C++ configurations for IntelliSense and browsing: Debug and Release. These configurations are consistent with the configurations provided by <a href="https://devblogs.microsoft.com/cppblog/single-file-intellisense-and-other-ide-improvements-in-vs2015/">Single File IntelliSense</a> functionality introduced in VS 2015.</p>
+<p>配置：在根目录下创建**CppProperties.json**用于指定路径和额外的定义：</p>
+<p><strong>CppProperties.json:</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;configurations&quot;: [
     {
       &quot;name&quot;: &quot;Windows x64&quot;,
@@ -11,7 +456,36 @@
     }
   ]
 }
-</code></pre></div> <p>说明如下：</p> <ul> <li><strong>name</strong>: is the configuration name that will show up in the C++ configuration dropdown</li> <li><strong>includePath</strong>: 包含路径 (maps to /I for most compilers)</li> <li><strong>defines</strong>: the list of macros that should be defined (maps to /D for most compilers)</li> <li><strong>compilerSwitches</strong>: to specify one or more additional switches that can influence IntelliSense behavior</li> <li><strong>forcedInclude</strong>: specifies a header to be automatically included in every compilation unit (maps to /FI for MSVC or -include for clang)</li> <li><strong>undefines</strong>: list of macros to be undefined (maps to /U for MSVC)</li> <li><strong>intelliSenseMode</strong>: specifies the IntelliSense engine to be used. You can specify the architecture specific variants for either MSVC or Clang:<ul> <li><em>msvc-x86 (the default)</em></li> <li><em>msvc-x64</em></li> <li>msvc_-arm_</li> <li><em>windows-clang-x86</em></li> <li><em>windows-clang-x64</em></li> <li><em>windows-clang-arm</em></li> </ul> </li> </ul> <p>这个文件支持环境变量：</p> <p>This file supports <strong>environment variable expansion</strong> for include paths and other property values. The syntax is ${env.FOODIR} to expand an environment variable %FOODIR%.</p> <p>You also have access to built-in macros inside this file:</p> <ul> <li><em>${workspaceRoot}</em> – provides the full path to the workspace folder</li> <li><em>${projectRoot}</em> – full path to the folder where CppProperties.json is placed</li> <li><em>${vsInstallDir}</em> – full path to the folder where the running instance of VS 2017 is installed</li> </ul> <p>For example, if your project has an <em>include</em> folder and also includes <em>windows.h</em> and friends from the Windows SDK (which is common), you may want to update your configuration file with these includes:</p> <p><strong>CppProperties.json</strong>:</p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p>说明如下：</p>
+<ul>
+<li><strong>name</strong>: is the configuration name that will show up in the C++ configuration dropdown</li>
+<li><strong>includePath</strong>: 包含路径 (maps to /I for most compilers)</li>
+<li><strong>defines</strong>: the list of macros that should be defined (maps to /D for most compilers)</li>
+<li><strong>compilerSwitches</strong>: to specify one or more additional switches that can influence IntelliSense behavior</li>
+<li><strong>forcedInclude</strong>: specifies a header to be automatically included in every compilation unit (maps to /FI for MSVC or -include for clang)</li>
+<li><strong>undefines</strong>: list of macros to be undefined (maps to /U for MSVC)</li>
+<li><strong>intelliSenseMode</strong>: specifies the IntelliSense engine to be used. You can specify the architecture specific variants for either MSVC or Clang:<ul>
+<li><em>msvc-x86 (the default)</em></li>
+<li><em>msvc-x64</em></li>
+<li>msvc_-arm_</li>
+<li><em>windows-clang-x86</em></li>
+<li><em>windows-clang-x64</em></li>
+<li><em>windows-clang-arm</em></li>
+</ul>
+</li>
+</ul>
+<p>这个文件支持环境变量：</p>
+<p>This file supports <strong>environment variable expansion</strong> for include paths and other property values. The syntax is ${env.FOODIR} to expand an environment variable %FOODIR%.</p>
+<p>You also have access to built-in macros inside this file:</p>
+<ul>
+<li><em>${workspaceRoot}</em> – provides the full path to the workspace folder</li>
+<li><em>${projectRoot}</em> – full path to the folder where CppProperties.json is placed</li>
+<li><em>${vsInstallDir}</em> – full path to the folder where the running instance of VS 2017 is installed</li>
+</ul>
+<p>For example, if your project has an <em>include</em> folder and also includes <em>windows.h</em> and friends from the Windows SDK (which is common), you may want to update your configuration file with these includes:</p>
+<p><strong>CppProperties.json</strong>:</p>
+<div class="highlight"><pre><span></span><code>{
   &quot;configurations&quot;: [
     {
       &quot;name&quot;: &quot;Windows&quot;,
@@ -28,7 +502,14 @@
     }
   ]
 }
-</code></pre></div> <p><strong>Note</strong>: %WindowsSdkDir% and %VCToolsInstallDir% are not set as global environment variables so make sure you start  devenv.exe from a “Developer Command Prompt for VS 2017 ” that defines these variables.</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-cppprops-intellisense.png><img alt=anycode-rc0-cppprops-intellisense src=../assets/1611374968-3b822e25179222d18adfed8791538a89.png></a></p> <p><strong>Tip:</strong> In general, the Error List window is a good starting point to review any IntelliSense errors caused by missing includes – filter its content to “IntelliSense only” and error code E1696:</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-errorlist-filtering.png><img alt=errorlist-filtering src=../assets/1611374968-c672b71f07b664189891897daaff17bf.png></a></p> <p>You can create as many configurations as you want in the CppProperties.json file and easily switch between them from the C++ configuration dropdown in the Standard toolbar</p> <p><strong>CppProperties.json</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p><strong>Note</strong>: %WindowsSdkDir% and %VCToolsInstallDir% are not set as global environment variables so make sure you start  devenv.exe from a “Developer Command Prompt for VS 2017 ” that defines these variables.</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-cppprops-intellisense.png"><img alt="anycode-rc0-cppprops-intellisense" src="../assets/1611374968-3b822e25179222d18adfed8791538a89.png" /></a></p>
+<p><strong>Tip:</strong> In general, the Error List window is a good starting point to review any IntelliSense errors caused by missing includes – filter its content to “IntelliSense only” and error code E1696:</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-errorlist-filtering.png"><img alt="errorlist-filtering" src="../assets/1611374968-c672b71f07b664189891897daaff17bf.png" /></a></p>
+<p>You can create as many configurations as you want in the CppProperties.json file and easily switch between them from the C++ configuration dropdown in the Standard toolbar</p>
+<p><strong>CppProperties.json</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;configurations&quot;: [
     {
       &quot;name&quot;: &quot;Windows&quot;,
@@ -40,7 +521,16 @@
     }
   ]
 }
-</code></pre></div> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-cppconfig-dropdown.png><img alt=anycode-rc0-cppconfig-dropdown src=../assets/1611374968-c8897b3659e6f2daed5e9bd4fd83052d.png></a></p> <h3 id=building-c-projects>Building C++ projects<a class=headerlink href=#building-c-projects title="Permanent link">&para;</a></h3> <p>编译c++项目，右键某个文件，然后选择 “<strong>Customize Task Settings</strong>”.</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-menu.png><img alt=anycode-rc0-tasksjson-menu src=../assets/1611374968-e298bab5b33ad01b453be22cabf7672a.png></a></p> <p>从而会在.vs文件夹下创建tasks.vs.json文件，</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-intellisense.png><img alt=anycode-rc0-tasksjson-intellisense src=../assets/1611374968-84c28f75f19c9f2abe99d325893eb752.png></a></p> <p>By default, a task can be executed from the context menu of the file in Solution Explorer. For each task, you will find a new entry at the bottom of the context menu.</p> <p><strong>Tasks.vs.json</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-cppconfig-dropdown.png"><img alt="anycode-rc0-cppconfig-dropdown" src="../assets/1611374968-c8897b3659e6f2daed5e9bd4fd83052d.png" /></a></p>
+<h3 id="building-c-projects">Building C++ projects<a class="headerlink" href="#building-c-projects" title="Permanent link">&para;</a></h3>
+<p>编译c++项目，右键某个文件，然后选择 “<strong>Customize Task Settings</strong>”.</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-menu.png"><img alt="anycode-rc0-tasksjson-menu" src="../assets/1611374968-e298bab5b33ad01b453be22cabf7672a.png" /></a></p>
+<p>从而会在.vs文件夹下创建tasks.vs.json文件，</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-intellisense.png"><img alt="anycode-rc0-tasksjson-intellisense" src="../assets/1611374968-84c28f75f19c9f2abe99d325893eb752.png" /></a></p>
+<p>By default, a task can be executed from the context menu of the file in Solution Explorer. For each task, you will find a new entry at the bottom of the context menu.</p>
+<p><strong>Tasks.vs.json</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;version&quot;: &quot;0.2.1&quot;,
   &quot;tasks&quot;: [
     {
@@ -52,7 +542,21 @@
     }
   ]
 }
-</code></pre></div> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-contextmenu.png><img alt=anycode-rc0-tasksjson-contextmenu src=../assets/1611374968-f05392d2e6d78c0e33dd44a1277d5cfa.png></a></p> <p>Just like CppProperties.json, in tasks.vs.json you can consume environment variables by using the syntax ${env.VARIABLE}.</p> <p>Additionally, you can use built-in macros inside your task properties:</p> <ul> <li><em>${workspaceRoot}</em> – provides the full path to the workspace folder (e.g. “C:\sources\hello”)</li> <li><em>${file}</em> – provides the full path of the file or folder selected to run this task against (e.g. “C:\sources\hello\src\hello.cpp”)</li> <li><em>${relativeFile}</em> – provides the relative path to the file or folder (e.g.  “src\hello.cpp”)</li> <li><em>${fileBasename}</em> – provides the name of the file without path or extension (e.g. “hello”)</li> <li><em>${fileDirname}</em> – provides the the full path to the file, excluding the filename (e.g. “C:\sources\hello\src”)</li> <li><em>${fileExtname}</em> – provides the extension of the selected file (e.g. “.cpp”)</li> </ul> <p>You can also specify additional user macros yourself that you can use in the task properties e.g. ${outDir} in the example below:</p> <p><strong>Tasks.vs.json</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-contextmenu.png"><img alt="anycode-rc0-tasksjson-contextmenu" src="../assets/1611374968-f05392d2e6d78c0e33dd44a1277d5cfa.png" /></a></p>
+<p>Just like CppProperties.json, in tasks.vs.json you can consume environment variables by using the syntax ${env.VARIABLE}.</p>
+<p>Additionally, you can use built-in macros inside your task properties:</p>
+<ul>
+<li><em>${workspaceRoot}</em> – provides the full path to the workspace folder (e.g. “C:\sources\hello”)</li>
+<li><em>${file}</em> – provides the full path of the file or folder selected to run this task against (e.g. “C:\sources\hello\src\hello.cpp”)</li>
+<li><em>${relativeFile}</em> – provides the relative path to the file or folder (e.g.  “src\hello.cpp”)</li>
+<li><em>${fileBasename}</em> – provides the name of the file without path or extension (e.g. “hello”)</li>
+<li><em>${fileDirname}</em> – provides the the full path to the file, excluding the filename (e.g. “C:\sources\hello\src”)</li>
+<li><em>${fileExtname}</em> – provides the extension of the selected file (e.g. “.cpp”)</li>
+</ul>
+<p>You can also specify additional user macros yourself that you can use in the task properties e.g. ${outDir} in the example below:</p>
+<p><strong>Tasks.vs.json</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;version&quot;: &quot;0.2.1&quot;,
   &quot;outDir&quot;: &quot;${workspaceRoot}\\bin&quot;,
   &quot;tasks&quot;: [
@@ -67,7 +571,10 @@
     }
   ]
 }
-</code></pre></div> <p>By specifying the “contextType” for a given task to equal “<strong>build</strong>“, “<strong>clean</strong>” or “<strong>rebuild</strong>” you can wire up the VS build-in commands for Build, Clean and Rebuild that can be invoked from the context menu.</p> <p><strong>Tasks.vs.json</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p>By specifying the “contextType” for a given task to equal “<strong>build</strong>“, “<strong>clean</strong>” or “<strong>rebuild</strong>” you can wire up the VS build-in commands for Build, Clean and Rebuild that can be invoked from the context menu.</p>
+<p><strong>Tasks.vs.json</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;version&quot;: &quot;0.2.1&quot;,
   &quot;tasks&quot;: [
     {
@@ -87,7 +594,23 @@
     }
   ]
 }
-</code></pre></div> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-build.png><img alt=anycode-rc0-tasksjson-build src=../assets/1611374968-c6c96e8747318207ad01aa8b08dd4028.png></a></p> <p>You can create tasks for any file or folder by specifying its name in the “appliesTo” field. But to create more generic tasks you can use file masks. For example:</p> <ul> <li><em>“appliesTo”: “*”</em> – task is available to all files and folders in the workspace</li> <li><em>“appliesTo”: “*/”</em> – task is available to all folders in the workspace</li> <li><em>“appliesTo”: “*.cpp”</em> – task is available to all files with the extension .cpp in the workspace</li> <li><em>“appliesTo”: “/*.cpp”</em> – task is available to all files with the extension .cpp in the root of the workspace</li> <li><em>“appliesTo”: “src/*/”</em> – task is available to all subfolders of the “src” folder</li> <li><em>“appliesTo”: “makefile”</em> – task is available to all makefile files in the workspace</li> <li><em>“appliesTo”: “/makefile”</em> – task is available only on the makefile in the root of the workspace</li> </ul> <h3 id=debugging-c-binaries>Debugging C++ binaries<a class=headerlink href=#debugging-c-binaries title="Permanent link">&para;</a></h3> <p>To get started with debugging in Visual Studio, you want to navigate in Solution Explorer to your executable. Then right click, and select “<strong>Debug</strong>” – this will immediately start a debugging session for this executable.</p> <p>Alternatively, you can specify an output binary in your task definition (via “output”). Once you do that, this binary will be automatically launched under the debugger if you select the source file as a startup item (right click, “<strong>Set as Startup Item</strong>”) or just right-click on the source file and choose “<strong>Debug</strong>”.</p> <p><strong>Tasks.vs.json</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-build.png"><img alt="anycode-rc0-tasksjson-build" src="../assets/1611374968-c6c96e8747318207ad01aa8b08dd4028.png" /></a></p>
+<p>You can create tasks for any file or folder by specifying its name in the “appliesTo” field. But to create more generic tasks you can use file masks. For example:</p>
+<ul>
+<li><em>“appliesTo”: “*”</em> – task is available to all files and folders in the workspace</li>
+<li><em>“appliesTo”: “*/”</em> – task is available to all folders in the workspace</li>
+<li><em>“appliesTo”: “*.cpp”</em> – task is available to all files with the extension .cpp in the workspace</li>
+<li><em>“appliesTo”: “/*.cpp”</em> – task is available to all files with the extension .cpp in the root of the workspace</li>
+<li><em>“appliesTo”: “src/*/”</em> – task is available to all subfolders of the “src” folder</li>
+<li><em>“appliesTo”: “makefile”</em> – task is available to all makefile files in the workspace</li>
+<li><em>“appliesTo”: “/makefile”</em> – task is available only on the makefile in the root of the workspace</li>
+</ul>
+<h3 id="debugging-c-binaries">Debugging C++ binaries<a class="headerlink" href="#debugging-c-binaries" title="Permanent link">&para;</a></h3>
+<p>To get started with debugging in Visual Studio, you want to navigate in Solution Explorer to your executable. Then right click, and select “<strong>Debug</strong>” – this will immediately start a debugging session for this executable.</p>
+<p>Alternatively, you can specify an output binary in your task definition (via “output”). Once you do that, this binary will be automatically launched under the debugger if you select the source file as a startup item (right click, “<strong>Set as Startup Item</strong>”) or just right-click on the source file and choose “<strong>Debug</strong>”.</p>
+<p><strong>Tasks.vs.json</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;version&quot;: &quot;0.2.1&quot;,
   &quot;tasks&quot;: [
     {
@@ -100,7 +623,13 @@
     }
   ]
 }
-</code></pre></div> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-output.png><img alt=anycode-rc0-tasksjson-output src=../assets/1611374968-dbc01789afcd41266fbcde9368559196.png></a></p> <p>如果程序里有传递变量，则需要右键，选择 “<strong>Debug and Launch Settings</strong>” instead. This will create a new <strong>launch.vs.json</strong> file prepopulated with the information about the program you have selected.</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-debug-launchsettings.png><img alt=debug-launchsettings src=../assets/1611374968-451af7af25e8bd1fc5dcfcabb119173f.png></a></p> <p>To specify additional arguments, just add them in the “args” JSON array as in the example below</p> <p><strong>launch.vs.json:</strong></p> <div class=highlight><pre><span></span><code>{
+</code></pre></div>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-rc0-tasksjson-output.png"><img alt="anycode-rc0-tasksjson-output" src="../assets/1611374968-dbc01789afcd41266fbcde9368559196.png" /></a></p>
+<p>如果程序里有传递变量，则需要右键，选择 “<strong>Debug and Launch Settings</strong>” instead. This will create a new <strong>launch.vs.json</strong> file prepopulated with the information about the program you have selected.</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-debug-launchsettings.png"><img alt="debug-launchsettings" src="../assets/1611374968-451af7af25e8bd1fc5dcfcabb119173f.png" /></a></p>
+<p>To specify additional arguments, just add them in the “args” JSON array as in the example below</p>
+<p><strong>launch.vs.json:</strong></p>
+<div class="highlight"><pre><span></span><code>{
   &quot;version&quot;: &quot;0.2.1&quot;,
   &quot;defaults&quot;: {},
   &quot;configurations&quot;: [
@@ -112,4 +641,60 @@
     }
   ]
 }
-</code></pre></div> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-launch-json-debug-target.png><img alt=launch-json-debug-target src=../assets/1611374968-9d7855467b29227d7eb285b45f81d8de.png></a></p> <p>As soon as you save this file, a new entry in the Debug Target dropdown will be available and you can select it to start the debugger. By editing the <strong>launch.vs.json</strong> file, you can create as many debug configurations as you like, for any number of executables. If you press <strong>F5</strong> now, the debugger will launch and hit any breakpoint you may have already set. All the familiar debugger windows and functionality is now available.</p> <p><a href=https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-debugging.png><img alt=debugging src=../assets/1611374968-f035435f82cd3788a7a402e0622689dd.png></a></p> <h3 id=whats-next>What’s next<a class=headerlink href=#whats-next title="Permanent link">&para;</a></h3> <p><a href=https://aka.ms/vs2017cpp>Download Visual Studio 2017 today</a> and give “Open Folder” a try – no need to create VS projects and solution files anymore to become productive in VS.</p> <p>We’re continuing work on making this experience even better. In upcoming releases, you will see us enhance the way the C++ browsing and navigation works, as well as supporting more debugger types, eventually reaching parity with our MSBuild-based project functionality. Your feedback is really important in informing our next steps so don’t hesitate to share it. We’re listening!</p> <h5 id=marian-luparu><a href=https://devblogs.microsoft.com/cppblog/author/marian-luparuoutlook-com/ >Marian Luparu</a><a class=headerlink href=#marian-luparu title="Permanent link">&para;</a></h5> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+</code></pre></div>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-launch-json-debug-target.png"><img alt="launch-json-debug-target" src="../assets/1611374968-9d7855467b29227d7eb285b45f81d8de.png" /></a></p>
+<p>As soon as you save this file, a new entry in the Debug Target dropdown will be available and you can select it to start the debugger. By editing the <strong>launch.vs.json</strong> file, you can create as many debug configurations as you like, for any number of executables. If you press <strong>F5</strong> now, the debugger will launch and hit any breakpoint you may have already set. All the familiar debugger windows and functionality is now available.</p>
+<p><a href="https://devblogs.microsoft.com/wp-content/uploads/sites/9/2019/02/anycode-debugging.png"><img alt="debugging" src="../assets/1611374968-f035435f82cd3788a7a402e0622689dd.png" /></a></p>
+<h3 id="whats-next">What’s next<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h3>
+<p><a href="https://aka.ms/vs2017cpp">Download Visual Studio 2017 today</a> and give “Open Folder” a try – no need to create VS projects and solution files anymore to become productive in VS.</p>
+<p>We’re continuing work on making this experience even better. In upcoming releases, you will see us enhance the way the C++ browsing and navigation works, as well as supporting more debugger types, eventually reaching parity with our MSBuild-based project functionality. Your feedback is really important in informing our next steps so don’t hesitate to share it. We’re listening!</p>
+<h5 id="marian-luparu"><a href="https://devblogs.microsoft.com/cppblog/author/marian-luparuoutlook-com/">Marian Luparu</a><a class="headerlink" href="#marian-luparu" title="Permanent link">&para;</a></h5>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

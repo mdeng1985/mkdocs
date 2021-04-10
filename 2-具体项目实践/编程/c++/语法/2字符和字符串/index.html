@@ -1,68 +1,699 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E7%BC%96%E7%A8%8B/c%2B%2B/%E8%AF%AD%E6%B3%95/2%E5%AD%97%E7%AC%A6%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/ rel=canonical><link rel=icon href=../../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>字符和字符串 - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#_1 class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 字符和字符串 </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#literal class=md-nav__link> 字符和字符串型literal </a> </li> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 字符串 </a> <nav class=md-nav aria-label=字符串> <ul class=md-nav__list> <li class=md-nav__item> <a href=#string class=md-nav__link> string类 </a> <nav class=md-nav aria-label=string类> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 定义和初始化 </a> </li> <li class=md-nav__item> <a href=#string_1 class=md-nav__link> string对象上的运算 </a> </li> <li class=md-nav__item> <a href=#string_2 class=md-nav__link> string对象中的字符处理 </a> </li> <li class=md-nav__item> <a href=#demo class=md-nav__link> 一些Demo </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#c-string class=md-nav__link> C-String </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=_1>字符和字符串<a class=headerlink href=#_1 title="Permanent link">&para;</a></h1> <h2 id=literal>字符和字符串型literal<a class=headerlink href=#literal title="Permanent link">&para;</a></h2> <ul> <li>字符literal用单引号括起来；字符串literal用双引号括起来</li> <li>对于两个字符串literal，如果它们以空格、缩进和换行符相隔，则系统会将它们作为加起来作为一个字符串literal。</li> </ul> <h2 id=_2>字符串<a class=headerlink href=#_2 title="Permanent link">&para;</a></h2> <p><a href=https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp1_Basics.html#zz-7.>参考资料</a></p> <p>C++里有两种类型的字符串</p> <ul> <li> <p>C-style字符串：这个是一个字符数组，每个数组的结尾符为'\0'</p> </li> <li> <p>string 类：C++98引入的</p> </li> </ul> <p>在命令行下只支持C-style字符串。</p> <h3 id=string>string类<a class=headerlink href=#string title="Permanent link">&para;</a></h3> <h4 id=_3>定义和初始化<a class=headerlink href=#_3 title="Permanent link">&para;</a></h4> <p>要使用string类，需要在程序开头加上前两行</p> <div class=highlight><pre><span></span><code><span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=cp></span>
-<span class=k>using</span> <span class=k>namespace</span> <span class=n>std</span><span class=p>;</span>
-<span class=n>string</span> <span class=nf>str1</span><span class=p>(</span><span class=s>&quot;Hello&quot;</span><span class=p>);</span>
-</code></pre></div> <p>string对象初始化的几种途径</p> <ul> <li><code>string s1</code> 默认初始化，得到的是一个空的string</li> <li><code>string s2(s1)</code> 或者 <code>string s2=s1;</code> <code>s1</code>为一个字符串对象，将其赋值给s2进行初始化</li> <li><code>string s3("value")</code> 或者<code>string s3="value"</code>： 将字符串literal赋值给s3进行初始化，不包括那个<code>\0</code>字符。</li> <li><code>string s4(5,'c')</code>，则<code>s4</code>为<code>ccccc</code>。</li> </ul> <h4 id=string_1>string对象上的运算<a class=headerlink href=#string_1 title="Permanent link">&para;</a></h4> <p>假设s,s1,s2为string对象，则一些运算命令如下表</p> <table> <thead> <tr> <th>命令</th> <th>含义</th> </tr> </thead> <tbody> <tr> <td><code>os &lt;&lt; s</code></td> <td>将字符串s输出给输出流os，返回os</td> </tr> <tr> <td><code>is &gt;&gt; s</code></td> <td>从输入流is中读取字符串赋值给s，返回is</td> </tr> <tr> <td><code>getline(is,s)</code></td> <td>从输入流is中读取一行字符串赋值给s，返回is</td> </tr> <tr> <td><code>s.empty()</code></td> <td>判断s是否为空，如果是则返回true</td> </tr> <tr> <td><code>s.size()</code></td> <td>返回s的char的个数</td> </tr> <tr> <td><code>s[n]</code></td> <td>返回s的第n个char，第一个字符是<code>s[0]</code></td> </tr> <tr> <td><code>s1+s2</code></td> <td>将两个string对象s1和s2连接</td> </tr> <tr> <td><code>s1=s2</code></td> <td>将s2的副本赋值给s1</td> </tr> <tr> <td><code>s1==s2</code></td> <td>判断s1和s2是否相等</td> </tr> <tr> <td><code>s1!=s2</code></td> <td>判断s1和s2是否不相等</td> </tr> <tr> <td><code>&lt;,&lt;=,&gt;,&gt;=</code></td> <td>字符串比较</td> </tr> <tr> <td><code>str1.substr(2,6)</code></td> <td>读取str1的子字符串，长度为6，从<code>str1[2]</code> 开始读</td> </tr> </tbody> </table> <p>几点说明和注意事项</p> <ul> <li><code>is&gt;&gt;s</code> 会忽略is中开头的空白（空格符、换行符、制表符等），直到遇到下一处空白为止 <div class=highlight><pre><span></span><code>    <span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>s</span><span class=p>;</span> <span class=c1>//如果输入为 &quot; Hello World&quot;，则s为&quot;Hello&quot;</span>
-</code></pre></div></li> <li>多个<code>&lt;&lt;</code>或<code>&gt;&gt;</code>返回的是运算符左侧的运算对象作为其结果 <div class=highlight><pre><span></span><code>    <span class=n>string</span> <span class=n>s1</span><span class=p>,</span><span class=n>s2</span><span class=p>;</span>
-    <span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>s1</span> <span class=o>&gt;&gt;</span> <span class=n>s2</span><span class=p>;</span><span class=c1>//输入为&quot;Hello world&quot;，则s1为&quot;Hello&quot;, s2为&quot;World&quot;</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>s1</span> <span class=o>&lt;&lt;</span> <span class=n>s2</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=c1>//输出为&quot;HelloWorld&quot;</span>
-</code></pre></div></li> <li><code>getline</code>读取一行，以换行符为标志，不包含那个换行符; <code>getline(cin, message);</code>为读取键盘输入的一行赋予给message，在输入的时候回车键表示换行。</li> <li><code>s.size()</code> 返回的不是int型，而是string自带的<code>size_type</code>, 为无符号类型；因此如果在表达式中混用带符号和无符号数会得到意想不到的结果。比如下面程序的t为true，这是因为n会自动转换成比较大的无符号值。为了避免出现出现这样的问题，因此如果在表达式中已经有了<code>size()</code>函数就别用int了。 <div class=highlight><pre><span></span><code>    <span class=kt>int</span> <span class=n>n</span> <span class=o>=</span> <span class=mi>-3</span>
-    <span class=n>string</span> <span class=n>s</span> <span class=o>=</span> <span class=s>&quot;abc&quot;</span><span class=p>;</span>
-    <span class=kt>bool</span> <span class=n>t</span> <span class=o>=</span> <span class=n>s</span><span class=p>.</span><span class=n>size</span><span class=p>()</span><span class=o>&lt;</span><span class=n>n</span><span class=p>;</span><span class=c1>//t为true</span>
-</code></pre></div></li> <li> <p>string literal和string对象相加，要确保<code>+</code>两侧运算对象至少有一个是string对象 <div class=highlight><pre><span></span><code>    <span class=n>string</span> <span class=n>s</span> <span class=o>=</span> <span class=s>&quot;hello&quot;</span> <span class=o>+</span> <span class=s>&quot;,&quot;</span> <span class=c1>//错误，两个均为literal</span>
-    <span class=n>string</span> <span class=n>s</span> <span class=o>=</span> <span class=n>s1</span><span class=o>+</span> <span class=s>&quot;,&quot;</span> <span class=o>+</span><span class=s>&quot;world&quot;</span><span class=p>;</span> <span class=c1>//正确，s1+&quot;,&quot;得到了string对象，然后再和另外一个literal相加;</span>
-    <span class=n>string</span> <span class=n>s</span> <span class=o>=</span> <span class=s>&quot;hello&quot;</span> <span class=o>+</span><span class=s>&quot;world&quot;</span> <span class=o>+</span><span class=n>s1</span><span class=p>;</span><span class=c1>//错误，不能将literal直接相加</span>
-</code></pre></div></p> </li> <li> <p>字符串对比</p> <div class=highlight><pre><span></span><code>    <span class=kt>int</span> <span class=nf>compare</span><span class=p>(</span><span class=n>string</span> <span class=n>another</span><span class=p>);</span>
-        <span class=n>Compare</span> <span class=n>the</span> <span class=n>content</span> <span class=n>of</span> <span class=k>this</span> <span class=n>string</span> <span class=n>with</span> <span class=n>the</span> <span class=n>given</span> <span class=n>another</span><span class=p>.</span> 
-        <span class=n>Return</span> <span class=mi>0</span> <span class=k>if</span> <span class=n>equals</span><span class=p>;</span> <span class=n>a</span> <span class=n>negative</span> <span class=n>value</span> <span class=k>if</span> <span class=k>this</span> <span class=n>string</span> <span class=n>is</span> <span class=n>less</span> <span class=n>than</span> <span class=n>another</span><span class=p>;</span> <span class=n>positive</span> <span class=n>value</span> <span class=n>otherwise</span><span class=p>.</span>
 
-    <span class=o>==</span> <span class=n>and</span> <span class=o>!=</span> <span class=n>Operators</span>
-        <span class=n>Compare</span> <span class=n>the</span> <span class=n>contents</span> <span class=n>of</span> <span class=n>two</span> <span class=n>strings</span>
-</code></pre></div> </li> </ul> <h4 id=string_2>string对象中的字符处理<a class=headerlink href=#string_2 title="Permanent link">&para;</a></h4> <h4 id=demo>一些Demo<a class=headerlink href=#demo title="Permanent link">&para;</a></h4> <ul> <li> <p><code>substr</code> <div class=highlight><pre><span></span><code>    <span class=n>string</span> <span class=nf>str</span><span class=p>(</span><span class=s>&quot;Hello, world&quot;</span><span class=p>);</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>str</span><span class=p>.</span><span class=n>substr</span><span class=p>(</span><span class=mi>2</span><span class=p>,</span> <span class=mi>6</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// &quot;llo, w&quot;</span>
-</code></pre></div></p> </li> <li> <p><code>cin&gt;&gt; message</code>，读取键盘的输入赋予meassage。空格键作为输入结束。 比如：</p> <ul> <li>输入<code>ab cd</code>，则message为<code>ab</code></li> <li>输入<code>"ab cd"</code>,则message为<code>"ab</code></li> </ul> </li> <li> <p>字符串对比 <div class=highlight><pre><span></span><code>    <span class=n>string</span> <span class=nf>str1</span><span class=p>(</span><span class=s>&quot;Hello&quot;</span><span class=p>),</span> <span class=n>str2</span><span class=p>(</span><span class=s>&quot;Hallo&quot;</span><span class=p>),</span> <span class=n>str3</span><span class=p>(</span><span class=s>&quot;hello&quot;</span><span class=p>),</span> <span class=n>str4</span><span class=p>(</span><span class=s>&quot;Hello&quot;</span><span class=p>);</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>str1</span><span class=p>.</span><span class=n>compare</span><span class=p>(</span><span class=n>str2</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>   <span class=c1>// 1   &#39;e&#39; &gt; &#39;a&#39;</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>str1</span><span class=p>.</span><span class=n>compare</span><span class=p>(</span><span class=n>str3</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>   <span class=c1>// -1  &#39;h&#39; &lt; &#39;H&#39;</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>str1</span><span class=p>.</span><span class=n>compare</span><span class=p>(</span><span class=n>str4</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>   <span class=c1>// 0</span>
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/%E7%BC%96%E7%A8%8B/c%2B%2B/%E8%AF%AD%E6%B3%95/2%E5%AD%97%E7%AC%A6%E5%92%8C%E5%AD%97%E7%AC%A6%E4%B8%B2/">
+      
+      <link rel="icon" href="../../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>字符和字符串 - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
-    <span class=c1>// You can also use the operator == or !=</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>str1</span> <span class=o>==</span> <span class=n>str2</span><span class=p>)</span> <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&quot;Same&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-    <span class=k>if</span> <span class=p>(</span><span class=n>str3</span> <span class=o>!=</span> <span class=n>str4</span><span class=p>)</span> <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&quot;Different&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>boolalpha</span><span class=p>;</span>  <span class=c1>// print bool as true/false</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>str1</span> <span class=o>!=</span> <span class=n>str2</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=p>(</span><span class=n>str1</span> <span class=o>==</span> <span class=n>str4</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-</code></pre></div></p> </li> <li> <p>字符串替换的例子</p> </li> </ul> <div class=highlight><pre><span></span><code>    <span class=cp>#include</span> <span class=cpf>&lt;algorithm&gt;</span><span class=cp></span>
-    <span class=p>......</span>
-    <span class=n>string</span> <span class=n>str</span><span class=p>(</span><span class=s>&quot;Hello, world&quot;</span><span class=p>);</span>
-    <span class=n>replace</span><span class=p>(</span><span class=n>str</span><span class=p>.</span><span class=n>begin</span><span class=p>(),</span> <span class=n>str</span><span class=p>.</span><span class=n>end</span><span class=p>(),</span> <span class=sc>&#39;l&#39;</span><span class=p>,</span> <span class=sc>&#39;_&#39;</span><span class=p>);</span>
-    <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>str</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>      <span class=c1>// &quot;He__o, wor_d&quot;</span>
-</code></pre></div> <p>例子</p> <div class=highlight><pre><span></span><code>    <span class=cm>/* Example on C++ string function (TestStringOp.cpp) */</span>
-    <span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp></span>
-    <span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=c1>    // use string class</span><span class=cp></span>
-    <span class=k>using</span> <span class=k>namespace</span> <span class=n>std</span><span class=p>;</span>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              字符和字符串
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
 
-    <span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-        <span class=n>string</span> <span class=n>msg</span> <span class=o>=</span> <span class=s>&quot;hello, world!&quot;</span><span class=p>;</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>length</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// length of string</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>at</span><span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>     <span class=c1>// char at index 1</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>[</span><span class=mi>1</span><span class=p>]</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>        <span class=c1>// same as above</span>
-         <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>empty</span><span class=p>()</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>   <span class=c1>// test for empty string</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>substr</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=c1>// sub-string begins at</span>
-                                     <span class=c1>// pos 3 of size 3</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>replace</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=mi>3</span><span class=p>,</span> <span class=s>&quot;why&quot;</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span> <span class=c1>// replace sub-string</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>append</span><span class=p>(</span><span class=s>&quot;end&quot;</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>        <span class=c1>//     append behind</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=o>+</span> <span class=s>&quot;end&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>              <span class=c1>// same as above</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>insert</span><span class=p>(</span><span class=mi>3</span><span class=p>,</span> <span class=s>&quot;insert&quot;</span><span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>  <span class=c1>// insert after pos 3</span>
 
-        <span class=n>string</span> <span class=n>msg1</span><span class=p>;</span>
-        <span class=n>msg1</span> <span class=o>=</span> <span class=n>msg</span><span class=p>;</span>   <span class=c1>// copy</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg1</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&quot;Enter a line: &quot;</span><span class=p>;</span>
-        <span class=n>getline</span><span class=p>(</span><span class=n>cin</span><span class=p>,</span> <span class=n>msg</span><span class=p>);</span>   <span class=c1>// read a line of input</span>
-        <span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></div> <p>输出</p> <p><div class=highlight><pre><span></span><code>hello, world!
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#literal" class="md-nav__link">
+    字符和字符串型literal
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    字符串
+  </a>
+  
+    <nav class="md-nav" aria-label="字符串">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#string" class="md-nav__link">
+    string类
+  </a>
+  
+    <nav class="md-nav" aria-label="string类">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    定义和初始化
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string_1" class="md-nav__link">
+    string对象上的运算
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#string_2" class="md-nav__link">
+    string对象中的字符处理
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#demo" class="md-nav__link">
+    一些Demo
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-string" class="md-nav__link">
+    C-String
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">字符和字符串<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="literal">字符和字符串型literal<a class="headerlink" href="#literal" title="Permanent link">&para;</a></h2>
+<ul>
+<li>字符literal用单引号括起来；字符串literal用双引号括起来</li>
+<li>对于两个字符串literal，如果它们以空格、缩进和换行符相隔，则系统会将它们作为加起来作为一个字符串literal。</li>
+</ul>
+<h2 id="_2">字符串<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p><a href="https://www3.ntu.edu.sg/home/ehchua/programming/cpp/cp1_Basics.html#zz-7.">参考资料</a></p>
+<p>C++里有两种类型的字符串</p>
+<ul>
+<li>
+<p>C-style字符串：这个是一个字符数组，每个数组的结尾符为'\0'</p>
+</li>
+<li>
+<p>string 类：C++98引入的</p>
+</li>
+</ul>
+<p>在命令行下只支持C-style字符串。</p>
+<h3 id="string">string类<a class="headerlink" href="#string" title="Permanent link">&para;</a></h3>
+<h4 id="_3">定义和初始化<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h4>
+<p>要使用string类，需要在程序开头加上前两行</p>
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="n">string</span> <span class="nf">str1</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+</code></pre></div>
+<p>string对象初始化的几种途径</p>
+<ul>
+<li><code>string s1</code> 默认初始化，得到的是一个空的string</li>
+<li><code>string s2(s1)</code> 或者 <code>string s2=s1;</code> <code>s1</code>为一个字符串对象，将其赋值给s2进行初始化</li>
+<li><code>string s3("value")</code> 或者<code>string s3="value"</code>： 将字符串literal赋值给s3进行初始化，不包括那个<code>\0</code>字符。</li>
+<li><code>string s4(5,'c')</code>，则<code>s4</code>为<code>ccccc</code>。</li>
+</ul>
+<h4 id="string_1">string对象上的运算<a class="headerlink" href="#string_1" title="Permanent link">&para;</a></h4>
+<p>假设s,s1,s2为string对象，则一些运算命令如下表</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>os &lt;&lt; s</code></td>
+<td>将字符串s输出给输出流os，返回os</td>
+</tr>
+<tr>
+<td><code>is &gt;&gt; s</code></td>
+<td>从输入流is中读取字符串赋值给s，返回is</td>
+</tr>
+<tr>
+<td><code>getline(is,s)</code></td>
+<td>从输入流is中读取一行字符串赋值给s，返回is</td>
+</tr>
+<tr>
+<td><code>s.empty()</code></td>
+<td>判断s是否为空，如果是则返回true</td>
+</tr>
+<tr>
+<td><code>s.size()</code></td>
+<td>返回s的char的个数</td>
+</tr>
+<tr>
+<td><code>s[n]</code></td>
+<td>返回s的第n个char，第一个字符是<code>s[0]</code></td>
+</tr>
+<tr>
+<td><code>s1+s2</code></td>
+<td>将两个string对象s1和s2连接</td>
+</tr>
+<tr>
+<td><code>s1=s2</code></td>
+<td>将s2的副本赋值给s1</td>
+</tr>
+<tr>
+<td><code>s1==s2</code></td>
+<td>判断s1和s2是否相等</td>
+</tr>
+<tr>
+<td><code>s1!=s2</code></td>
+<td>判断s1和s2是否不相等</td>
+</tr>
+<tr>
+<td><code>&lt;,&lt;=,&gt;,&gt;=</code></td>
+<td>字符串比较</td>
+</tr>
+<tr>
+<td><code>str1.substr(2,6)</code></td>
+<td>读取str1的子字符串，长度为6，从<code>str1[2]</code> 开始读</td>
+</tr>
+</tbody>
+</table>
+<p>几点说明和注意事项</p>
+<ul>
+<li><code>is&gt;&gt;s</code> 会忽略is中开头的空白（空格符、换行符、制表符等），直到遇到下一处空白为止
+    <div class="highlight"><pre><span></span><code>    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s</span><span class="p">;</span> <span class="c1">//如果输入为 &quot; Hello World&quot;，则s为&quot;Hello&quot;</span>
+</code></pre></div></li>
+<li>多个<code>&lt;&lt;</code>或<code>&gt;&gt;</code>返回的是运算符左侧的运算对象作为其结果
+    <div class="highlight"><pre><span></span><code>    <span class="n">string</span> <span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">;</span>
+    <span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">s1</span> <span class="o">&gt;&gt;</span> <span class="n">s2</span><span class="p">;</span><span class="c1">//输入为&quot;Hello world&quot;，则s1为&quot;Hello&quot;, s2为&quot;World&quot;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">s1</span> <span class="o">&lt;&lt;</span> <span class="n">s2</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">//输出为&quot;HelloWorld&quot;</span>
+</code></pre></div></li>
+<li><code>getline</code>读取一行，以换行符为标志，不包含那个换行符; <code>getline(cin, message);</code>为读取键盘输入的一行赋予给message，在输入的时候回车键表示换行。</li>
+<li><code>s.size()</code> 返回的不是int型，而是string自带的<code>size_type</code>, 为无符号类型；因此如果在表达式中混用带符号和无符号数会得到意想不到的结果。比如下面程序的t为true，这是因为n会自动转换成比较大的无符号值。为了避免出现出现这样的问题，因此如果在表达式中已经有了<code>size()</code>函数就别用int了。
+    <div class="highlight"><pre><span></span><code>    <span class="kt">int</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">-3</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;abc&quot;</span><span class="p">;</span>
+    <span class="kt">bool</span> <span class="n">t</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">size</span><span class="p">()</span><span class="o">&lt;</span><span class="n">n</span><span class="p">;</span><span class="c1">//t为true</span>
+</code></pre></div></li>
+<li>
+<p>string literal和string对象相加，要确保<code>+</code>两侧运算对象至少有一个是string对象
+    <div class="highlight"><pre><span></span><code>    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span> <span class="o">+</span> <span class="s">&quot;,&quot;</span> <span class="c1">//错误，两个均为literal</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="n">s1</span><span class="o">+</span> <span class="s">&quot;,&quot;</span> <span class="o">+</span><span class="s">&quot;world&quot;</span><span class="p">;</span> <span class="c1">//正确，s1+&quot;,&quot;得到了string对象，然后再和另外一个literal相加;</span>
+    <span class="n">string</span> <span class="n">s</span> <span class="o">=</span> <span class="s">&quot;hello&quot;</span> <span class="o">+</span><span class="s">&quot;world&quot;</span> <span class="o">+</span><span class="n">s1</span><span class="p">;</span><span class="c1">//错误，不能将literal直接相加</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>字符串对比</p>
+<div class="highlight"><pre><span></span><code>    <span class="kt">int</span> <span class="nf">compare</span><span class="p">(</span><span class="n">string</span> <span class="n">another</span><span class="p">);</span>
+        <span class="n">Compare</span> <span class="n">the</span> <span class="n">content</span> <span class="n">of</span> <span class="k">this</span> <span class="n">string</span> <span class="n">with</span> <span class="n">the</span> <span class="n">given</span> <span class="n">another</span><span class="p">.</span> 
+        <span class="n">Return</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">equals</span><span class="p">;</span> <span class="n">a</span> <span class="n">negative</span> <span class="n">value</span> <span class="k">if</span> <span class="k">this</span> <span class="n">string</span> <span class="n">is</span> <span class="n">less</span> <span class="n">than</span> <span class="n">another</span><span class="p">;</span> <span class="n">positive</span> <span class="n">value</span> <span class="n">otherwise</span><span class="p">.</span>
+
+    <span class="o">==</span> <span class="n">and</span> <span class="o">!=</span> <span class="n">Operators</span>
+        <span class="n">Compare</span> <span class="n">the</span> <span class="n">contents</span> <span class="n">of</span> <span class="n">two</span> <span class="n">strings</span>
+</code></pre></div>
+</li>
+</ul>
+<h4 id="string_2">string对象中的字符处理<a class="headerlink" href="#string_2" title="Permanent link">&para;</a></h4>
+<h4 id="demo">一些Demo<a class="headerlink" href="#demo" title="Permanent link">&para;</a></h4>
+<ul>
+<li>
+<p><code>substr</code>
+    <div class="highlight"><pre><span></span><code>    <span class="n">string</span> <span class="nf">str</span><span class="p">(</span><span class="s">&quot;Hello, world&quot;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// &quot;llo, w&quot;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p><code>cin&gt;&gt; message</code>，读取键盘的输入赋予meassage。空格键作为输入结束。
+比如：</p>
+<ul>
+<li>输入<code>ab cd</code>，则message为<code>ab</code></li>
+<li>输入<code>"ab cd"</code>,则message为<code>"ab</code></li>
+</ul>
+</li>
+<li>
+<p>字符串对比
+    <div class="highlight"><pre><span></span><code>    <span class="n">string</span> <span class="nf">str1</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">),</span> <span class="n">str2</span><span class="p">(</span><span class="s">&quot;Hallo&quot;</span><span class="p">),</span> <span class="n">str3</span><span class="p">(</span><span class="s">&quot;hello&quot;</span><span class="p">),</span> <span class="n">str4</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str1</span><span class="p">.</span><span class="n">compare</span><span class="p">(</span><span class="n">str2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>   <span class="c1">// 1   &#39;e&#39; &gt; &#39;a&#39;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str1</span><span class="p">.</span><span class="n">compare</span><span class="p">(</span><span class="n">str3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>   <span class="c1">// -1  &#39;h&#39; &lt; &#39;H&#39;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str1</span><span class="p">.</span><span class="n">compare</span><span class="p">(</span><span class="n">str4</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>   <span class="c1">// 0</span>
+
+    <span class="c1">// You can also use the operator == or !=</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">str1</span> <span class="o">==</span> <span class="n">str2</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Same&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">str3</span> <span class="o">!=</span> <span class="n">str4</span><span class="p">)</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Different&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">boolalpha</span><span class="p">;</span>  <span class="c1">// print bool as true/false</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">str1</span> <span class="o">!=</span> <span class="n">str2</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="n">str1</span> <span class="o">==</span> <span class="n">str4</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>字符串替换的例子</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code>    <span class="cp">#include</span> <span class="cpf">&lt;algorithm&gt;</span><span class="cp"></span>
+    <span class="p">......</span>
+    <span class="n">string</span> <span class="n">str</span><span class="p">(</span><span class="s">&quot;Hello, world&quot;</span><span class="p">);</span>
+    <span class="n">replace</span><span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="n">begin</span><span class="p">(),</span> <span class="n">str</span><span class="p">.</span><span class="n">end</span><span class="p">(),</span> <span class="sc">&#39;l&#39;</span><span class="p">,</span> <span class="sc">&#39;_&#39;</span><span class="p">);</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">str</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>      <span class="c1">// &quot;He__o, wor_d&quot;</span>
+</code></pre></div>
+<p>例子</p>
+<div class="highlight"><pre><span></span><code>    <span class="cm">/* Example on C++ string function (TestStringOp.cpp) */</span>
+    <span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+    <span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="c1">    // use string class</span><span class="cp"></span>
+    <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">string</span> <span class="n">msg</span> <span class="o">=</span> <span class="s">&quot;hello, world!&quot;</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// length of string</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">at</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>     <span class="c1">// char at index 1</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>        <span class="c1">// same as above</span>
+         <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">empty</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>   <span class="c1">// test for empty string</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">substr</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// sub-string begins at</span>
+                                     <span class="c1">// pos 3 of size 3</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">replace</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="s">&quot;why&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="c1">// replace sub-string</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;end&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>        <span class="c1">//     append behind</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="o">+</span> <span class="s">&quot;end&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>              <span class="c1">// same as above</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="s">&quot;insert&quot;</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>  <span class="c1">// insert after pos 3</span>
+
+        <span class="n">string</span> <span class="n">msg1</span><span class="p">;</span>
+        <span class="n">msg1</span> <span class="o">=</span> <span class="n">msg</span><span class="p">;</span>   <span class="c1">// copy</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg1</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Enter a line: &quot;</span><span class="p">;</span>
+        <span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">msg</span><span class="p">);</span>   <span class="c1">// read a line of input</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>
+<p>输出</p>
+<p><div class="highlight"><pre><span></span><code>hello, world!
 13
 e
 e
@@ -73,36 +704,101 @@ helwhy world!end
 helwhy world!endend
 helinsertwhy world!end
 helinsertwhy world!end
-</code></pre></div> - 输入和输出字符串类 <div class=highlight><pre><span></span><code><span class=cm>/* Testing string class input and output (TestStringIO.cpp) */</span>
-<span class=cp>#include</span> <span class=cpf>&lt;iostream&gt;</span><span class=cp></span>
-<span class=cp>#include</span> <span class=cpf>&lt;string&gt;</span><span class=c1>     // Need this header to use string class</span><span class=cp></span>
-<span class=cp>#include</span> <span class=cpf>&lt;limits&gt;</span><span class=cp></span>
-<span class=k>using</span> <span class=k>namespace</span> <span class=n>std</span><span class=p>;</span>  <span class=c1>// Also needed for &lt;string&gt;</span>
+</code></pre></div>
+-  输入和输出字符串类
+    <div class="highlight"><pre><span></span><code><span class="cm">/* Testing string class input and output (TestStringIO.cpp) */</span>
+<span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;string&gt;</span><span class="c1">     // Need this header to use string class</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>  <span class="c1">// Also needed for &lt;string&gt;</span>
 
-<span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-<span class=n>string</span> <span class=n>message</span><span class=p>(</span><span class=s>&quot;Hello&quot;</span><span class=p>);</span>
-<span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>message</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="n">string</span> <span class="n">message</span><span class="p">(</span><span class="s">&quot;Hello&quot;</span><span class="p">);</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">message</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
 
-<span class=c1>// Input a word (delimited by space) into a string</span>
-<span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&quot;Enter a message (no space): &quot;</span><span class=p>;</span>
-<span class=n>cin</span> <span class=o>&gt;&gt;</span> <span class=n>message</span><span class=p>;</span>
-<span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>message</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
+<span class="c1">// Input a word (delimited by space) into a string</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Enter a message (no space): &quot;</span><span class="p">;</span>
+<span class="n">cin</span> <span class="o">&gt;&gt;</span> <span class="n">message</span><span class="p">;</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">message</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
 
-<span class=n>cin</span><span class=p>.</span><span class=n>ignore</span><span class=p>(</span><span class=n>numeric_limits</span><span class=o>&lt;</span><span class=n>streamsize</span><span class=o>&gt;::</span><span class=n>max</span><span class=p>(),</span> <span class=sc>&#39;\n&#39;</span><span class=p>);</span>
-    <span class=c1>// flush cin up to newline (need &lt;limits&gt; header)</span>
+<span class="n">cin</span><span class="p">.</span><span class="n">ignore</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="n">streamsize</span><span class="o">&gt;::</span><span class="n">max</span><span class="p">(),</span> <span class="sc">&#39;\n&#39;</span><span class="p">);</span>
+    <span class="c1">// flush cin up to newline (need &lt;limits&gt; header)</span>
 
-<span class=c1>// Input a line into a string</span>
-<span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=s>&quot;Enter a message (with spaces): &quot;</span><span class=p>;</span>
-<span class=n>getline</span><span class=p>(</span><span class=n>cin</span><span class=p>,</span> <span class=n>message</span><span class=p>);</span>  <span class=c1>// Read input from cin into message</span>
-<span class=n>cout</span> <span class=o>&lt;&lt;</span> <span class=n>message</span> <span class=o>&lt;&lt;</span> <span class=n>endl</span><span class=p>;</span>
-<span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
-<span class=p>}</span>
-</code></pre></div></p> <h3 id=c-string>C-String<a class=headerlink href=#c-string title="Permanent link">&para;</a></h3> <p><strong>几点说明</strong>：</p> <ul> <li> <p>C-String是char型数组，因此可以定义如下：</p> <p><div class=highlight><pre><span></span><code>    char message[256];     // Declare a char array 
+<span class="c1">// Input a line into a string</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Enter a message (with spaces): &quot;</span><span class="p">;</span>
+<span class="n">getline</span><span class="p">(</span><span class="n">cin</span><span class="p">,</span> <span class="n">message</span><span class="p">);</span>  <span class="c1">// Read input from cin into message</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">message</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="c-string">C-String<a class="headerlink" href="#c-string" title="Permanent link">&para;</a></h3>
+<p><strong>几点说明</strong>：</p>
+<ul>
+<li>
+<p>C-String是char型数组，因此可以定义如下：</p>
+<p><div class="highlight"><pre><span></span><code>    char message[256];     // Declare a char array 
                         // Can hold a C-String of up to 255 characters terminated by &#39;\0&#39;
     char str1[] = &quot;Hello&quot;; // Declare and initialize with a &quot;string literal&quot;.
                         // The length of array is number of characters + 1 (for &#39;\0&#39;).
     char str1char[] = {&#39;H&#39;, &#39;e&#39;, &#39;l&#39;, &#39;l&#39;, &#39;o&#39;, &#39;\0&#39;};  // Same as above
     char str2[256] = &quot;Hello&quot;;  // Length of array is 256, keeping a smaller string.
-</code></pre></div> - <code>char message[3]</code>的解释为定义一个字符型数组message,它的每个element为char型，它有3个元素。最后一个元素为<code>\0</code>，因此有效字符才2个。 - 下面的赋值是不对的 <div class=highlight><pre><span></span><code>char str1[2] = &quot;Hi&quot;;//系统会在后面加上空字符`\0`，右边的长度变为3了，而左边长度为2 
-</code></pre></div> 编译会提示 <div class=highlight><pre><span></span><code>TestCString1.cpp(8) : error C2117: &#39;str1&#39; : array bounds overflow
-</code></pre></div> - 字符串literal就是C-String数组</p> </li> </ul> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+</code></pre></div>
+-  <code>char message[3]</code>的解释为定义一个字符型数组message,它的每个element为char型，它有3个元素。最后一个元素为<code>\0</code>，因此有效字符才2个。
+-  下面的赋值是不对的
+<div class="highlight"><pre><span></span><code>char str1[2] = &quot;Hi&quot;;//系统会在后面加上空字符`\0`，右边的长度变为3了，而左边长度为2 
+</code></pre></div>
+编译会提示
+<div class="highlight"><pre><span></span><code>TestCString1.cpp(8) : error C2117: &#39;str1&#39; : array bounds overflow
+</code></pre></div>
+- 字符串literal就是C-String数组</p>
+</li>
+</ul>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

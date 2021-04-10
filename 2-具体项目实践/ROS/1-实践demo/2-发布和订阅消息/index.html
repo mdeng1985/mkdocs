@@ -1,55 +1,584 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/1-%E5%AE%9E%E8%B7%B5demo/2-%E5%8F%91%E5%B8%83%E5%92%8C%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>发布和订阅消息 - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#_1 class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 发布和订阅消息 </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 消息说明 </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 发布消息 </a> <nav class=md-nav aria-label=发布消息> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 源程序 </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 编译执行流程 </a> </li> </ul> </nav> </li> <li class=md-nav__item> <a href=#_6 class=md-nav__link> 订阅者消息 </a> <nav class=md-nav aria-label=订阅者消息> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_7 class=md-nav__link> 程序解读 </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=_1>发布和订阅消息<a class=headerlink href=#_1 title="Permanent link">&para;</a></h1> <h2 id=_2>消息说明<a class=headerlink href=#_2 title="Permanent link">&para;</a></h2> <p>每一个消息类型都有一个相对应 C++头文件。格式如下： <div class=highlight><pre><span></span><code><span class=cp>#include</span> <span class=cpf>&lt;package_name/type_name.h&gt;</span><span class=cp></span>
-</code></pre></div> 比如：<code>#include &lt;geometry_msgs/Twist.h&gt;</code> 在使用的时候利用：：来对包名和类型名进行分开。</p> <p>说明<code>Twist</code>消息是属于<code>geometry_msgs</code>包的。</p> <h2 id=_3>发布消息<a class=headerlink href=#_3 title="Permanent link">&para;</a></h2> <h3 id=_4>源程序<a class=headerlink href=#_4 title="Permanent link">&para;</a></h3> <p>注意：如果一个节点发布多个话题的消息，需要创建多个publisher对象。</p> <p>因此发布消息程序的几个步骤如下：</p> <ol> <li>声明要发布的消息类型：<code>#include&lt;geometry_msgs/Twist.h&gt;</code></li> <li>创建并初始化节点： <div class=highlight><pre><span></span><code>ros::init(argc,argv,&quot;publlish_velocity&quot;);
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/1-%E5%AE%9E%E8%B7%B5demo/2-%E5%8F%91%E5%B8%83%E5%92%8C%E8%AE%A2%E9%98%85%E6%B6%88%E6%81%AF/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>发布和订阅消息 - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              发布和订阅消息
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    消息说明
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    发布消息
+  </a>
+  
+    <nav class="md-nav" aria-label="发布消息">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    源程序
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    编译执行流程
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    订阅者消息
+  </a>
+  
+    <nav class="md-nav" aria-label="订阅者消息">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    程序解读
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="_1">发布和订阅消息<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">消息说明<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>每一个消息类型都有一个相对应 C++头文件。格式如下：
+<div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;package_name/type_name.h&gt;</span><span class="cp"></span>
+</code></pre></div>
+比如：<code>#include &lt;geometry_msgs/Twist.h&gt;</code> 在使用的时候利用：：来对包名和类型名进行分开。</p>
+<p>说明<code>Twist</code>消息是属于<code>geometry_msgs</code>包的。</p>
+<h2 id="_3">发布消息<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="_4">源程序<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>注意：如果一个节点发布多个话题的消息，需要创建多个publisher对象。</p>
+<p>因此发布消息程序的几个步骤如下：</p>
+<ol>
+<li>声明要发布的消息类型：<code>#include&lt;geometry_msgs/Twist.h&gt;</code></li>
+<li>创建并初始化节点：
+<div class="highlight"><pre><span></span><code>ros::init(argc,argv,&quot;publlish_velocity&quot;);
     ros::NodeHandle nh;
-</code></pre></div></li> <li><code>publlish_velocity</code>为节点名</li> <li><code>nh</code>为节点对象</li> <li>在节点对象上创建一个发布者对象 <div class=highlight><pre><span></span><code><span class=n>ros</span><span class=o>::</span><span class=n>Publisher</span> <span class=n>pub</span> <span class=o>=</span> <span class=n>nh</span><span class=p>.</span><span class=n>advertise</span><span class=o>&lt;</span><span class=n>geometry_msgs</span><span class=o>::</span><span class=n>Twist</span><span class=o>&gt;</span><span class=p>(</span> <span class=s>&quot;turtle1/cmd_vel&quot;</span><span class=p>,</span> <span class=mi>1000</span><span class=p>);</span>
-</code></pre></div></li> <li><code>pub</code>为发布者对象</li> <li><code>geometry_msgs::Twist</code>为消息类型</li> <li><code>turtle1/cmd_vel</code>为发布的话题</li> <li> <p>1000 为消息序列的大小，设置为一个大数 标准形式： <div class=highlight><pre><span></span><code><span class=n>ros</span><span class=o>::</span><span class=n>Publisher</span> <span class=n>pub</span> <span class=o>=</span> <span class=n>node_handle</span><span class=p>.</span><span class=n>advertise</span><span class=o>&lt;</span><span class=n>message_type</span><span class=o>&gt;</span><span class=p>(</span>
-<span class=n>topic_name</span><span class=p>,</span> <span class=n>queue_size</span><span class=p>);</span>
-</code></pre></div></p> </li> <li> <p>创建并填充消息对象 <div class=highlight><pre><span></span><code>    <span class=n>geometry_msgs</span><span class=o>::</span><span class=n>Twist</span> <span class=n>msg</span><span class=p>;</span>
-        <span class=n>msg</span><span class=p>.</span><span class=n>linear</span><span class=p>.</span><span class=n>x</span> <span class=o>=</span> <span class=kt>double</span><span class=p>(</span><span class=n>rand</span><span class=p>())</span> <span class=o>/</span> <span class=kt>double</span><span class=p>(</span><span class=n>RAND_MAX</span><span class=p>);</span>
-<span class=n>msg</span><span class=p>.</span><span class=n>angular</span><span class=p>.</span><span class=n>z</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=kt>double</span><span class=p>(</span><span class=n>rand</span><span class=p>())</span> <span class=o>/</span> <span class=kt>double</span><span class=p>(</span><span class=n>RAND_MAX</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
-</code></pre></div> 利用<code>rosmsg show geometry_msgs/Twist</code>得到 <div class=highlight><pre><span></span><code><span class=n>geometry_msgs</span><span class=o>/</span><span class=n>Vector3</span> <span class=n>linear</span>
-  <span class=n>float64</span> <span class=n>x</span>
-  <span class=n>float64</span> <span class=n>y</span>
-  <span class=n>float64</span> <span class=n>z</span>
-<span class=n>geometry_msgs</span><span class=o>/</span><span class=n>Vector3</span> <span class=n>angular</span>
-  <span class=n>float64</span> <span class=n>x</span>
-  <span class=n>float64</span> <span class=n>y</span>
-  <span class=n>float64</span> <span class=n>z</span>
-</code></pre></div> 因此可以设置msg.linear.x, msg.angular.z</p> </li> <li> <p>发布消息 <div class=highlight><pre><span></span><code>                  <span class=n>pub</span><span class=p>.</span><span class=n>publish</span><span class=p>(</span><span class=n>msg</span><span class=p>);</span>
-</code></pre></div></p> </li> </ol> <p>完整的源文件如下： 在<code>beginner_tutorial</code>目录下的src目录下新建pubvel.cpp文件，内容如下 <div class=highlight><pre><span></span><code><span class=c1>//This program publishes randomly-generated velocity messages for turtlesim</span>
-<span class=cp>#include</span><span class=cpf>&lt;ros/ros.h&gt;</span><span class=cp></span>
-<span class=cp>#include</span><span class=cpf>&lt;geometry_msgs/Twist.h&gt;</span><span class=c1>//For geometry_msgs::Twsit</span><span class=cp></span>
-<span class=cp>#include</span><span class=cpf>&lt;stdlib.h&gt;</span><span class=c1>//for rand and RAND_MAX</span><span class=cp></span>
+</code></pre></div></li>
+<li><code>publlish_velocity</code>为节点名</li>
+<li><code>nh</code>为节点对象</li>
+<li>在节点对象上创建一个发布者对象
+<div class="highlight"><pre><span></span><code><span class="n">ros</span><span class="o">::</span><span class="n">Publisher</span> <span class="n">pub</span> <span class="o">=</span> <span class="n">nh</span><span class="p">.</span><span class="n">advertise</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">(</span> <span class="s">&quot;turtle1/cmd_vel&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+</code></pre></div></li>
+<li><code>pub</code>为发布者对象</li>
+<li><code>geometry_msgs::Twist</code>为消息类型</li>
+<li><code>turtle1/cmd_vel</code>为发布的话题</li>
+<li>
+<p>1000 为消息序列的大小，设置为一个大数
+标准形式：
+<div class="highlight"><pre><span></span><code><span class="n">ros</span><span class="o">::</span><span class="n">Publisher</span> <span class="n">pub</span> <span class="o">=</span> <span class="n">node_handle</span><span class="p">.</span><span class="n">advertise</span><span class="o">&lt;</span><span class="n">message_type</span><span class="o">&gt;</span><span class="p">(</span>
+<span class="n">topic_name</span><span class="p">,</span> <span class="n">queue_size</span><span class="p">);</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>创建并填充消息对象
+<div class="highlight"><pre><span></span><code>    <span class="n">geometry_msgs</span><span class="o">::</span><span class="n">Twist</span> <span class="n">msg</span><span class="p">;</span>
+        <span class="n">msg</span><span class="p">.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="kt">double</span><span class="p">(</span><span class="n">rand</span><span class="p">())</span> <span class="o">/</span> <span class="kt">double</span><span class="p">(</span><span class="n">RAND_MAX</span><span class="p">);</span>
+<span class="n">msg</span><span class="p">.</span><span class="n">angular</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="kt">double</span><span class="p">(</span><span class="n">rand</span><span class="p">())</span> <span class="o">/</span> <span class="kt">double</span><span class="p">(</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+利用<code>rosmsg show geometry_msgs/Twist</code>得到
+<div class="highlight"><pre><span></span><code><span class="n">geometry_msgs</span><span class="o">/</span><span class="n">Vector3</span> <span class="n">linear</span>
+  <span class="n">float64</span> <span class="n">x</span>
+  <span class="n">float64</span> <span class="n">y</span>
+  <span class="n">float64</span> <span class="n">z</span>
+<span class="n">geometry_msgs</span><span class="o">/</span><span class="n">Vector3</span> <span class="n">angular</span>
+  <span class="n">float64</span> <span class="n">x</span>
+  <span class="n">float64</span> <span class="n">y</span>
+  <span class="n">float64</span> <span class="n">z</span>
+</code></pre></div>
+因此可以设置msg.linear.x, msg.angular.z</p>
+</li>
+<li>
+<p>发布消息
+<div class="highlight"><pre><span></span><code>                  <span class="n">pub</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+</code></pre></div></p>
+</li>
+</ol>
+<p>完整的源文件如下：
+在<code>beginner_tutorial</code>目录下的src目录下新建pubvel.cpp文件，内容如下
+<div class="highlight"><pre><span></span><code><span class="c1">//This program publishes randomly-generated velocity messages for turtlesim</span>
+<span class="cp">#include</span><span class="cpf">&lt;ros/ros.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="cpf">&lt;geometry_msgs/Twist.h&gt;</span><span class="c1">//For geometry_msgs::Twsit</span><span class="cp"></span>
+<span class="cp">#include</span><span class="cpf">&lt;stdlib.h&gt;</span><span class="c1">//for rand and RAND_MAX</span><span class="cp"></span>
 
-<span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span> <span class=o>**</span><span class=n>argv</span><span class=p>)</span>
-<span class=p>{</span>
-    <span class=n>ros</span><span class=o>::</span><span class=n>init</span><span class=p>(</span><span class=n>argc</span><span class=p>,</span><span class=n>argv</span><span class=p>,</span><span class=s>&quot;publlish_velocity&quot;</span><span class=p>);</span>
-    <span class=n>ros</span><span class=o>::</span><span class=n>NodeHandle</span> <span class=n>nh</span><span class=p>;</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span> <span class="o">**</span><span class="n">argv</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">&quot;publlish_velocity&quot;</span><span class="p">);</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
 
-    <span class=n>ros</span><span class=o>::</span><span class=n>Publisher</span> <span class=n>pub</span> <span class=o>=</span> <span class=n>nh</span><span class=p>.</span><span class=n>advertise</span><span class=o>&lt;</span><span class=n>geometry_msgs</span><span class=o>::</span><span class=n>Twist</span><span class=o>&gt;</span><span class=p>(</span> <span class=s>&quot;turtle1/cmd_vel&quot;</span><span class=p>,</span> <span class=mi>1000</span><span class=p>);</span>
-    <span class=n>srand</span><span class=p>(</span><span class=n>time</span><span class=p>(</span><span class=mi>0</span><span class=p>));</span>
-    <span class=n>ros</span><span class=o>::</span><span class=n>Rate</span> <span class=n>loop_rate</span><span class=p>(</span><span class=mi>2</span><span class=p>);</span>
-    <span class=k>while</span> <span class=p>(</span><span class=n>ros</span><span class=o>::</span><span class=n>ok</span><span class=p>())</span>
-    <span class=p>{</span>
-        <span class=n>geometry_msgs</span><span class=o>::</span><span class=n>Twist</span> <span class=n>msg</span><span class=p>;</span>
-        <span class=n>msg</span><span class=p>.</span><span class=n>linear</span><span class=p>.</span><span class=n>x</span> <span class=o>=</span> <span class=kt>double</span><span class=p>(</span><span class=n>rand</span><span class=p>())</span> <span class=o>/</span> <span class=kt>double</span><span class=p>(</span><span class=n>RAND_MAX</span><span class=p>);</span>
-        <span class=n>msg</span><span class=p>.</span><span class=n>angular</span><span class=p>.</span><span class=n>z</span> <span class=o>=</span> <span class=mi>2</span> <span class=o>*</span> <span class=kt>double</span><span class=p>(</span><span class=n>rand</span><span class=p>())</span> <span class=o>/</span> <span class=kt>double</span><span class=p>(</span><span class=n>RAND_MAX</span><span class=p>)</span> <span class=o>-</span> <span class=mi>1</span><span class=p>;</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Publisher</span> <span class="n">pub</span> <span class="o">=</span> <span class="n">nh</span><span class="p">.</span><span class="n">advertise</span><span class="o">&lt;</span><span class="n">geometry_msgs</span><span class="o">::</span><span class="n">Twist</span><span class="o">&gt;</span><span class="p">(</span> <span class="s">&quot;turtle1/cmd_vel&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
+    <span class="n">srand</span><span class="p">(</span><span class="n">time</span><span class="p">(</span><span class="mi">0</span><span class="p">));</span>
+    <span class="n">ros</span><span class="o">::</span><span class="n">Rate</span> <span class="n">loop_rate</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">ros</span><span class="o">::</span><span class="n">ok</span><span class="p">())</span>
+    <span class="p">{</span>
+        <span class="n">geometry_msgs</span><span class="o">::</span><span class="n">Twist</span> <span class="n">msg</span><span class="p">;</span>
+        <span class="n">msg</span><span class="p">.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="kt">double</span><span class="p">(</span><span class="n">rand</span><span class="p">())</span> <span class="o">/</span> <span class="kt">double</span><span class="p">(</span><span class="n">RAND_MAX</span><span class="p">);</span>
+        <span class="n">msg</span><span class="p">.</span><span class="n">angular</span><span class="p">.</span><span class="n">z</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="kt">double</span><span class="p">(</span><span class="n">rand</span><span class="p">())</span> <span class="o">/</span> <span class="kt">double</span><span class="p">(</span><span class="n">RAND_MAX</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
 
-        <span class=n>pub</span><span class=p>.</span><span class=n>publish</span><span class=p>(</span><span class=n>msg</span><span class=p>);</span>
+        <span class="n">pub</span><span class="p">.</span><span class="n">publish</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
 
-        <span class=n>ROS_INFO_STREAM</span><span class=p>(</span><span class=s>&quot;Sending random velocity command : &quot;</span>
-                        <span class=o>&lt;&lt;</span> <span class=s>&quot; linear=&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>linear</span><span class=p>.</span><span class=n>x</span>
-                        <span class=o>&lt;&lt;</span> <span class=s>&quot; angular=&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span><span class=p>.</span><span class=n>angular</span><span class=p>.</span><span class=n>z</span><span class=p>);</span>
+        <span class="n">ROS_INFO_STREAM</span><span class="p">(</span><span class="s">&quot;Sending random velocity command : &quot;</span>
+                        <span class="o">&lt;&lt;</span> <span class="s">&quot; linear=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">linear</span><span class="p">.</span><span class="n">x</span>
+                        <span class="o">&lt;&lt;</span> <span class="s">&quot; angular=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span><span class="p">.</span><span class="n">angular</span><span class="p">.</span><span class="n">z</span><span class="p">);</span>
 
-        <span class=c1>// Wait untilit&#39;s time for another iteration .</span>
-        <span class=n>loop_rate</span><span class=p>.</span><span class=n>sleep</span><span class=p>();</span>
-    <span class=p>}</span>
+        <span class="c1">// Wait untilit&#39;s time for another iteration .</span>
+        <span class="n">loop_rate</span><span class="p">.</span><span class="n">sleep</span><span class="p">();</span>
+    <span class="p">}</span>
 
-<span class=p>}</span>
-</code></pre></div></p> <h3 id=_5>编译执行流程<a class=headerlink href=#_5 title="Permanent link">&para;</a></h3> <p>由于<code>pubvel.cpp</code>里需要include<code>geometry_msgs</code>包，因此在<code>beginner_tutorial</code>所在目录的 package.xml里加上</p> <div class=highlight><pre><span></span><code><span class=nt>&lt;build_depend&gt;</span>geometry_msgs<span class=nt>&lt;/build_depend&gt;</span>
-<span class=nt>&lt;build_export_depend&gt;</span>geometry_msgs<span class=nt>&lt;/build_export_depend&gt;</span>
-<span class=nt>&lt;exec_depend&gt;</span>geometry_msgs<span class=nt>&lt;/exec_depend&gt;</span>
-</code></pre></div> <p>然后<code>CMakeLists.txt</code>里加上 <div class=highlight><pre><span></span><code>    find_package(catkin REQUIRED COMPONENTS
+<span class="p">}</span>
+</code></pre></div></p>
+<h3 id="_5">编译执行流程<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>由于<code>pubvel.cpp</code>里需要include<code>geometry_msgs</code>包，因此在<code>beginner_tutorial</code>所在目录的
+package.xml里加上</p>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;build_depend&gt;</span>geometry_msgs<span class="nt">&lt;/build_depend&gt;</span>
+<span class="nt">&lt;build_export_depend&gt;</span>geometry_msgs<span class="nt">&lt;/build_export_depend&gt;</span>
+<span class="nt">&lt;exec_depend&gt;</span>geometry_msgs<span class="nt">&lt;/exec_depend&gt;</span>
+</code></pre></div>
+<p>然后<code>CMakeLists.txt</code>里加上
+<div class="highlight"><pre><span></span><code>    find_package(catkin REQUIRED COMPONENTS
     roscpp
     rospy
     std_msgs
@@ -57,43 +586,123 @@
     )
     add_executable(pubvel src/pubvel.cpp)
     target_link_libraries(pubvel  ${catkin_LIBRARIES})
-</code></pre></div> **Step **编译工作区</p> <div class=highlight><pre><span></span><code>    <span class=nb>cd</span> ~/catkin_ws
+</code></pre></div>
+**Step **编译工作区</p>
+<div class="highlight"><pre><span></span><code>    <span class="nb">cd</span> ~/catkin_ws
     catkin_make
-</code></pre></div> <p><strong>Step</strong> Sourcing setup.bash</p> <div class=highlight><pre><span></span><code>    <span class=nb>source</span> devel/setup.bash
-</code></pre></div> <p>**Step**执行pubvel程序</p> <p><code>rosrun beginner_tutorial pubvel</code></p> <p>pubvel为<code>beginner_tutorial</code>包下的可执行文件</p> <p>**Step**开启三个终端，分别运行 - roscore - rosrun turtlesim turtlesim_node - rosrun beginner_tutorial pubvel 就可以看到小海龟在动了。</p> <h2 id=_6>订阅者消息<a class=headerlink href=#_6 title="Permanent link">&para;</a></h2> <h3 id=_7>程序解读<a class=headerlink href=#_7 title="Permanent link">&para;</a></h3> <p>订阅消息流程如下： 1. 首先要声明的消息类型<code>#include&lt;turtlesim/Pose.h&gt;</code> 2. 创建并初始化节点 <div class=highlight><pre><span></span><code><span class=n>ros</span><span class=o>::</span><span class=n>init</span><span class=p>(</span><span class=n>argc</span><span class=p>,</span><span class=n>argv</span><span class=p>,</span><span class=s>&quot;subscribe_to_pose&quot;</span><span class=p>);</span>
-        <span class=n>ros</span><span class=o>::</span><span class=n>NodeHandle</span> <span class=n>nh</span><span class=p>;</span>
-</code></pre></div> 3. 创建订阅者对象 <div class=highlight><pre><span></span><code>ros::Subscriber sub = nh.subscribe(&quot;turtle1/pose&quot;,1000, &amp;poseMessageReceive);
-</code></pre></div> - <code>turtle1/pose</code>为要订阅的话题 - <code>poseMessageReceive</code>为有消息到达时调用的函数，需要自己编写。 <div class=highlight><pre><span></span><code><span class=n>ros</span><span class=o>::</span><span class=n>Subscriber</span> <span class=n>sub</span> <span class=o>=</span> <span class=n>node_handle</span><span class=p>.</span><span class=n>subscribe</span>
-<span class=p>(</span><span class=n>topic_name</span><span class=p>,</span><span class=n>queue_size</span><span class=p>,</span> <span class=n>pointer_to_callback_function</span><span class=p>);</span>
-</code></pre></div> - <code>ros::spin();</code>表示给ros控制权，和下面的语句等同 <div class=highlight><pre><span></span><code>    <span class=k>while</span><span class=p>(</span><span class=n>ros</span><span class=o>::</span><span class=n>ok</span><span class=p>(</span> <span class=p>))</span>
-<span class=p>{</span>
-<span class=n>ros</span><span class=o>::</span><span class=n>spinOnce</span><span class=p>();</span>
-<span class=p>}</span>
-</code></pre></div></p> <p>其中回调函数的<code>poseMessageReceive</code>写法如下： <div class=highlight><pre><span></span><code>void poseMessageReceive( const turtlesim::Pose&amp; msg)
+</code></pre></div>
+<p><strong>Step</strong> Sourcing setup.bash</p>
+<div class="highlight"><pre><span></span><code>    <span class="nb">source</span> devel/setup.bash
+</code></pre></div>
+<p>**Step**执行pubvel程序</p>
+<p><code>rosrun beginner_tutorial pubvel</code></p>
+<p>pubvel为<code>beginner_tutorial</code>包下的可执行文件</p>
+<p>**Step**开启三个终端，分别运行
+- roscore
+- rosrun turtlesim turtlesim_node
+- rosrun beginner_tutorial pubvel
+就可以看到小海龟在动了。</p>
+<h2 id="_6">订阅者消息<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="_7">程序解读<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>订阅消息流程如下：
+1. 首先要声明的消息类型<code>#include&lt;turtlesim/Pose.h&gt;</code>
+2. 创建并初始化节点
+<div class="highlight"><pre><span></span><code><span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">&quot;subscribe_to_pose&quot;</span><span class="p">);</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+</code></pre></div>
+3. 创建订阅者对象
+<div class="highlight"><pre><span></span><code>ros::Subscriber sub = nh.subscribe(&quot;turtle1/pose&quot;,1000, &amp;poseMessageReceive);
+</code></pre></div>
+- <code>turtle1/pose</code>为要订阅的话题
+- <code>poseMessageReceive</code>为有消息到达时调用的函数，需要自己编写。
+<div class="highlight"><pre><span></span><code><span class="n">ros</span><span class="o">::</span><span class="n">Subscriber</span> <span class="n">sub</span> <span class="o">=</span> <span class="n">node_handle</span><span class="p">.</span><span class="n">subscribe</span>
+<span class="p">(</span><span class="n">topic_name</span><span class="p">,</span><span class="n">queue_size</span><span class="p">,</span> <span class="n">pointer_to_callback_function</span><span class="p">);</span>
+</code></pre></div>
+- <code>ros::spin();</code>表示给ros控制权，和下面的语句等同
+<div class="highlight"><pre><span></span><code>    <span class="k">while</span><span class="p">(</span><span class="n">ros</span><span class="o">::</span><span class="n">ok</span><span class="p">(</span> <span class="p">))</span>
+<span class="p">{</span>
+<span class="n">ros</span><span class="o">::</span><span class="n">spinOnce</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></p>
+<p>其中回调函数的<code>poseMessageReceive</code>写法如下：
+<div class="highlight"><pre><span></span><code>void poseMessageReceive( const turtlesim::Pose&amp; msg)
     {
         ROS_INFO_STREAM( std::setprecision ( 2 ) &lt;&lt; std::fixed
     &lt;&lt; &quot; position =(&quot; &lt;&lt; msg . x &lt;&lt; &quot; , &quot; &lt;&lt; msg . y &lt;&lt; &quot; ) &quot;
     &lt;&lt; &quot; *direction=&quot; &lt;&lt; msg . theta   );
     }
-</code></pre></div> - <code>const turtlesim::Pose&amp; msg</code>表明msg的类型为<code>turtlesim::Pose</code></p> <p>源程序如下： （<code>beginner_tutorial</code>的src目录下创建<code>subpose.cpp</code>）</p> <div class=highlight><pre><span></span><code><span class=c1>// This program subscribes to turtle1/pose and shows its</span>
-<span class=c1>// messages on the screen .</span>
-<span class=cp>#include</span> <span class=cpf>&lt;ros/ros.h&gt;</span><span class=cp></span>
-<span class=cp>#include</span><span class=cpf>&lt;turtlesim/Pose.h&gt;</span><span class=cp></span>
-<span class=cp>#include</span><span class=cpf>&lt;iomanip&gt;</span><span class=c1>// for std::setprecision and std::fixed</span><span class=cp></span>
+</code></pre></div>
+- <code>const turtlesim::Pose&amp; msg</code>表明msg的类型为<code>turtlesim::Pose</code></p>
+<p>源程序如下：
+（<code>beginner_tutorial</code>的src目录下创建<code>subpose.cpp</code>）</p>
+<div class="highlight"><pre><span></span><code><span class="c1">// This program subscribes to turtle1/pose and shows its</span>
+<span class="c1">// messages on the screen .</span>
+<span class="cp">#include</span> <span class="cpf">&lt;ros/ros.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="cpf">&lt;turtlesim/Pose.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="cpf">&lt;iomanip&gt;</span><span class="c1">// for std::setprecision and std::fixed</span><span class="cp"></span>
 
-<span class=c1>// A callback function . Executed each time a new pose</span>
-<span class=c1>// message arrives .</span>
-<span class=kt>void</span> <span class=nf>poseMessageReceive</span><span class=p>(</span> <span class=k>const</span> <span class=n>turtlesim</span><span class=o>::</span><span class=n>Pose</span><span class=o>&amp;</span> <span class=n>msg</span><span class=p>)</span>
-    <span class=p>{</span>
-        <span class=n>ROS_INFO_STREAM</span><span class=p>(</span> <span class=n>std</span><span class=o>::</span><span class=n>setprecision</span> <span class=p>(</span> <span class=mi>2</span> <span class=p>)</span> <span class=o>&lt;&lt;</span> <span class=n>std</span><span class=o>::</span><span class=n>fixed</span>
-    <span class=o>&lt;&lt;</span> <span class=s>&quot; position =(&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=p>.</span> <span class=n>x</span> <span class=o>&lt;&lt;</span> <span class=s>&quot; , &quot;</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=p>.</span> <span class=n>y</span> <span class=o>&lt;&lt;</span> <span class=s>&quot; ) &quot;</span>
-    <span class=o>&lt;&lt;</span> <span class=s>&quot; *direction=&quot;</span> <span class=o>&lt;&lt;</span> <span class=n>msg</span> <span class=p>.</span> <span class=n>theta</span>   <span class=p>);</span>
-    <span class=p>}</span>
+<span class="c1">// A callback function . Executed each time a new pose</span>
+<span class="c1">// message arrives .</span>
+<span class="kt">void</span> <span class="nf">poseMessageReceive</span><span class="p">(</span> <span class="k">const</span> <span class="n">turtlesim</span><span class="o">::</span><span class="n">Pose</span><span class="o">&amp;</span> <span class="n">msg</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">ROS_INFO_STREAM</span><span class="p">(</span> <span class="n">std</span><span class="o">::</span><span class="n">setprecision</span> <span class="p">(</span> <span class="mi">2</span> <span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">fixed</span>
+    <span class="o">&lt;&lt;</span> <span class="s">&quot; position =(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="p">.</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; , &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="p">.</span> <span class="n">y</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; ) &quot;</span>
+    <span class="o">&lt;&lt;</span> <span class="s">&quot; *direction=&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">msg</span> <span class="p">.</span> <span class="n">theta</span>   <span class="p">);</span>
+    <span class="p">}</span>
 
-<span class=kt>int</span> <span class=nf>main</span><span class=p>(</span><span class=kt>int</span> <span class=n>argc</span><span class=p>,</span> <span class=kt>char</span><span class=o>**</span> <span class=n>argv</span><span class=p>){</span>
-        <span class=n>ros</span><span class=o>::</span><span class=n>init</span><span class=p>(</span><span class=n>argc</span><span class=p>,</span><span class=n>argv</span><span class=p>,</span><span class=s>&quot;subscribe_to_pose&quot;</span><span class=p>);</span>
-        <span class=n>ros</span><span class=o>::</span><span class=n>NodeHandle</span> <span class=n>nh</span><span class=p>;</span>
-        <span class=n>ros</span><span class=o>::</span><span class=n>Subscriber</span> <span class=n>sub</span> <span class=o>=</span> <span class=n>nh</span><span class=p>.</span><span class=n>subscribe</span><span class=p>(</span><span class=s>&quot;turtle1/pose&quot;</span><span class=p>,</span><span class=mi>1000</span><span class=p>,</span> <span class=o>&amp;</span><span class=n>poseMessageReceive</span><span class=p>);</span>
-        <span class=n>ros</span><span class=o>::</span><span class=n>spin</span><span class=p>();</span>
-    <span class=p>}</span>
-</code></pre></div> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">argc</span><span class="p">,</span> <span class="kt">char</span><span class="o">**</span> <span class="n">argv</span><span class="p">){</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">init</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">,</span><span class="s">&quot;subscribe_to_pose&quot;</span><span class="p">);</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">NodeHandle</span> <span class="n">nh</span><span class="p">;</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">Subscriber</span> <span class="n">sub</span> <span class="o">=</span> <span class="n">nh</span><span class="p">.</span><span class="n">subscribe</span><span class="p">(</span><span class="s">&quot;turtle1/pose&quot;</span><span class="p">,</span><span class="mi">1000</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">poseMessageReceive</span><span class="p">);</span>
+        <span class="n">ros</span><span class="o">::</span><span class="n">spin</span><span class="p">();</span>
+    <span class="p">}</span>
+</code></pre></div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

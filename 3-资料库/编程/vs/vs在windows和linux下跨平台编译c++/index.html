@@ -1,8 +1,647 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/vs/vs%E5%9C%A8windows%E5%92%8Clinux%E4%B8%8B%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91c%2B%2B/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <h1 id=using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux>Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux<a class=headerlink href=#using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux title="Permanent link">&para;</a></h1> <h1 id=c-vs-linux-tutorial-cmake>c++ #vs #linux #tutorial #cmake<a class=headerlink href=#c-vs-linux-tutorial-cmake title="Permanent link">&para;</a></h1> <p><a href=https://devblogs.microsoft.com/cppblog/using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux/ >原网页网址</a></p> <p>本教程直接用visual studio打开linux下的项目，前提是linux下的项目是用cmake来编译的。</p> <h2 id=setting-up-visual-studio-for-cross-platform-c-development>Setting up Visual Studio for Cross Platform C++ Development<a class=headerlink href=#setting-up-visual-studio-for-cross-platform-c-development title="Permanent link">&para;</a></h2> <p>首先安装vs，且带有：</p> <ul> <li> <p><strong>Desktop development with C++</strong></p> </li> <li> <p><strong>Linux development with C++</strong> workloads installed. </p> </li> </ul> <p>安装网站： <a href=https://aka.ms/vsinstallcpplinux>use this link</a> </p> <h2 id=configuring-your-linux-machine-for-cross-platform-c-development>Configuring your Linux machine for cross platform C++ development<a class=headerlink href=#configuring-your-linux-machine-for-cross-platform-c-development title="Permanent link">&para;</a></h2> <p>linux需要安装的软件：C++ compilers, GDB, ssh, and zip</p> <p>On Debian based systems you can install these dependencies as follows.</p> <div class=highlight><pre><span></span><code>sudo apt install -y openssh-server build-essential gdb zip
-</code></pre></div> <p>Visual Studio also of course requires CMake. However, it needs a recent version of CMake that has server mode enabled (at least 3.8). Our team produces a universal build of CMake that you can install on any Linux distro. We recommend using this build over what may be in your package manager as it is built from our fork of the CMake source. Using that fork ensures that you have the latest features in case they haven’t made it back up stream. We document <a href=https://docs.microsoft.com/en-us/cpp/linux/cmake-linux-project>how to configure CMake here</a>, and you can <a href=https://github.com/Microsoft/CMake/releases>get the CMake binaries from here</a>. Go to that page and download the version that matches your system architecture on your Linux machine. Mark it as an executable:</p> <div class=highlight><pre><span></span><code>wget chmod +x cmake-3.11.18033000-MSVC_2-Linux-x86_64.sh
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/3-%E8%B5%84%E6%96%99%E5%BA%93/%E7%BC%96%E7%A8%8B/vs/vs%E5%9C%A8windows%E5%92%8Clinux%E4%B8%8B%E8%B7%A8%E5%B9%B3%E5%8F%B0%E7%BC%96%E8%AF%91c%2B%2B/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux">Using Visual Studio for Cross Platform C++ Development Targeting Windows and Linux<a class="headerlink" href="#using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux" title="Permanent link">&para;</a></h1>
+<h1 id="c-vs-linux-tutorial-cmake">c++ #vs #linux  #tutorial #cmake<a class="headerlink" href="#c-vs-linux-tutorial-cmake" title="Permanent link">&para;</a></h1>
+<p><a href="https://devblogs.microsoft.com/cppblog/using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux/">原网页网址</a></p>
+<p>本教程直接用visual studio打开linux下的项目，前提是linux下的项目是用cmake来编译的。</p>
+<h2 id="setting-up-visual-studio-for-cross-platform-c-development">Setting up Visual Studio for Cross Platform C++ Development<a class="headerlink" href="#setting-up-visual-studio-for-cross-platform-c-development" title="Permanent link">&para;</a></h2>
+<p>首先安装vs，且带有：</p>
+<ul>
+<li>
+<p><strong>Desktop development with C++</strong></p>
+</li>
+<li>
+<p><strong>Linux development with C++</strong> workloads installed. </p>
+</li>
+</ul>
+<p>安装网站： <a href="https://aka.ms/vsinstallcpplinux">use this link</a> </p>
+<h2 id="configuring-your-linux-machine-for-cross-platform-c-development">Configuring your Linux machine for cross platform C++ development<a class="headerlink" href="#configuring-your-linux-machine-for-cross-platform-c-development" title="Permanent link">&para;</a></h2>
+<p>linux需要安装的软件：C++ compilers, GDB, ssh, and zip</p>
+<p>On Debian based systems you can install these dependencies as follows.</p>
+<div class="highlight"><pre><span></span><code>sudo apt install -y openssh-server build-essential gdb zip
+</code></pre></div>
+<p>Visual Studio also of course requires CMake. However, it needs a recent version of CMake that has server mode enabled (at least 3.8). Our team produces a universal build of CMake that you can install on any Linux distro. We recommend using this build over what may be in your package manager as it is built from our fork of the CMake source. Using that fork ensures that you have the latest features in case they haven’t made it back up stream. We document <a href="https://docs.microsoft.com/en-us/cpp/linux/cmake-linux-project">how to configure CMake here</a>, and you can <a href="https://github.com/Microsoft/CMake/releases">get the CMake binaries from here</a>. Go to that page and download the version that matches your system architecture on your Linux machine. Mark it as an executable:</p>
+<div class="highlight"><pre><span></span><code>wget chmod +x cmake-3.11.18033000-MSVC_2-Linux-x86_64.sh
 chmod +x cmake-3.11.18033000-MSVC_2-Linux-x86_64.sh
-</code></pre></div> <p>You can see the options for running it with –help. We recommend that you use the –prefix option to specify installing in the /usr/local path as that is the default location Visual Studio looks for CMake at.</p> <div class=highlight><pre><span></span><code>sudo ./cmake-3.11.18033000-MSVC_2-Linux-x86_64.sh --skip-license --prefix=/usr/local
-</code></pre></div> <h2 id=tutorial-using-the-bullet-physics-sdk-github-repo-in-visual-studio>Tutorial: Using the Bullet Physics SDK GitHub repo in Visual Studio<a class=headerlink href=#tutorial-using-the-bullet-physics-sdk-github-repo-in-visual-studio title="Permanent link">&para;</a></h2> <p>Now that you have Visual Studio and a Linux machine ready to go lets walk through getting a real open source C++ project working in Visual Studio targeting Windows and Linux. For this tutorial we are going to use <a href=https://github.com/bulletphysics/bullet3>the Bullet Physics SDK on GitHub</a>. This is a library that provides collision detection and physics simulations for a variety of different applications. There are sample executable programs within it to use so we have something to interact with without having to write additional code. You will not have to modify any of this source or build scripts in the steps that follow.</p> <p>Note that you can use any Linux distro for this tutorial, however using Windows Subsystem for Linux for this one is not a good idea since the executable we are going to run is graphical which is not supported officially there.</p> <h3 id=step-1-clone-and-open-the-bullet3-repo>Step 1 – Clone and open the bullet3 repo<a class=headerlink href=#step-1-clone-and-open-the-bullet3-repo title="Permanent link">&para;</a></h3> <p>To start, clone the bullet3 repository from GitHub on the machine where you have Visual Studio installed. If you have git installed on your command line it will be as simple as running git clone wherever you would like to keep this repository.</p> <div class=highlight><pre><span></span><code>git clone https://github.com/bulletphysics/bullet3.git
-</code></pre></div> <p>Now open the root project folder, bullet3, that was created by cloning the repo in Visual Studio. Use the menu option File &gt; Open &gt; Folder which will detect and use the CMakeLists.txt file or you can use File &gt; Open &gt; CMake to select the desired CMakeLists.txt file directly.</p> <p>You can also clone a git repo directly within Visual Studio which will automatically open the folder when you are done.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat1.png><img alt="Visual Studio menu for File > Open > CMake" src=assets/1611365693-b68bdaacbf2a4a17527b2a2d8201f712.png></a></p> <p>As soon as you open the folder your folder structure will be visible in the Solution Explorer.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat2.png><img alt src=assets/1611365693-8dc66b610c1d1be5266079213d7e29e9.png></a></p> <p>This view shows you exactly what is on disk, not a logical or filtered view. By default, it does not show hidden files. To see them, select the show all files button in the Solution Explorer.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat3.png><img alt src=assets/1611365693-94c23d7c7b0a019097dec483d76caeba.png></a></p> <h3 id=step-2-use-targets-view>Step 2 – Use targets view<a class=headerlink href=#step-2-use-targets-view title="Permanent link">&para;</a></h3> <p>When you open a folder that uses CMake, Visual Studio will automatically generate the CMake cache. This will take a few moments, or longer depending on the size of your project. The status of this process is placed in the output window. It is complete when you see the message “Target info extraction done”.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat4.png><img alt="Visual Studio Output window showing output from CMake" src=assets/1611365693-c8f75625dc937a43ca9fa21f2c5b24a1.png></a></p> <p>After this completes, IntelliSense is configured, the project can build, and you can launch the application and debug it. Visual Studio also now understands the build targets that the CMake project produces. This enables an alternate CMake Targets View that provides a logical view of the solution. Use the Solutions and Folders button in the Solution Explorer to switch to this view.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat5.png><img alt src=assets/1611365693-edecd572c4461a7e202c03c182b62f79.png></a></p> <p>Here is what that view looks like for the Bullet SDK.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat6.png><img alt="Solution Explorer CMake targets view" src=assets/1611365693-50f7b998f54aab9c30f2e5bcce1e5359.png></a></p> <p>This gives us a more intuitive view of what is in this source base. You can see some targets are libraries and others are executables. You can expand these nodes and see the source that comprises them independent of how it is represented on disk.</p> <h3 id=step-3-set-breakpoint-build-and-run>Step 3 – Set breakpoint, build and run<a class=headerlink href=#step-3-set-breakpoint-build-and-run title="Permanent link">&para;</a></h3> <p>For this tutorial, use an executable to get something that can just run and get into the debugger. Select AppBasicExampleGui and expand it. Open the file BasicExample.cpp. This is an example program that demonstrates the Bullet Physics library by rendering a bunch of cubes arranged as a single block that are falling and smash apart on hitting a surface.  Next set a break point that will be triggered when you click in the running application. That is handled in a method within a helper class used by this application. To quickly get there select CommonRigidBodyBase that the struct BasicExample is derived from around line 30. Right click and choose Go to Definition. Now you are in the header CommonRigidBodyBase.h. In the browser view above your source you should see that you are in the CommonRigidBodyBase. To the right you can select members within to examine, drop that selection down and select mouseButtonCallbackwhich will take you to the definition of that function in the header.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat7.png><img alt="Visual Studio member list toolbar" src=assets/1611365693-27befb96aa1ca066c913a5ebf3e8c140.png></a></p> <p>Place a breakpoint on the first line within this function. This will trigger when you click a mouse button within the window of the application when launched under the Visual Studio debugger.</p> <p>To launch the application, select the launch dropdown with the play icon that says “Select Startup Item” in the toolbar.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat8.png><img alt="Visual Studio toolbar launch drop down for Select Startup Item" src=assets/1611365693-2f209e5c4e3d44939e51c3b1d59933cd.png></a></p> <p>In the dropdown select AppBasicExampleGui.exe. Now press the launch button. This will cause the project to build our application and necessary dependencies, then launch it with the Visual Studio debugger attached. It will take a few moments while this process starts, then the application will appear.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat9.png><img alt="Visual Studio debugging a Windows application" src=assets/1611365693-d4111dfec4a545013b0192834792d8c3.png></a></p> <p>Move your mouse into the application window, click a button, and the breakpoint will be triggered. This pause execution of your program, bring Visual Studio back to the foreground, and you will be at your breakpoint. You will be able to inspect the application variables, objects, threads, memory, and step through your code interactively using Visual Studio. You can click continue to let the application resume and exit it normally or cease execution within Visual Studio using the stop button.</p> <p>What you have seen so far is by simply cloning a C++ repo from GitHub you can open the folder with Visual Studio and get an experience that provides IntelliSense, a file view, a logical view based on the build targets, source navigation, build, and debugging with no special configuration or Visual Studio specific project files. If you were to make changes to the source you would get a diff view from the upstream project, make commits, and push them back without leaving Visual Studio. There’s more though. Let’s use this project with Linux.</p> <h3 id=step-4-add-a-linux-configuration>Step 4 – Add a Linux configuration<a class=headerlink href=#step-4-add-a-linux-configuration title="Permanent link">&para;</a></h3> <p>So far, you have been using the default x64-Debug configuration for our CMake project. Configurations are how Visual Studio understands what platform target it is going to use for CMake. The default configuration is not represented on disk. When you explicitly add a configuration a file CMakeSettings.json is created that has parameters Visual Studio uses to control how CMake is run, as well as when it is run on a remote target like Linux. To add a new configuration, select the Configuration drop down in the toolbar and select “Manage Configurations…”</p> <p>The Add Configuration to CMakeSettings dialog will appear.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat10.png><img alt="Add Configuration to CMakeSettings dialog" src=assets/1611365693-f9f6e2e2443a471698dd6701c50fa014.png></a></p> <p>Here you see Visual Studio has preconfigured options for many of the platforms Visual Studio can be configured to use with CMake. If you want to continue to use the default x64-Debug configuration that should be the first one you add. You want that for this tutorial so can switch back and forth between Windows and Linux configurations. Select x64-Debug and click Select. This creates the CMakeSettings.json file with a configuration for “x64-Debug” and switches Visual Studio to use that configuration instead of the default. This happens very quickly as the provided settings are the same as the default. You will see the configuration drop down no longer says “(default)” as part of the name.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat11.png><img alt="Launch drop down configured for X64-Debug" src=assets/1611365693-a376d7bfaaa9320f56facc9a1b0f88ec.png></a></p> <p>You can use whatever names you like for your configurations by changing the name parameter in the CMakeSettings.json.</p> <p>Now that you have a configuration specified in the configuration dropdown Manage Configurations option opens the CMakeSettings.json file so you can adjust values there. To add a Linux configuration right click the CMakeSettings.json file in the solution explorer view and select Add Configuration.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat12.png><img alt="CMakeSettings.json context menu for Add Configuration" src=assets/1611365693-3d1d325a359ff4448543ffbb4097fbbd.png></a></p> <p>This provides the same Add Configuration to CMakeSettings dialog you saw before. This time select Linux-Debug, then save the CMakeSettings.json file. Now in the configuration drop down select Linux-Debug.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat13.png><img alt="Launch configuration drop down with X64-Debug and Linux-Debug options" src=assets/1611365693-b1a0e76896eede53b534103362072c0f.png></a></p> <p>Since this is the first time you are connecting to a Linux system the Connect to Remote System dialog will appear.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat14.png><img alt="Visual Studio Connect to Remote System dialog" src=assets/1611365693-62cc0bd3e1d3250d8692ccc98fcb8b68.png></a></p> <p>Provide the connection information to your Linux machine and click Connect. This will add that machine as your default remote machine which is what the CMakeSetttings.json for Linux-Debug is configured to use. It will also pull down the headers from your remote machine so that you get IntelliSense specific to that machine when you use it. Now Visual Studio will send your files to the remote machine, then generate the CMake cache there, and when that is done Visual Studio will be configured for using the same source base with that remote Linux machine. These steps may take some time depending on the speed of your network and power of your remote machine. You will know this is complete when the message “Target info extraction done” appears in the CMake output window.</p> <h3 id=step-5-set-breakpoint-build-and-run-on-linux>Step 5 – Set breakpoint, build and run on Linux<a class=headerlink href=#step-5-set-breakpoint-build-and-run-on-linux title="Permanent link">&para;</a></h3> <p>Since this is a desktop application you need to provide some additional configuration information to the debug configuration. In the CMake Targets view right click AppBasicExampleGui and choose <em>Debug and Launch</em> settings.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat15.png><img alt="Debug and Launch Settings context menu" src=assets/1611365693-73586e5ffbb410868e47af001ee4e0c0.png></a></p> <p>This will open a file launch.vs.json that is in the hidden .vs subfolder. This file is local to your development environment. You can move it into the root of your project if you wish to check it in and save it with your team. In this file a configuration has been added for AppBasicExampleGui. These default settings work in most cases, as this is a desktop application you need to provide some additional information to launch the program in a way you can see it on our Linux machine. You need to know the value of the environment variable DISPLAY on your Linux machine, run this command to get it.</p> <div class=highlight><pre><span></span><code>echo $DISPLAY
-</code></pre></div> <p>In my case this was :1. In the configuration for AppBasicExampleGui there is a parameter array “pipeArgs”. Within there is a line “${debuggerCommand}”. This is the command that launches gdb on the remote machine. Visual Studio needs to export the display into this context before that command runs. Do so by modifying that line as follows using the value of your display.</p> <div class=highlight><pre><span></span><code>&quot;export DISPLAY=:1;${debuggerCommand}&quot;,
-</code></pre></div> <p>Now in order to launch and debug our application, choose the “Select Startup Item” dropdown in the toolbar and choose AppBasicExampleGui.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat16.png><img alt="Select Startup Item drop down options" src=assets/1611365693-50bb113b3db4288ee8712987563fb23c.png></a></p> <p>Now press that button or hit F5. This will build the application and its dependencies on the remote Linux machine then launch it with the Visual Studio debugger attached. On your remote Linux machine, you should see an application window appear with the same falling bunch of cubes arranged as a single block.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat17.png><img alt="Linux application launched from Visual Studio" src=assets/1611365693-f7f630738a5ad5c9a8a95ef270330d07.png></a></p> <p>Move your mouse into the application window, click a button, and the breakpoint will be triggered. This pause execution of your program, bring Visual Studio back to the foreground, and you will be at your breakpoint. You should also see a Linux Console Window appear in Visual Studio. This window provides output from the remote Linux machine, and it can also accept input for stdin. It can of course be docked where you prefer to see it and it’s position will be used again in future sessions.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat18.png><img alt src=assets/1611365693-eb64b999c9be0bf49e08ec119a7cd24f.png></a></p> <p>You will be able to inspect the application variables, objects, threads, memory, and step through your code interactively using Visual Studio. This time on a remote Linux machine instead of your local Windows environment. You can click continue to let the application resume and exit it normally or cease execution within Visual Studio using the stop button. All the same things you’d expect if this were running locally.</p> <p>Look at the Call Stack window and you will see this time the Calls to x11OpenGLWindow since Visual Studio has launched the application on Linux.</p> <p><a href=https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat19.png><img alt src=assets/1611365693-3d302211b63fb7d0019af2a275bd33f4.png></a></p> <h2 id=what-you-learned-and-where-to-learn-more>What you learned and where to learn more<a class=headerlink href=#what-you-learned-and-where-to-learn-more title="Permanent link">&para;</a></h2> <p>So now you have seen the same code base, cloned directly from GitHub, build, run, and debugged on Windows with no modifications. Then with some minor configuration settings build, run and debugged on a remote Linux machine as well. If you are doing cross platform development, we hope you find a lot to love here. Visual Studio C and C++ development is not just for Windows anymore.</p> <p><strong>Further articles</strong></p> <ul> <li><a href=https://devblogs.microsoft.com/cppblog/linux-development-with-c-in-visual-studio/ >Original Linux C++ announcement post</a>, this goes into depth on Linux C++ projects that use msbuild to drive remote compilation.</li> </ul> <p><strong>Documentation links</strong></p> <ul> <li><a href="https://docs.microsoft.com/en-us/cpp/ide/cmake-tools-for-visual-cpp?view=vs-2017">CMake projects</a></li> <li><a href="https://docs.microsoft.com/en-us/cpp/ide/non-msbuild-projects?view=vs-2017">Open folder projects</a> for C++ for any build system</li> <li><a href="https://docs.microsoft.com/en-us/cpp/linux/download-install-and-setup-the-linux-development-workload?view=vs-2017">Download and setup the Linux workload</a>, the root page for Visual Studio C++ Linux documentation</li> </ul> <p>This section will be updated in the future with links to new articles on Cross Platform Development with Visual Studio.</p> <h2 id=give-us-feedback>Give us feedback<a class=headerlink href=#give-us-feedback title="Permanent link">&para;</a></h2> <p><a href=https://aka.ms/vsinstallcpplinux>Use this link to download Visual Studio 2017</a> with everything you need to try the steps in this tutorial, then try it with your projects.</p> <h5 id=marc-goodner><a href=https://devblogs.microsoft.com/cppblog/author/mgoodnermicrosoft-com/ >Marc Goodner</a><a class=headerlink href=#marc-goodner title="Permanent link">&para;</a></h5> <p>Program Manager, C++</p> <p><strong>Follow</strong><a href=https://twitter.com/robotdad></a><a href=https://devblogs.microsoft.com/cppblog/author/mgoodnermicrosoft-com/feed/ ></a></p> <p>Posted in <a href=https://devblogs.microsoft.com/cppblog/category/documentation/ >Documentation</a></p> <h5 id=read-next>Read next<a class=headerlink href=#read-next title="Permanent link">&para;</a></h5> <p><a href=https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-using-build-tools-with-clang-tidy/ >Exploring Clang Tooling – Using Build Tools with clang-tidy</a></p> <p>This post is part of a regular series of posts where the C++ product team and other guests answer questions we have received from customers. The questions can be about ...</p> <p><a href=https://devblogs.microsoft.com/cppblog/author/stkellyms/ ><img alt=Avatar src=assets/1611365693-3aa9c798f0248daeb265da372fee09e2.jpg> Stephen Kelly November 27, 2018</a></p> <p><a href=https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-using-build-tools-with-clang-tidy/#comments>0 comment</a></p> <p><a href=https://devblogs.microsoft.com/cppblog/better-template-support-and-error-detection-in-c-modules-with-msvc-2017-version-15-9/ >Better template support and error detection in C++ Modules with MSVC 2017 version 15.9</a></p> <p>Overview It has been a long time since we last talked about C++ Modules. We feel it is time to revisit what has been happening under the hood of MSVC for modules. The...</p> <p><a href=https://devblogs.microsoft.com/cppblog/author/cadacama/ ><img alt="Cameron DaCamara" src=assets/1611365693-4db39b8d0423d2d4af1cbee60622a9c2.png> Cameron DaCamara November 27, 2018</a></p> <p><a href=https://devblogs.microsoft.com/cppblog/better-template-support-and-error-detection-in-c-modules-with-msvc-2017-version-15-9/#comments>0 comment</a></p> <h2 id=5-comments>5 comments<a class=headerlink href=#5-comments title="Permanent link">&para;</a></h2> <p>Comments are closed. <a href="https://devblogs.microsoft.com/cppblog/wp-login.php?redirect_to=https%3A%2F%2Fdevblogs.microsoft.com%2Fcppblog%2Fusing-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux%2F%23comments" title="Login to edit/delete your existing comments">Login to edit/delete your existing comments</a></p> <ul> <li> <p><img alt=Avatar src=assets/1611365693-b794701f4a809a2e67c41536d1dfb227.jpg></p> <p>Paul Lauzon May 28, 2019 3:11 pm</p> <p><a href=javascript: title="collapse this comment">collapse this comment</a> <a href=javascript: title="copy this comment link">copy this comment link</a></p> <p>I have some sources that I intend to compile/debug for Windows/Linux and other platforms in the future.<br> Is there a way to keep sources locally and compile using either llvm or g++?I would like to compile the sources locally on my Windows PC instead of having VisualStudio copying source files to a linux vm/server for remote compiling.<br> I prefer having the sources only in one ‘secured’ location, and keeping everything locally like the compiler, library and system file headers. So my main reasons for not uploading the sources is security and source control.<br> So far it runs on Windows so I installed the ‘Linux development with C++’ package in VisualStudio to compile/debug it for Linux.<br> I tried a small example that worked but it uploads the sources prior to compilation and that is not what I want.<br> What I would like is to compile locally and then upload the executable on the linuxserver and run it for a debugging.<br> Or if the executable is already present or running (e.g. a server), it could just launch it or attach to the process for a remote debugging session.<br> I am not sure if this is possible. All the examples I saw assumed that the sources were on the linux target.</p> </li> <li> <p><img alt="Nycholas Maia" src=assets/1611365693-85dd95380c061cd528c6a00efc43ae11.jpg></p> <p>Nycholas Maia June 24, 2019 8:05 pm</p> <p><a href=javascript: title="collapse this comment">collapse this comment</a> <a href=javascript: title="copy this comment link">copy this comment link</a></p> <p>Hi, Thanks for your good tutorial!I’m trying to do that, but I got some erros:<br> <code>**Starting GLFW context, OpenGL 3.3**</code><br> <code>**Glfw Error 65544: X11: The DISPLAY environment variable is missing**I wrote more details here:[https://stackoverflow.com/questions/56743033/visual-studio-x11-the-display-environment-variable-is-missing](https://stackoverflow.com/questions/56743033/visual-studio-x11-the-display-environment-variable-is-missing)Could you help me?</code></p> </li> <li> <p><img alt=Avatar src=assets/1611365693-c7079c73da7797d06be736d0fa7042a9.jpg></p> <p>Can James Wetherilt September 11, 2019 1:18 pm</p> <p><a href=javascript: title="collapse this comment">collapse this comment</a> <a href=javascript: title="copy this comment link">copy this comment link</a></p> <p>I’m interested in getting CUDA code to cross-compile using Visual Studio. Unfortunately, I’ve had little success so far. I was wondering if this is at all possible; if so how and if not whether there are any plans at your end to make it possible.</p> </li> <li> <p><img alt=Avatar src=assets/1611365693-f11cd46fb0fca390777112168277129e.jpg></p> <p>Ovidiu Craciun January 7, 2020 1:40 pm</p> <p><a href=javascript: title="collapse this comment">collapse this comment</a> <a href=javascript: title="copy this comment link">copy this comment link</a></p> <p>–prefix=/usr/local<br> should read<br> –prefix=/usr/bin</p> <p>I’ve done all the steps, and VS was looking into /usr/bin for cmake</p> <ul> <li> <p><img alt=Avatar src=assets/1611365693-f11cd46fb0fca390777112168277129e.jpg></p> <p>Ovidiu Craciun January 21, 2020 2:30 pm</p> <p><a href=javascript: title="collapse this comment">collapse this comment</a> <a href=javascript: title="copy this comment link">copy this comment link</a></p> <p>I have Microsoft Visual Studio Professional 2019 Version 16.4.2<br> I want to build and debug a c++ project for Linux. My whole setup used to work great, I was able to build my project (c++) and debug it as well.<br> One day it stopped working (I am not 100% sure if it was before or after I installed latest VS update).</p> <p>Problem: When I start debugging the VS builds the project and hangs forever with the dialog showing the message “Initializing debugger”.</p> <p>I have my bash setup correctly, ssh server started and tested (VS has a connection opened and tested to it), the MS cmake 3.16.3311152-MSVC_2, build-essential, gdb, zip, rsync, gcc.</p> <p>The “Debug-&gt;Linux Console” window is empty, not showing anything.<br> On the output window there’s no error or warning printed/shown and no other popup either.</p> <p>How can I investigate, understand what is going on? I can provide any detail needed to move on with this matter which is blocking my progress.</p> <p>Thank you!</p> </li> </ul> </li> </ul> <hr> <p>原网址: <a href=https://devblogs.microsoft.com/cppblog/using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux/ >访问</a></p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+</code></pre></div>
+<p>You can see the options for running it with –help. We recommend that you use the –prefix option to specify installing in the /usr/local path as that is the default location Visual Studio looks for CMake at.</p>
+<div class="highlight"><pre><span></span><code>sudo ./cmake-3.11.18033000-MSVC_2-Linux-x86_64.sh --skip-license --prefix=/usr/local
+</code></pre></div>
+<h2 id="tutorial-using-the-bullet-physics-sdk-github-repo-in-visual-studio">Tutorial: Using the Bullet Physics SDK GitHub repo in Visual Studio<a class="headerlink" href="#tutorial-using-the-bullet-physics-sdk-github-repo-in-visual-studio" title="Permanent link">&para;</a></h2>
+<p>Now that you have Visual Studio and a Linux machine ready to go lets walk through getting a real open source C++ project working in Visual Studio targeting Windows and Linux. For this tutorial we are going to use <a href="https://github.com/bulletphysics/bullet3">the Bullet Physics SDK on GitHub</a>. This is a library that provides collision detection and physics simulations for a variety of different applications. There are sample executable programs within it to use so we have something to interact with without having to write additional code. You will not have to modify any of this source or build scripts in the steps that follow.</p>
+<p>Note that you can use any Linux distro for this tutorial, however using Windows Subsystem for Linux for this one is not a good idea since the executable we are going to run is graphical which is not supported officially there.</p>
+<h3 id="step-1-clone-and-open-the-bullet3-repo">Step 1 – Clone and open the bullet3 repo<a class="headerlink" href="#step-1-clone-and-open-the-bullet3-repo" title="Permanent link">&para;</a></h3>
+<p>To start, clone the bullet3 repository from GitHub on the machine where you have Visual Studio installed. If you have git installed on your command line it will be as simple as running git clone wherever you would like to keep this repository.</p>
+<div class="highlight"><pre><span></span><code>git clone https://github.com/bulletphysics/bullet3.git
+</code></pre></div>
+<p>Now open the root project folder, bullet3, that was created by cloning the repo in Visual Studio. Use the menu option File &gt; Open &gt; Folder which will detect and use the CMakeLists.txt file or you can use File &gt; Open &gt; CMake to select the desired CMakeLists.txt file directly.</p>
+<p>You can also clone a git repo directly within Visual Studio which will automatically open the folder when you are done.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat1.png"><img alt="Visual Studio menu for File &gt; Open &gt; CMake" src="assets/1611365693-b68bdaacbf2a4a17527b2a2d8201f712.png" /></a></p>
+<p>As soon as you open the folder your folder structure will be visible in the Solution Explorer.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat2.png"><img alt="" src="assets/1611365693-8dc66b610c1d1be5266079213d7e29e9.png" /></a></p>
+<p>This view shows you exactly what is on disk, not a logical or filtered view. By default, it does not show hidden files. To see them, select the show all files button in the Solution Explorer.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat3.png"><img alt="" src="assets/1611365693-94c23d7c7b0a019097dec483d76caeba.png" /></a></p>
+<h3 id="step-2-use-targets-view">Step 2 – Use targets view<a class="headerlink" href="#step-2-use-targets-view" title="Permanent link">&para;</a></h3>
+<p>When you open a folder that uses CMake, Visual Studio will automatically generate the CMake cache. This will take a few moments, or longer depending on the size of your project. The status of this process is placed in the output window. It is complete when you see the message “Target info extraction done”.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat4.png"><img alt="Visual Studio Output window showing output from CMake" src="assets/1611365693-c8f75625dc937a43ca9fa21f2c5b24a1.png" /></a></p>
+<p>After this completes, IntelliSense is configured, the project can build, and you can launch the application and debug it. Visual Studio also now understands the build targets that the CMake project produces. This enables an alternate CMake Targets View that provides a logical view of the solution. Use the Solutions and Folders button in the Solution Explorer to switch to this view.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat5.png"><img alt="" src="assets/1611365693-edecd572c4461a7e202c03c182b62f79.png" /></a></p>
+<p>Here is what that view looks like for the Bullet SDK.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat6.png"><img alt="Solution Explorer CMake targets view" src="assets/1611365693-50f7b998f54aab9c30f2e5bcce1e5359.png" /></a></p>
+<p>This gives us a more intuitive view of what is in this source base. You can see some targets are libraries and others are executables. You can expand these nodes and see the source that comprises them independent of how it is represented on disk.</p>
+<h3 id="step-3-set-breakpoint-build-and-run">Step 3 – Set breakpoint, build and run<a class="headerlink" href="#step-3-set-breakpoint-build-and-run" title="Permanent link">&para;</a></h3>
+<p>For this tutorial, use an executable to get something that can just run and get into the debugger. Select AppBasicExampleGui and expand it. Open the file BasicExample.cpp. This is an example program that demonstrates the Bullet Physics library by rendering a bunch of cubes arranged as a single block that are falling and smash apart on hitting a surface.  Next set a break point that will be triggered when you click in the running application. That is handled in a method within a helper class used by this application. To quickly get there select CommonRigidBodyBase that the struct BasicExample is derived from around line 30. Right click and choose Go to Definition. Now you are in the header CommonRigidBodyBase.h. In the browser view above your source you should see that you are in the CommonRigidBodyBase. To the right you can select members within to examine, drop that selection down and select mouseButtonCallbackwhich will take you to the definition of that function in the header.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat7.png"><img alt="Visual Studio member list toolbar" src="assets/1611365693-27befb96aa1ca066c913a5ebf3e8c140.png" /></a></p>
+<p>Place a breakpoint on the first line within this function. This will trigger when you click a mouse button within the window of the application when launched under the Visual Studio debugger.</p>
+<p>To launch the application, select the launch dropdown with the play icon that says “Select Startup Item” in the toolbar.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat8.png"><img alt="Visual Studio toolbar launch drop down for Select Startup Item" src="assets/1611365693-2f209e5c4e3d44939e51c3b1d59933cd.png" /></a></p>
+<p>In the dropdown select AppBasicExampleGui.exe. Now press the launch button. This will cause the project to build our application and necessary dependencies, then launch it with the Visual Studio debugger attached. It will take a few moments while this process starts, then the application will appear.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat9.png"><img alt="Visual Studio debugging a Windows application" src="assets/1611365693-d4111dfec4a545013b0192834792d8c3.png" /></a></p>
+<p>Move your mouse into the application window, click a button, and the breakpoint will be triggered. This pause execution of your program, bring Visual Studio back to the foreground, and you will be at your breakpoint. You will be able to inspect the application variables, objects, threads, memory, and step through your code interactively using Visual Studio. You can click continue to let the application resume and exit it normally or cease execution within Visual Studio using the stop button.</p>
+<p>What you have seen so far is by simply cloning a C++ repo from GitHub you can open the folder with Visual Studio and get an experience that provides IntelliSense, a file view, a logical view based on the build targets, source navigation, build, and debugging with no special configuration or Visual Studio specific project files. If you were to make changes to the source you would get a diff view from the upstream project, make commits, and push them back without leaving Visual Studio. There’s more though. Let’s use this project with Linux.</p>
+<h3 id="step-4-add-a-linux-configuration">Step 4 – Add a Linux configuration<a class="headerlink" href="#step-4-add-a-linux-configuration" title="Permanent link">&para;</a></h3>
+<p>So far, you have been using the default x64-Debug configuration for our CMake project. Configurations are how Visual Studio understands what platform target it is going to use for CMake. The default configuration is not represented on disk. When you explicitly add a configuration a file CMakeSettings.json is created that has parameters Visual Studio uses to control how CMake is run, as well as when it is run on a remote target like Linux. To add a new configuration, select the Configuration drop down in the toolbar and select “Manage Configurations…”</p>
+<p>The Add Configuration to CMakeSettings dialog will appear.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat10.png"><img alt="Add Configuration to CMakeSettings dialog" src="assets/1611365693-f9f6e2e2443a471698dd6701c50fa014.png" /></a></p>
+<p>Here you see Visual Studio has preconfigured options for many of the platforms Visual Studio can be configured to use with CMake. If you want to continue to use the default x64-Debug configuration that should be the first one you add. You want that for this tutorial so can switch back and forth between Windows and Linux configurations. Select x64-Debug and click Select. This creates the CMakeSettings.json file with a configuration for “x64-Debug” and switches Visual Studio to use that configuration instead of the default. This happens very quickly as the provided settings are the same as the default. You will see the configuration drop down no longer says “(default)” as part of the name.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat11.png"><img alt="Launch drop down configured for X64-Debug" src="assets/1611365693-a376d7bfaaa9320f56facc9a1b0f88ec.png" /></a></p>
+<p>You can use whatever names you like for your configurations by changing the name parameter in the CMakeSettings.json.</p>
+<p>Now that you have a configuration specified in the configuration dropdown Manage Configurations option opens the CMakeSettings.json file so you can adjust values there. To add a Linux configuration right click the CMakeSettings.json file in the solution explorer view and select Add Configuration.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat12.png"><img alt="CMakeSettings.json context menu for Add Configuration" src="assets/1611365693-3d1d325a359ff4448543ffbb4097fbbd.png" /></a></p>
+<p>This provides the same Add Configuration to CMakeSettings dialog you saw before. This time select Linux-Debug, then save the CMakeSettings.json file. Now in the configuration drop down select Linux-Debug.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat13.png"><img alt="Launch configuration drop down with X64-Debug and Linux-Debug options" src="assets/1611365693-b1a0e76896eede53b534103362072c0f.png" /></a></p>
+<p>Since this is the first time you are connecting to a Linux system the Connect to Remote System dialog will appear.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat14.png"><img alt="Visual Studio Connect to Remote System dialog" src="assets/1611365693-62cc0bd3e1d3250d8692ccc98fcb8b68.png" /></a></p>
+<p>Provide the connection information to your Linux machine and click Connect. This will add that machine as your default remote machine which is what the CMakeSetttings.json for Linux-Debug is configured to use. It will also pull down the headers from your remote machine so that you get IntelliSense specific to that machine when you use it. Now Visual Studio will send your files to the remote machine, then generate the CMake cache there, and when that is done Visual Studio will be configured for using the same source base with that remote Linux machine. These steps may take some time depending on the speed of your network and power of your remote machine. You will know this is complete when the message “Target info extraction done” appears in the CMake output window.</p>
+<h3 id="step-5-set-breakpoint-build-and-run-on-linux">Step 5 – Set breakpoint, build and run on Linux<a class="headerlink" href="#step-5-set-breakpoint-build-and-run-on-linux" title="Permanent link">&para;</a></h3>
+<p>Since this is a desktop application you need to provide some additional configuration information to the debug configuration. In the CMake Targets view right click AppBasicExampleGui and choose <em>Debug and Launch</em> settings.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat15.png"><img alt="Debug and Launch Settings context menu" src="assets/1611365693-73586e5ffbb410868e47af001ee4e0c0.png" /></a></p>
+<p>This will open a file launch.vs.json that is in the hidden .vs subfolder. This file is local to your development environment. You can move it into the root of your project if you wish to check it in and save it with your team. In this file a configuration has been added for AppBasicExampleGui. These default settings work in most cases, as this is a desktop application you need to provide some additional information to launch the program in a way you can see it on our Linux machine. You need to know the value of the environment variable DISPLAY on your Linux machine, run this command to get it.</p>
+<div class="highlight"><pre><span></span><code>echo $DISPLAY
+</code></pre></div>
+<p>In my case this was :1. In the configuration for AppBasicExampleGui there is a parameter array “pipeArgs”. Within there is a line “${debuggerCommand}”. This is the command that launches gdb on the remote machine. Visual Studio needs to export the display into this context before that command runs. Do so by modifying that line as follows using the value of your display.</p>
+<div class="highlight"><pre><span></span><code>&quot;export DISPLAY=:1;${debuggerCommand}&quot;,
+</code></pre></div>
+<p>Now in order to launch and debug our application, choose the “Select Startup Item” dropdown in the toolbar and choose AppBasicExampleGui.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat16.png"><img alt="Select Startup Item drop down options" src="assets/1611365693-50bb113b3db4288ee8712987563fb23c.png" /></a></p>
+<p>Now press that button or hit F5. This will build the application and its dependencies on the remote Linux machine then launch it with the Visual Studio debugger attached. On your remote Linux machine, you should see an application window appear with the same falling bunch of cubes arranged as a single block.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat17.png"><img alt="Linux application launched from Visual Studio" src="assets/1611365693-f7f630738a5ad5c9a8a95ef270330d07.png" /></a></p>
+<p>Move your mouse into the application window, click a button, and the breakpoint will be triggered. This pause execution of your program, bring Visual Studio back to the foreground, and you will be at your breakpoint. You should also see a Linux Console Window appear in Visual Studio. This window provides output from the remote Linux machine, and it can also accept input for stdin. It can of course be docked where you prefer to see it and it’s position will be used again in future sessions.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat18.png"><img alt="" src="assets/1611365693-eb64b999c9be0bf49e08ec119a7cd24f.png" /></a></p>
+<p>You will be able to inspect the application variables, objects, threads, memory, and step through your code interactively using Visual Studio. This time on a remote Linux machine instead of your local Windows environment. You can click continue to let the application resume and exit it normally or cease execution within Visual Studio using the stop button. All the same things you’d expect if this were running locally.</p>
+<p>Look at the Call Stack window and you will see this time the Calls to x11OpenGLWindow since Visual Studio has launched the application on Linux.</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/wp-content/uploads/sites/9/2019/02/xplat19.png"><img alt="" src="assets/1611365693-3d302211b63fb7d0019af2a275bd33f4.png" /></a></p>
+<h2 id="what-you-learned-and-where-to-learn-more">What you learned and where to learn more<a class="headerlink" href="#what-you-learned-and-where-to-learn-more" title="Permanent link">&para;</a></h2>
+<p>So now you have seen the same code base, cloned directly from GitHub, build, run, and debugged on Windows with no modifications. Then with some minor configuration settings build, run and debugged on a remote Linux machine as well. If you are doing cross platform development, we hope you find a lot to love here. Visual Studio C and C++ development is not just for Windows anymore.</p>
+<p><strong>Further articles</strong></p>
+<ul>
+<li><a href="https://devblogs.microsoft.com/cppblog/linux-development-with-c-in-visual-studio/">Original Linux C++ announcement post</a>, this goes into depth on Linux C++ projects that use msbuild to drive remote compilation.</li>
+</ul>
+<p><strong>Documentation links</strong></p>
+<ul>
+<li><a href="https://docs.microsoft.com/en-us/cpp/ide/cmake-tools-for-visual-cpp?view=vs-2017">CMake projects</a></li>
+<li><a href="https://docs.microsoft.com/en-us/cpp/ide/non-msbuild-projects?view=vs-2017">Open folder projects</a> for C++ for any build system</li>
+<li><a href="https://docs.microsoft.com/en-us/cpp/linux/download-install-and-setup-the-linux-development-workload?view=vs-2017">Download and setup the Linux workload</a>, the root page for Visual Studio C++ Linux documentation</li>
+</ul>
+<p>This section will be updated in the future with links to new articles on Cross Platform Development with Visual Studio.</p>
+<h2 id="give-us-feedback">Give us feedback<a class="headerlink" href="#give-us-feedback" title="Permanent link">&para;</a></h2>
+<p><a href="https://aka.ms/vsinstallcpplinux">Use this link to download Visual Studio 2017</a> with everything you need to try the steps in this tutorial, then try it with your projects.</p>
+<h5 id="marc-goodner"><a href="https://devblogs.microsoft.com/cppblog/author/mgoodnermicrosoft-com/">Marc Goodner</a><a class="headerlink" href="#marc-goodner" title="Permanent link">&para;</a></h5>
+<p>Program Manager, C++</p>
+<p><strong>Follow</strong><a href="https://twitter.com/robotdad"></a><a href="https://devblogs.microsoft.com/cppblog/author/mgoodnermicrosoft-com/feed/"></a></p>
+<p>Posted in <a href="https://devblogs.microsoft.com/cppblog/category/documentation/">Documentation</a></p>
+<h5 id="read-next">Read next<a class="headerlink" href="#read-next" title="Permanent link">&para;</a></h5>
+<p><a href="https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-using-build-tools-with-clang-tidy/">Exploring Clang Tooling – Using Build Tools with clang-tidy</a></p>
+<p>This post is part of a regular series of posts where the C++ product team and other guests answer questions we have received from customers. The questions can be about ...</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/author/stkellyms/"><img alt="Avatar" src="assets/1611365693-3aa9c798f0248daeb265da372fee09e2.jpg" /> Stephen Kelly November 27, 2018</a></p>
+<p><a href="https://devblogs.microsoft.com/cppblog/exploring-clang-tooling-using-build-tools-with-clang-tidy/#comments">0 comment</a></p>
+<p><a href="https://devblogs.microsoft.com/cppblog/better-template-support-and-error-detection-in-c-modules-with-msvc-2017-version-15-9/">Better template support and error detection in C++ Modules with MSVC 2017 version 15.9</a></p>
+<p>Overview It has been a long time since we last talked about C++ Modules. We feel it is time to revisit what has been happening under the hood of MSVC for modules. The...</p>
+<p><a href="https://devblogs.microsoft.com/cppblog/author/cadacama/"><img alt="Cameron DaCamara" src="assets/1611365693-4db39b8d0423d2d4af1cbee60622a9c2.png" /> Cameron DaCamara November 27, 2018</a></p>
+<p><a href="https://devblogs.microsoft.com/cppblog/better-template-support-and-error-detection-in-c-modules-with-msvc-2017-version-15-9/#comments">0 comment</a></p>
+<h2 id="5-comments">5 comments<a class="headerlink" href="#5-comments" title="Permanent link">&para;</a></h2>
+<p>Comments are closed. <a href="https://devblogs.microsoft.com/cppblog/wp-login.php?redirect_to=https%3A%2F%2Fdevblogs.microsoft.com%2Fcppblog%2Fusing-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux%2F%23comments" title="Login to edit/delete your existing comments">Login to edit/delete your existing comments</a></p>
+<ul>
+<li>
+<p><img alt="Avatar" src="assets/1611365693-b794701f4a809a2e67c41536d1dfb227.jpg" /></p>
+<p>Paul Lauzon May 28, 2019 3:11 pm</p>
+<p><a href="javascript:" title="collapse this comment">collapse this comment</a> <a href="javascript:" title="copy this comment link">copy this comment link</a></p>
+<p>I have some sources that I intend to compile/debug for Windows/Linux and other platforms in the future.<br />
+Is there a way to keep sources locally and compile using either llvm or g++?I would like to compile the sources locally on my Windows PC instead of having VisualStudio copying source files to a linux vm/server for remote compiling.<br />
+I prefer having the sources only in one ‘secured’ location, and keeping everything locally like the compiler, library and system file headers. So my main reasons for not uploading the sources is security and source control.<br />
+So far it runs on Windows so I installed the ‘Linux development with C++’ package in VisualStudio to compile/debug it for Linux.<br />
+I tried a small example that worked but it uploads the sources prior to compilation and that is not what I want.<br />
+What I would like is to compile locally and then upload the executable on the linuxserver and run it for a debugging.<br />
+Or if the executable is already present or running (e.g. a server), it could just launch it or attach to the process for a remote debugging session.<br />
+I am not sure if this is possible. All the examples I saw assumed that the sources were on the linux target.</p>
+</li>
+<li>
+<p><img alt="Nycholas Maia" src="assets/1611365693-85dd95380c061cd528c6a00efc43ae11.jpg" /></p>
+<p>Nycholas Maia June 24, 2019 8:05 pm</p>
+<p><a href="javascript:" title="collapse this comment">collapse this comment</a> <a href="javascript:" title="copy this comment link">copy this comment link</a></p>
+<p>Hi, Thanks for your good tutorial!I’m trying to do that, but I got some erros:<br />
+<code>**Starting GLFW context, OpenGL 3.3**</code><br />
+<code>**Glfw Error 65544: X11: The DISPLAY environment variable is missing**I wrote more details here:[https://stackoverflow.com/questions/56743033/visual-studio-x11-the-display-environment-variable-is-missing](https://stackoverflow.com/questions/56743033/visual-studio-x11-the-display-environment-variable-is-missing)Could you help me?</code></p>
+</li>
+<li>
+<p><img alt="Avatar" src="assets/1611365693-c7079c73da7797d06be736d0fa7042a9.jpg" /></p>
+<p>Can James Wetherilt September 11, 2019 1:18 pm</p>
+<p><a href="javascript:" title="collapse this comment">collapse this comment</a> <a href="javascript:" title="copy this comment link">copy this comment link</a></p>
+<p>I’m interested in getting CUDA code to cross-compile using Visual Studio. Unfortunately, I’ve had little success so far. I was wondering if this is at all possible; if so how and if not whether there are any plans at your end to make it possible.</p>
+</li>
+<li>
+<p><img alt="Avatar" src="assets/1611365693-f11cd46fb0fca390777112168277129e.jpg" /></p>
+<p>Ovidiu Craciun January 7, 2020 1:40 pm</p>
+<p><a href="javascript:" title="collapse this comment">collapse this comment</a> <a href="javascript:" title="copy this comment link">copy this comment link</a></p>
+<p>–prefix=/usr/local<br />
+should read<br />
+–prefix=/usr/bin</p>
+<p>I’ve done all the steps, and VS was looking into /usr/bin for cmake</p>
+<ul>
+<li>
+<p><img alt="Avatar" src="assets/1611365693-f11cd46fb0fca390777112168277129e.jpg" /></p>
+<p>Ovidiu Craciun January 21, 2020 2:30 pm</p>
+<p><a href="javascript:" title="collapse this comment">collapse this comment</a> <a href="javascript:" title="copy this comment link">copy this comment link</a></p>
+<p>I have Microsoft Visual Studio Professional 2019 Version 16.4.2<br />
+I want to build and debug a c++ project for Linux. My whole setup used to work great, I was able to build my project (c++) and debug it as well.<br />
+One day it stopped working (I am not 100% sure if it was before or after I installed latest VS update).</p>
+<p>Problem: When I start debugging the VS builds the project and hangs forever with the dialog showing the message “Initializing debugger”.</p>
+<p>I have my bash setup correctly, ssh server started and tested (VS has a connection opened and tested to it), the MS cmake 3.16.3311152-MSVC_2, build-essential, gdb, zip, rsync, gcc.</p>
+<p>The “Debug-&gt;Linux Console” window is empty, not showing anything.<br />
+On the output window there’s no error or warning printed/shown and no other popup either.</p>
+<p>How can I investigate, understand what is going on? I can provide any detail needed to move on with this matter which is blocking my progress.</p>
+<p>Thank you!</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr />
+<p>原网址: <a href="https://devblogs.microsoft.com/cppblog/using-visual-studio-for-cross-platform-c-development-targeting-windows-and-linux/">访问</a></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>

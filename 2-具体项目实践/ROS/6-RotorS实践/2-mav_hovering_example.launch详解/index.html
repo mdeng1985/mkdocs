@@ -1,86 +1,592 @@
-<!doctype html><html lang=zh class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content="Mdeng li"><link href=https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/6-RotorS%E5%AE%9E%E8%B7%B5/2-mav_hovering_example.launch%E8%AF%A6%E8%A7%A3/ rel=canonical><link rel=icon href=../../../../assets/favicon.png><meta name=generator content="mkdocs-1.1.2, mkdocs-material-7.1.1"><title>2 mav hovering example.launch详解 - Mdeng Li's Blog</title><link rel=stylesheet href=../../../../assets/stylesheets/main.9299cb39.min.css><link rel=stylesheet href=../../../../assets/stylesheets/palette.ef6f36e2.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback"><style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style><script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script><script async src=https://www.google-analytics.com/analytics.js></script></head> <body dir=ltr data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo> <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script> <script>var palette=__get("__palette");if(null!==palette&&"object"==typeof palette.color)for(var key in palette.color)document.body.setAttribute("data-md-color-"+key,palette.color[key])</script> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> <a href=#mav_hovering_examplelaunch class=md-skip> 跳转至 </a> </div> <div data-md-component=announce> </div> <header class=md-header data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=../../../.. title="Mdeng Li's Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> Mdeng Li's Blog </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> 2 mav hovering example.launch详解 </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media data-md-color-scheme=default data-md-color-primary=indigo data-md-color-accent=indigo type=radio name=__palette id=__palette_1> <label class="md-header__button md-icon" title="Switch to dark mode" for=__palette_2 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M7 10a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2m10-3a5 5 0 0 1 5 5 5 5 0 0 1-5 5H7a5 5 0 0 1-5-5 5 5 0 0 1 5-5h10M7 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3h10a3 3 0 0 0 3-3 3 3 0 0 0-3-3H7z"/></svg> </label> <input class=md-option data-md-color-media data-md-color-scheme=slate data-md-color-primary=red data-md-color-accent=red type=radio name=__palette id=__palette_2> <label class="md-header__button md-icon" title="Switch to light mode" for=__palette_1 hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3z"/></svg> </label> </form> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=搜索 placeholder=搜索 autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query data-md-state=active required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg> </label> <button type=reset class="md-search__icon md-icon" aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg> </button> </form> <div class=md-search__output> <div class=md-search__scrollwrap data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> 正在初始化搜索引擎 </div> <ol class=md-search-result__list></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> </nav> </header> <div class=md-container data-md-component=container> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class="md-tabs__inner md-grid"> <ul class=md-tabs__list> <li class=md-tabs__item> <a href=../../../../mkdocs_src/ class=md-tabs__link> 首页 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/getting-started/ class=md-tabs__link> 兴趣 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-tabs__link> 工作 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-tabs__link> 办公 </a> </li> <li class=md-tabs__item> <a href=../../../../mkdocs_src/insiders/ class=md-tabs__link> Insiders </a> </li> </ul> </div> </nav> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=../../../.. title="Mdeng Li's Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component=logo> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 89 89"> <path d=M3.136,17.387l0,42.932l42.932,21.467l-42.932,-64.399Z /> <path d=M21.91,8l42.933,64.398l-18.775,9.388l-42.932,-64.399l18.774,-9.387Z style="fill-opacity: 0.5"/> <path d=M67.535,17.387l-27.262,18.156l21.878,32.818l5.384,2.691l0,-53.665Z /> <path d=M67.535,17.387l0,53.666l18.774,-9.388l0,-53.665l-18.774,9.387Z style="fill-opacity: 0.25"/> </svg> </a> Mdeng Li's Blog </label> <div class=md-nav__source> <a href=https://github.com/squidfunk/mkdocs title="前往 GitHub 仓库" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg> </div> <div class=md-source__repository> mkdocs </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/ class=md-nav__link> 首页 </a> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_2 type=checkbox id=__nav_2> <label class=md-nav__link for=__nav_2> 兴趣 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=兴趣 data-md-level=1> <label class=md-nav__title for=__nav_2> <span class="md-nav__icon md-icon"></span> 兴趣 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/getting-started/ class=md-nav__link> Installation </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_3 type=checkbox id=__nav_3> <label class=md-nav__link for=__nav_3> 工作 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=工作 data-md-level=1> <label class=md-nav__title for=__nav_3> <span class="md-nav__icon md-icon"></span> 工作 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/setup/changing-the-colors/ class=md-nav__link> Changing the colors </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_4 type=checkbox id=__nav_4> <label class=md-nav__link for=__nav_4> 办公 <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=办公 data-md-level=1> <label class=md-nav__title for=__nav_4> <span class="md-nav__icon md-icon"></span> 办公 </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/reference/abbreviations/ class=md-nav__link> Abbreviations </a> </li> <li class=md-nav__item> <a href=../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/ class=md-nav__link> mkdocs </a> </li> </ul> </nav> </li> <li class="md-nav__item md-nav__item--nested"> <input class="md-nav__toggle md-toggle" data-md-toggle=__nav_5 type=checkbox id=__nav_5> <label class=md-nav__link for=__nav_5> Insiders <span class="md-nav__icon md-icon"></span> </label> <nav class=md-nav aria-label=Insiders data-md-level=1> <label class=md-nav__title for=__nav_5> <span class="md-nav__icon md-icon"></span> Insiders </label> <ul class=md-nav__list data-md-scrollfix> <li class=md-nav__item> <a href=../../../../mkdocs_src/insiders/ class=md-nav__link> Sponsorship </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label=目录> <label class=md-nav__title for=__toc> <span class="md-nav__icon md-icon"></span> 目录 </label> <ul class=md-nav__list data-md-component=toc data-md-scrollfix> <li class=md-nav__item> <a href=#launch class=md-nav__link> launch文件 </a> </li> <li class=md-nav__item> <a href=#_1 class=md-nav__link> 结构分析 </a> </li> <li class=md-nav__item> <a href=#_2 class=md-nav__link> 设置环境变量 </a> </li> <li class=md-nav__item> <a href=#spawn_mavlaunch class=md-nav__link> 调用spawn_mav.launch </a> </li> <li class=md-nav__item> <a href=#_3 class=md-nav__link> 运行节点 </a> <nav class=md-nav aria-label=运行节点> <ul class=md-nav__list> <li class=md-nav__item> <a href=#_4 class=md-nav__link> 引用文件 </a> </li> <li class=md-nav__item> <a href=#lee_position_controller_node class=md-nav__link> 运行节点lee_position_controller_node </a> </li> <li class=md-nav__item> <a href=#_5 class=md-nav__link> 其他节点 </a> </li> </ul> </nav> </li> </ul> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> <hr> <h1 id=mav_hovering_examplelaunch>mav_hovering_example.launch详解<a class=headerlink href=#mav_hovering_examplelaunch title="Permanent link">&para;</a></h1> <h2 id=launch>launch文件<a class=headerlink href=#launch title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nt>&lt;launch&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>default=</span><span class=s>&quot;firefly&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>default=</span><span class=s>&quot;basic&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>default=</span><span class=s>&quot;$(arg mav_name)&quot;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-  <span class=c>&lt;!-- The following line causes gzmsg and gzerr messages to be printed to the console</span>
-<span class=c>      (even when Gazebo is started through roslaunch) --&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;verbose&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
 
-  <span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_MODEL_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg debug)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg paused)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg gui)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;verbose&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg verbose)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/include&gt;</span>
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+        <meta name="author" content="Mdeng li">
+      
+      
+        <link rel="canonical" href="https://mdeng1985.github.io/mkdocs/2-%E5%85%B7%E4%BD%93%E9%A1%B9%E7%9B%AE%E5%AE%9E%E8%B7%B5/ROS/6-RotorS%E5%AE%9E%E8%B7%B5/2-mav_hovering_example.launch%E8%AF%A6%E8%A7%A3/">
+      
+      <link rel="icon" href="../../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.1">
+    
+    
+      
+        <title>2 mav hovering example.launch详解 - Mdeng Li's Blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.9299cb39.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ef6f36e2.min.css">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+    
+      
+        
+<script>window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)},ga.l=+new Date,ga("create","None","auto"),ga("set","anonymizeIp",!0),ga("send","pageview"),document.addEventListener("DOMContentLoaded",function(){document.forms.search&&document.forms.search.query.addEventListener("blur",function(){var e;this.value&&(e=document.location.pathname,ga("send","pageview",e+"?q="+this.value))}),"undefined"!=typeof location$&&location$.subscribe(function(e){ga("send","pageview",e.pathname)})})</script>
+<script async src="https://www.google-analytics.com/analytics.js"></script>
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    <script>function __prefix(e){return new URL("../../../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mav_hovering_examplelaunch" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-header__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
 
-  <span class=nt>&lt;group</span> <span class=na>ns=</span><span class=s>&quot;$(arg mav_name)&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg mav_name)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;model&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_logging)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_ground_truth)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg log_file)&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/include&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_control&quot;</span> <span class=na>type=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;remap</span> <span class=na>from=</span><span class=s>&quot;odometry&quot;</span> <span class=na>to=</span><span class=s>&quot;odometry_sensor1/odometry&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/node&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_gazebo&quot;</span> <span class=na>type=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-  <span class=nt>&lt;/group&gt;</span>
-<span class=nt>&lt;/launch&gt;</span>
-</code></pre></div> <h2 id=_1>结构分析<a class=headerlink href=#_1 title="Permanent link">&para;</a></h2> <p>该luanch文件可以分为如下个部分：</p> <ul> <li>设置普通变量 <div class=highlight><pre><span></span><code>          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>default=</span><span class=s>&quot;firefly&quot;</span><span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>default=</span><span class=s>&quot;basic&quot;</span><span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span> <span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span> <span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>default=</span><span class=s>&quot;$(arg mav_name)&quot;</span> <span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-          <span class=c>&lt;!-- The following line causes gzmsg and gzerr messages to be printed to the console</span>
-<span class=c>              (even when Gazebo is started through roslaunch) --&gt;</span>
-          <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;verbose&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span> 
-</code></pre></div></li> <li>设置环境变量 <div class=highlight><pre><span></span><code><span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_MODEL_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span>
-<span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span> 
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Mdeng Li's Blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              2 mav hovering example.launch详解
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Mdeng Li&#39;s Blog" class="md-nav__button md-logo" aria-label="Mdeng Li's Blog" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Mdeng Li's Blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/squidfunk/mkdocs" title="前往 GitHub 仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    mkdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/" class="md-nav__link">
+        首页
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        兴趣
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="兴趣" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          兴趣
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/getting-started/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      <label class="md-nav__link" for="__nav_3">
+        工作
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="工作" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          工作
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/setup/changing-the-colors/" class="md-nav__link">
+        Changing the colors
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" >
+      
+      <label class="md-nav__link" for="__nav_4">
+        办公
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="办公" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          办公
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/reference/abbreviations/" class="md-nav__link">
+        Abbreviations
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/mkdocs%E8%AF%AD%E6%B3%95/" class="md-nav__link">
+        mkdocs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" type="checkbox" id="__nav_5" >
+      
+      <label class="md-nav__link" for="__nav_5">
+        Insiders
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Insiders" data-md-level="1">
+        <label class="md-nav__title" for="__nav_5">
+          <span class="md-nav__icon md-icon"></span>
+          Insiders
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../mkdocs_src/insiders/" class="md-nav__link">
+        Sponsorship
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#launch" class="md-nav__link">
+    launch文件
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    结构分析
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    设置环境变量
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#spawn_mavlaunch" class="md-nav__link">
+    调用spawn_mav.launch
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    运行节点
+  </a>
+  
+    <nav class="md-nav" aria-label="运行节点">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    引用文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lee_position_controller_node" class="md-nav__link">
+    运行节点lee_position_controller_node
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    其他节点
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <hr />
+<h1 id="mav_hovering_examplelaunch">mav_hovering_example.launch详解<a class="headerlink" href="#mav_hovering_examplelaunch" title="Permanent link">&para;</a></h1>
+<h2 id="launch">launch文件<a class="headerlink" href="#launch" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;launch&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">default=</span><span class="s">&quot;firefly&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">default=</span><span class="s">&quot;basic&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">default=</span><span class="s">&quot;$(arg mav_name)&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  <span class="c">&lt;!-- The following line causes gzmsg and gzerr messages to be printed to the console</span>
+<span class="c">      (even when Gazebo is started through roslaunch) --&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;verbose&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+
+  <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_MODEL_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg debug)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg paused)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg gui)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;verbose&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg verbose)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/include&gt;</span>
+
+  <span class="nt">&lt;group</span> <span class="na">ns=</span><span class="s">&quot;$(arg mav_name)&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg mav_name)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;model&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_logging)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_ground_truth)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg log_file)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/include&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_control&quot;</span> <span class="na">type=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;remap</span> <span class="na">from=</span><span class="s">&quot;odometry&quot;</span> <span class="na">to=</span><span class="s">&quot;odometry_sensor1/odometry&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/node&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_gazebo&quot;</span> <span class="na">type=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/group&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</code></pre></div>
+<h2 id="_1">结构分析<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>该luanch文件可以分为如下个部分：</p>
+<ul>
+<li>设置普通变量
+<div class="highlight"><pre><span></span><code>          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">default=</span><span class="s">&quot;firefly&quot;</span><span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">default=</span><span class="s">&quot;basic&quot;</span><span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">default=</span><span class="s">&quot;$(arg mav_name)&quot;</span> <span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+          <span class="c">&lt;!-- The following line causes gzmsg and gzerr messages to be printed to the console</span>
+<span class="c">              (even when Gazebo is started through roslaunch) --&gt;</span>
+          <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;verbose&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span> 
+</code></pre></div></li>
+<li>设置环境变量
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_MODEL_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span> 
     ```
 - 引用文件
 ```xml
- <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg debug)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg paused)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg gui)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;verbose&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg verbose)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/include&gt;</span>
-</code></pre></div></li> <li>运行节点 <div class=highlight><pre><span></span><code> <span class=nt>&lt;group</span> <span class=na>ns=</span><span class=s>&quot;$(arg mav_name)&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg mav_name)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;model&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_logging)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_ground_truth)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg log_file)&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/include&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_control&quot;</span> <span class=na>type=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;remap</span> <span class=na>from=</span><span class=s>&quot;odometry&quot;</span> <span class=na>to=</span><span class=s>&quot;odometry_sensor1/odometry&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/node&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_gazebo&quot;</span> <span class=na>type=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=nt>/&gt;</span>
- <span class=nt>&lt;/group&gt;</span>
-</code></pre></div></li> </ul> <h2 id=_2>设置环境变量<a class=headerlink href=#_2 title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_MODEL_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span>
-<span class=nt>&lt;env</span> <span class=na>name=</span><span class=s>&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class=na>value=</span><span class=s>&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class=nt>/&gt;</span> 
+ <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg debug)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg paused)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg gui)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;verbose&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg verbose)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/include&gt;</span>
+</code></pre></div></li>
+<li>运行节点
+<div class="highlight"><pre><span></span><code> <span class="nt">&lt;group</span> <span class="na">ns=</span><span class="s">&quot;$(arg mav_name)&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg mav_name)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;model&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_logging)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_ground_truth)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg log_file)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/include&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_control&quot;</span> <span class="na">type=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;remap</span> <span class="na">from=</span><span class="s">&quot;odometry&quot;</span> <span class="na">to=</span><span class="s">&quot;odometry_sensor1/odometry&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/node&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_gazebo&quot;</span> <span class="na">type=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;/group&gt;</span>
+</code></pre></div></li>
+</ul>
+<h2 id="_2">设置环境变量<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_MODEL_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_MODEL_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;env</span> <span class="na">name=</span><span class="s">&quot;GAZEBO_RESOURCE_PATH&quot;</span> <span class="na">value=</span><span class="s">&quot;${GAZEBO_RESOURCE_PATH}:$(find rotors_gazebo)/models&quot;</span><span class="nt">/&gt;</span> 
     ```
 
 主要作用就是将`rotors_gazebo`包下的模型添加到环境变量`GAZEBO_MODEL_PATH`和`GAZEBO_RESOURCE_PATH` （关于这两个环境变量的内容可以参考[[0-gazebo基础知识#^d51403]]
@@ -88,77 +594,194 @@
 ## 引用文件
 
 ```xml
- <span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class=nt>&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;world_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;debug&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg debug)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;paused&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg paused)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;gui&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg gui)&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;verbose&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg verbose)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;/include&gt;</span>
-</code></pre></div> <p>参考变量设置，<code>empty_world.launch</code>里的变量内容设置如下： - <code>world_name</code>变量的值为<code>rotors_gazebo</code>包里的<code>worlds/basic.world</code> - <code>debug</code>变量的值为false - <code>paused</code>变量的值为true - <code>gui</code>的值为true - <code>verbose</code>的值为false</p> <h2 id=spawn_mavlaunch>调用<code>spawn_mav.launch</code><a class=headerlink href=#spawn_mavlaunch title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code><span class=nt>&lt;include</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg mav_name)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;model&quot;</span> <span class=na>value=</span><span class=s>&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_logging)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg enable_ground_truth)&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg log_file)&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;/include&gt;</span>
-</code></pre></div> <p><code>spawn_mav.launch</code>内容如下： <div class=highlight><pre><span></span><code><span class=cp>&lt;?xml version=&quot;1.0&quot;?&gt;</span>
+ <span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find gazebo_ros)/launch/empty_world.launch&quot;</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;world_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_gazebo)/worlds/$(arg world_name).world&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;debug&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg debug)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;paused&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg paused)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;gui&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg gui)&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;verbose&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg verbose)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;/include&gt;</span>
+</code></pre></div>
+<p>参考变量设置，<code>empty_world.launch</code>里的变量内容设置如下：
+- <code>world_name</code>变量的值为<code>rotors_gazebo</code>包里的<code>worlds/basic.world</code>
+- <code>debug</code>变量的值为false
+- <code>paused</code>变量的值为true
+- <code>gui</code>的值为true
+- <code>verbose</code>的值为false</p>
+<h2 id="spawn_mavlaunch">调用<code>spawn_mav.launch</code><a class="headerlink" href="#spawn_mavlaunch" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;include</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/launch/spawn_mav.launch&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg mav_name)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;model&quot;</span> <span class="na">value=</span><span class="s">&quot;$(find rotors_description)/urdf/mav_generic_odometry_sensor.gazebo&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_logging)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg enable_ground_truth)&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg log_file)&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/include&gt;</span>
+</code></pre></div>
+<p><code>spawn_mav.launch</code>内容如下：
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot;?&gt;</span>
 
-<span class=nt>&lt;launch&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;mav_name&quot;</span> <span class=na>default=</span><span class=s>&quot;firefly&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;namespace&quot;</span> <span class=na>default=</span><span class=s>&quot;$(arg mav_name)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;model&quot;</span> <span class=na>default=</span><span class=s>&quot;$(find rotors_description)/urdf/$(arg mav_name)_base.xacro&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;tf_prefix&quot;</span> <span class=na>default=</span><span class=s>&quot;$(optenv ROS_NAMESPACE)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;x&quot;</span> <span class=na>default=</span><span class=s>&quot;0.0&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;y&quot;</span> <span class=na>default=</span><span class=s>&quot;0.0&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;z&quot;</span> <span class=na>default=</span><span class=s>&quot;0.1&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_logging&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_ground_truth&quot;</span> <span class=na>default=</span><span class=s>&quot;true&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;log_file&quot;</span> <span class=na>default=</span><span class=s>&quot;$(arg mav_name)&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;wait_to_record_bag&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
-  <span class=nt>&lt;arg</span> <span class=na>name=</span><span class=s>&quot;enable_mavlink_interface&quot;</span> <span class=na>default=</span><span class=s>&quot;false&quot;</span><span class=nt>/&gt;</span>
+<span class="nt">&lt;launch&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;mav_name&quot;</span> <span class="na">default=</span><span class="s">&quot;firefly&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;namespace&quot;</span> <span class="na">default=</span><span class="s">&quot;$(arg mav_name)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;model&quot;</span> <span class="na">default=</span><span class="s">&quot;$(find rotors_description)/urdf/$(arg mav_name)_base.xacro&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;tf_prefix&quot;</span> <span class="na">default=</span><span class="s">&quot;$(optenv ROS_NAMESPACE)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;x&quot;</span> <span class="na">default=</span><span class="s">&quot;0.0&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;y&quot;</span> <span class="na">default=</span><span class="s">&quot;0.0&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;z&quot;</span> <span class="na">default=</span><span class="s">&quot;0.1&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_logging&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_ground_truth&quot;</span> <span class="na">default=</span><span class="s">&quot;true&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;log_file&quot;</span> <span class="na">default=</span><span class="s">&quot;$(arg mav_name)&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;wait_to_record_bag&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
+  <span class="nt">&lt;arg</span> <span class="na">name=</span><span class="s">&quot;enable_mavlink_interface&quot;</span> <span class="na">default=</span><span class="s">&quot;false&quot;</span><span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- send the robot XML to param server --&gt;</span>
-  <span class=nt>&lt;param</span> <span class=na>name=</span><span class=s>&quot;robot_description&quot;</span> <span class=na>command=</span><span class=s>&quot;</span>
-<span class=s>    $(find xacro)/xacro &#39;$(arg model)&#39;</span>
-<span class=s>    enable_logging:=$(arg enable_logging)</span>
-<span class=s>    enable_ground_truth:=$(arg enable_ground_truth)</span>
-<span class=s>    enable_mavlink_interface:=$(arg enable_mavlink_interface)</span>
-<span class=s>    log_file:=$(arg log_file)</span>
-<span class=s>    wait_to_record_bag:=$(arg wait_to_record_bag)</span>
-<span class=s>    mav_name:=$(arg mav_name)</span>
-<span class=s>    namespace:=$(arg namespace)&quot;</span>
-  <span class=nt>/&gt;</span>
-  <span class=nt>&lt;param</span> <span class=na>name=</span><span class=s>&quot;tf_prefix&quot;</span> <span class=na>type=</span><span class=s>&quot;string&quot;</span> <span class=na>value=</span><span class=s>&quot;$(arg tf_prefix)&quot;</span> <span class=nt>/&gt;</span>
+  <span class="c">&lt;!-- send the robot XML to param server --&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;robot_description&quot;</span> <span class="na">command=</span><span class="s">&quot;</span>
+<span class="s">    $(find xacro)/xacro &#39;$(arg model)&#39;</span>
+<span class="s">    enable_logging:=$(arg enable_logging)</span>
+<span class="s">    enable_ground_truth:=$(arg enable_ground_truth)</span>
+<span class="s">    enable_mavlink_interface:=$(arg enable_mavlink_interface)</span>
+<span class="s">    log_file:=$(arg log_file)</span>
+<span class="s">    wait_to_record_bag:=$(arg wait_to_record_bag)</span>
+<span class="s">    mav_name:=$(arg mav_name)</span>
+<span class="s">    namespace:=$(arg namespace)&quot;</span>
+  <span class="nt">/&gt;</span>
+  <span class="nt">&lt;param</span> <span class="na">name=</span><span class="s">&quot;tf_prefix&quot;</span> <span class="na">type=</span><span class="s">&quot;string&quot;</span> <span class="na">value=</span><span class="s">&quot;$(arg tf_prefix)&quot;</span> <span class="nt">/&gt;</span>
 
-  <span class=c>&lt;!-- push robot_description to factory and spawn robot in gazebo --&gt;</span>
-  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;spawn_$(arg namespace)&quot;</span> <span class=na>pkg=</span><span class=s>&quot;gazebo_ros&quot;</span> <span class=na>type=</span><span class=s>&quot;spawn_model&quot;</span>
-   <span class=na>args=</span><span class=s>&quot;-param robot_description</span>
-<span class=s>         -urdf</span>
-<span class=s>         -x $(arg x)</span>
-<span class=s>         -y $(arg y)</span>
-<span class=s>         -z $(arg z)</span>
-<span class=s>         -model $(arg namespace)&quot;</span>
-   <span class=na>respawn=</span><span class=s>&quot;false&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>&gt;</span>
-  <span class=nt>&lt;/node&gt;</span>
-<span class=nt>&lt;/launch&gt;</span>
-</code></pre></div> 该launch文件的作用是调用<code>gazebo_ros</code>包里的<code>spawn_model</code>启动一个机器人， 具体使用可以参考[[0-Tutorial Using roslaunch to start Gazebo, world files and URDF models]]。</p> <p>解读如下（不一定理解正确）</p> <ul> <li>首先给出变量的定义：<ul> <li>mav_name = firefly （等式左边为变量，右边为赋值）</li> <li>namespace = mav_name变量的值 = firefly</li> <li>model = firefly_base.xacro</li> <li>tf_prefix =$(optenv ROS_NAMESPACE)</li> <li>x =0.0</li> <li>y = 0.0</li> <li>z = 0.1</li> <li>enable_logging = false</li> <li>enable_ground_truth = true</li> <li>log_file = mav_name变量的值 = firefly</li> <li>wait_to_record_bag = false</li> <li>enable_mavlink_interface = false</li> </ul> </li> <li>给出参数<code>robot_description</code>的定义</li> <li>执行节点<code>spawn_model</code>： <code>xml &lt;node name="spawn_$(arg namespace)" pkg="gazebo_ros" type="spawn_model" args="-param robot_description -urdf -x $(arg x) -y $(arg y) -z $(arg z) -model $(arg namespace)" respawn="false" output="screen"&gt; &lt;/node&gt;</code> 其中<ul> <li><code>-param robot_description</code>将前面<code>robot_description</code>参数的定义覆盖过来</li> <li><code>model $(arg namespace)"</code> 这个命令是给出model的别名，为namespace变量的值，也即firefly</li> <li><code>-x -y -z</code>后面的值为机器人在world里的坐标</li> </ul> </li> <li></li> </ul> <h2 id=_3>运行节点<a class=headerlink href=#_3 title="Permanent link">&para;</a></h2> <div class=highlight><pre><span></span><code> <span class=nt>&lt;group</span> <span class=na>ns=</span><span class=s>&quot;$(arg mav_name)&quot;</span><span class=nt>&gt;</span>
+  <span class="c">&lt;!-- push robot_description to factory and spawn robot in gazebo --&gt;</span>
+  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;spawn_$(arg namespace)&quot;</span> <span class="na">pkg=</span><span class="s">&quot;gazebo_ros&quot;</span> <span class="na">type=</span><span class="s">&quot;spawn_model&quot;</span>
+   <span class="na">args=</span><span class="s">&quot;-param robot_description</span>
+<span class="s">         -urdf</span>
+<span class="s">         -x $(arg x)</span>
+<span class="s">         -y $(arg y)</span>
+<span class="s">         -z $(arg z)</span>
+<span class="s">         -model $(arg namespace)&quot;</span>
+   <span class="na">respawn=</span><span class="s">&quot;false&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+  <span class="nt">&lt;/node&gt;</span>
+<span class="nt">&lt;/launch&gt;</span>
+</code></pre></div>
+该launch文件的作用是调用<code>gazebo_ros</code>包里的<code>spawn_model</code>启动一个机器人， 具体使用可以参考[[0-Tutorial Using roslaunch to start Gazebo, world files and URDF models]]。</p>
+<p>解读如下（不一定理解正确）</p>
+<ul>
+<li>首先给出变量的定义：<ul>
+<li>mav_name =  firefly （等式左边为变量，右边为赋值）</li>
+<li>namespace = mav_name变量的值 = firefly</li>
+<li>model = firefly_base.xacro</li>
+<li>tf_prefix =$(optenv ROS_NAMESPACE)</li>
+<li>x =0.0</li>
+<li>y = 0.0</li>
+<li>z = 0.1</li>
+<li>enable_logging = false</li>
+<li>enable_ground_truth = true</li>
+<li>log_file = mav_name变量的值 = firefly</li>
+<li>wait_to_record_bag = false</li>
+<li>enable_mavlink_interface = false</li>
+</ul>
+</li>
+<li>给出参数<code>robot_description</code>的定义</li>
+<li>执行节点<code>spawn_model</code>：
+    <code>xml
+  &lt;node name="spawn_$(arg namespace)" pkg="gazebo_ros" type="spawn_model"
+       args="-param robot_description
+             -urdf
+             -x $(arg x)
+             -y $(arg y)
+             -z $(arg z)
+             -model $(arg namespace)"
+       respawn="false" output="screen"&gt;
+      &lt;/node&gt;</code>
+其中<ul>
+<li><code>-param robot_description</code>将前面<code>robot_description</code>参数的定义覆盖过来</li>
+<li><code>model $(arg namespace)"</code>  这个命令是给出model的别名，为namespace变量的值，也即firefly</li>
+<li><code>-x -y -z</code>后面的值为机器人在world里的坐标</li>
+</ul>
+</li>
+<li></li>
+</ul>
+<h2 id="_3">运行节点<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code> <span class="nt">&lt;group</span> <span class="na">ns=</span><span class="s">&quot;$(arg mav_name)&quot;</span><span class="nt">&gt;</span>
 
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_control&quot;</span> <span class=na>type=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;remap</span> <span class=na>from=</span><span class=s>&quot;odometry&quot;</span> <span class=na>to=</span><span class=s>&quot;odometry_sensor1/odometry&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/node&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_gazebo&quot;</span> <span class=na>type=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=nt>/&gt;</span>
- <span class=nt>&lt;/group&gt;</span>
-</code></pre></div> <h3 id=_4>引用文件<a class=headerlink href=#_4 title="Permanent link">&para;</a></h3> <p>首先引用了<code>rotors_gazebo</code>包下的<code>spawn_mav.launch</code>文件，相应的变量值为： - <code>mav_name</code>变量的值为<code>firefly</code> - <code>model</code>变量的值为<code>rotors_description</code>包下的<code>urdf/mav_generic_odometry_sensor.gazebo</code> - <code>enable_logging</code>变量的值为false - <code>enable_ground_truth</code>变量的值为true - <code>log_file</code>变量的值为firefly</p> <h3 id=lee_position_controller_node>运行节点<code>lee_position_controller_node</code><a class=headerlink href=#lee_position_controller_node title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code>  <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_control&quot;</span> <span class=na>type=</span><span class=s>&quot;lee_position_controller_node&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;rosparam</span> <span class=na>command=</span><span class=s>&quot;load&quot;</span> <span class=na>file=</span><span class=s>&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class=nt>/&gt;</span>
-      <span class=nt>&lt;remap</span> <span class=na>from=</span><span class=s>&quot;odometry&quot;</span> <span class=na>to=</span><span class=s>&quot;odometry_sensor1/odometry&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;/node&gt;</span>
-</code></pre></div> <ul> <li>运行的是<code>rotors_control</code>包里的<code>lee_position_controller_node</code>节点。</li> <li>读取<code>rotors_gazebo</code>包下的<code>/resource/lee_controller_firefly.yaml</code>里的参数</li> <li>读取<code>rotors_gazebo</code>包下的<code>/resource/firefly.yaml</code>里的参数</li> <li>将<code>odometry</code>重映射为<code>odometry_sensor1/odometry</code></li> </ul> <h3 id=_5>其他节点<a class=headerlink href=#_5 title="Permanent link">&para;</a></h3> <div class=highlight><pre><span></span><code><span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>pkg=</span><span class=s>&quot;rotors_gazebo&quot;</span> <span class=na>type=</span><span class=s>&quot;hovering_example&quot;</span> <span class=na>output=</span><span class=s>&quot;screen&quot;</span><span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;robot_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-    <span class=nt>&lt;node</span> <span class=na>name=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>pkg=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=na>type=</span><span class=s>&quot;joint_state_publisher&quot;</span> <span class=nt>/&gt;</span>
-</code></pre></div> <p><a href=../hovering_example.cpp>hovering_example</a></p> </article> </div> </div> </main> <footer class=md-footer> <div class="md-footer-meta md-typeset"> <div class="md-footer-meta__inner md-grid"> <div class=md-footer-copyright> <div class=md-footer-copyright__highlight> Copyright &copy; mdeng li </div> Made with <a href=https://squidfunk.github.io/mkdocs-material/ target=_blank rel=noopener> Material for MkDocs </a> </div> </div> </div> </footer> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <script id=__config type=application/json>{"base": "../../../..", "features": ["navigation.sections", "navigation.tabs"], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script> <script src=../../../../assets/javascripts/bundle.7353b375.min.js></script> <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script> </body> </html>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_control&quot;</span> <span class="na">type=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;remap</span> <span class="na">from=</span><span class="s">&quot;odometry&quot;</span> <span class="na">to=</span><span class="s">&quot;odometry_sensor1/odometry&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/node&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_gazebo&quot;</span> <span class="na">type=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+ <span class="nt">&lt;/group&gt;</span>
+</code></pre></div>
+<h3 id="_4">引用文件<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>首先引用了<code>rotors_gazebo</code>包下的<code>spawn_mav.launch</code>文件，相应的变量值为：
+- <code>mav_name</code>变量的值为<code>firefly</code>
+- <code>model</code>变量的值为<code>rotors_description</code>包下的<code>urdf/mav_generic_odometry_sensor.gazebo</code>
+- <code>enable_logging</code>变量的值为false
+- <code>enable_ground_truth</code>变量的值为true
+- <code>log_file</code>变量的值为firefly</p>
+<h3 id="lee_position_controller_node">运行节点<code>lee_position_controller_node</code><a class="headerlink" href="#lee_position_controller_node" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code>  <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_control&quot;</span> <span class="na">type=</span><span class="s">&quot;lee_position_controller_node&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/lee_controller_$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;rosparam</span> <span class="na">command=</span><span class="s">&quot;load&quot;</span> <span class="na">file=</span><span class="s">&quot;$(find rotors_gazebo)/resource/$(arg mav_name).yaml&quot;</span> <span class="nt">/&gt;</span>
+      <span class="nt">&lt;remap</span> <span class="na">from=</span><span class="s">&quot;odometry&quot;</span> <span class="na">to=</span><span class="s">&quot;odometry_sensor1/odometry&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/node&gt;</span>
+</code></pre></div>
+<ul>
+<li>运行的是<code>rotors_control</code>包里的<code>lee_position_controller_node</code>节点。</li>
+<li>读取<code>rotors_gazebo</code>包下的<code>/resource/lee_controller_firefly.yaml</code>里的参数</li>
+<li>读取<code>rotors_gazebo</code>包下的<code>/resource/firefly.yaml</code>里的参数</li>
+<li>将<code>odometry</code>重映射为<code>odometry_sensor1/odometry</code></li>
+</ul>
+<h3 id="_5">其他节点<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">pkg=</span><span class="s">&quot;rotors_gazebo&quot;</span> <span class="na">type=</span><span class="s">&quot;hovering_example&quot;</span> <span class="na">output=</span><span class="s">&quot;screen&quot;</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;robot_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;node</span> <span class="na">name=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">pkg=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="na">type=</span><span class="s">&quot;joint_state_publisher&quot;</span> <span class="nt">/&gt;</span>
+</code></pre></div>
+<p><a href="../hovering_example.cpp">hovering_example</a></p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+          <div class="md-footer-copyright__highlight">
+            Copyright &copy; mdeng li
+          </div>
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.7353b375.min.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+      
+    
+  </body>
+</html>
