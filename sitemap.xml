@@ -1,55 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url>
      <loc>https://mdeng1985.github.io/mkdocs/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/getting-started/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/markdown/markdown%E8%AF%AD%E6%B3%95/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/setup/changing-the-colors/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/markdown/examples/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/mkdocs%E8%AF%AD%E6%B3%95/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/markdown/examples/abbreviations/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/getting-started/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/markdown/examples/changing-the-colors/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/insiders/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/markdown/examples/getting-started/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/reference/abbreviations/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/setup/changing-the-colors/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/versions/v1/reference/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/versions/v1/changelog/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/versions/v2/migrating/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/versions/v2/reference/</loc>
-     <lastmod>2021-04-11</lastmod>
-     <changefreq>daily</changefreq>
-    </url><url>
-     <loc>https://mdeng1985.github.io/mkdocs/versions/v2/changelog/</loc>
-     <lastmod>2021-04-11</lastmod>
+     <loc>https://mdeng1985.github.io/mkdocs/%E9%92%A2%E7%90%B4/%E9%92%A2%E7%90%B4%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01--%E8%A6%81%E7%82%B9123/</loc>
+     <lastmod>2021-04-12</lastmod>
      <changefreq>daily</changefreq>
     </url>
 </urlset>
